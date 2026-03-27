@@ -67,6 +67,21 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; border: 2px solid transparent; background-clip: content-box; }
         .dark ::-webkit-scrollbar-thumb { background: #475569; border: 2px solid transparent; background-clip: content-box; }
+        
+        #maximize-modal-content { cursor: grab; }
+        #maximize-modal-content:active { cursor: grabbing; }
+        
+        #zoom-wrapper {
+            transition: transform 0.1s cubic-bezier(0.1, 0, 0.2, 1);
+            transform-origin: center center;
+            will-change: transform;
+        }
+        
+        .floating-controls {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 transition-colors duration-700 min-h-screen">
@@ -142,6 +157,38 @@
                 <p id="modal-challenge" class="text-sm italic text-justify font-bold leading-relaxed text-amber-900">"Reto."</p>
             </section>
             <button onclick="closeModal()" class="mt-10 w-full font-black py-5 rounded-[2rem] transition-all active:scale-95 text-sm uppercase tracking-widest bg-slate-900 text-white shadow-xl" id="modal-close-btn">Cerrar e Integrar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Maximización -->
+    <div id="maximize-modal" class="fixed inset-0 z-[300] hidden flex-col bg-slate-950/98 backdrop-blur-3xl overflow-y-auto">
+        <header class="sticky top-0 left-0 w-full p-8 flex justify-between items-center z-[310] bg-slate-950/80 backdrop-blur-md border-b border-white/10">
+            <div class="flex items-center gap-4 text-white">
+                <i data-lucide="maximize-2" class="w-8 h-8 text-amber-500"></i>
+                <h3 class="text-2xl font-black uppercase tracking-tight">Estructura Detallada</h3>
+            </div>
+            <div class="flex items-center gap-4">
+                <button onclick="toggleFullscreen()" class="p-4 rounded-2xl bg-white/10 text-white hover:bg-white/20 transition-all active:scale-95 border border-white/10" title="Pantalla Completa">
+                    <i data-lucide="monitor" class="w-8 h-8"></i>
+                </button>
+                <button onclick="closeMaximize()" class="p-4 rounded-2xl bg-white/10 text-white hover:bg-white/20 transition-all active:scale-95 border border-white/10" title="Salir de Exploración">
+                    <i data-lucide="shrink" class="w-8 h-8"></i>
+                </button>
+            </div>
+        </header>
+        <div id="maximize-modal-content" class="flex-1 w-full flex items-center justify-center p-12 overflow-hidden relative select-none">
+            <!-- Barra de Zoom Flotante -->
+            <div class="absolute bottom-12 right-12 z-[320] flex flex-col gap-3 p-3 rounded-[2.5rem] floating-controls shadow-2xl">
+                <button onclick="changeZoom(0.2)" class="p-4 rounded-full bg-white/5 hover:bg-white/20 text-white transition-all"><i data-lucide="zoom-in" class="w-6 h-6"></i></button>
+                <div class="w-full h-[1px] bg-white/10"></div>
+                <button onclick="resetZoom()" class="p-4 rounded-full bg-white/5 hover:bg-white/20 text-white transition-all text-[10px] font-black uppercase">1:1</button>
+                <div class="w-full h-[1px] bg-white/10"></div>
+                <button onclick="changeZoom(-0.2)" class="p-4 rounded-full bg-white/5 hover:bg-white/20 text-white transition-all"><i data-lucide="zoom-out" class="w-6 h-6"></i></button>
+            </div>
+            
+            <div id="zoom-wrapper" class="flex items-center justify-center min-w-full min-h-full">
+                <!-- El contenido se re-renderiza aquí -->
+            </div>
         </div>
     </div>
 
@@ -295,9 +342,15 @@
             });
         }
 
-        function buildRadialMapTemplate(isDark) {
+        function buildRadialMapTemplate(isDark, isMaximized = false) {
             return `
-                <div class="rounded-[4rem] p-12 border shadow-[0_32px_120px_-10px_rgba(0,0,0,0.15)] transition-all duration-1000 ${isDark ? 'bg-slate-900/50 border-white/10 backdrop-blur-3xl' : 'bg-white/90 backdrop-blur-2xl border-slate-200'} overflow-visible">
+                <div class="rounded-[4rem] p-12 border shadow-[0_32px_120px_-10px_rgba(0,0,0,0.15)] transition-all duration-1000 ${isDark ? 'bg-slate-900/50 border-white/10 backdrop-blur-3xl' : 'bg-white/90 backdrop-blur-2xl border-slate-200'} overflow-visible relative">
+                    
+                    ${!isMaximized ? `
+                    <button onclick="openMaximize()" class="absolute top-8 right-8 p-3 rounded-2xl bg-white/10 hover:bg-white/20 transition-all active:scale-95 border border-white/10 z-[60] shadow-lg">
+                        <i data-lucide="maximize-2" class="w-5 h-5 ${isDark ? 'text-amber-400' : 'text-slate-500'}"></i>
+                    </button>
+                    ` : ''}
                     
                     <div class="relative w-full max-w-[900px] h-[750px] mx-auto flex items-center justify-center">
                         
@@ -382,9 +435,15 @@
             </div>`;
         }
 
-        function buildMapTemplate(isDark) {
+        function buildMapTemplate(isDark, isMaximized = false) {
             return `
-                <div class="rounded-[3rem] p-10 border shadow-2xl transition-all duration-1000 ${isDark ? 'bg-white/5 border-white/10' : 'bg-white/90 backdrop-blur-xl border-slate-200'} overflow-x-auto">
+                <div class="rounded-[3rem] p-10 border shadow-2xl transition-all duration-1000 ${isDark ? 'bg-white/5 border-white/10' : 'bg-white/90 backdrop-blur-xl border-slate-200'} overflow-x-auto relative">
+                    
+                    ${!isMaximized ? `
+                    <button onclick="openMaximize()" class="absolute top-8 right-8 p-3 rounded-2xl bg-white/10 hover:bg-white/20 transition-all active:scale-95 border border-white/10 z-[60] shadow-lg">
+                        <i data-lucide="maximize-2" class="w-5 h-5 ${isDark ? 'text-amber-400' : 'text-slate-500'}"></i>
+                    </button>
+                    ` : ''}
                     
                     <div class="min-w-[900px] flex flex-col items-center">
                         
@@ -467,8 +526,14 @@
             `).join('')}</div>`;
         }
 
-        function buildTEDVisual(isDark) {
+        function buildTEDVisual(isDark, isMaximized = false) {
             return `<div class="p-12 rounded-[4rem] border shadow-2xl transition-all duration-1000 ${isDark ? 'bg-slate-900/50 border-amber-500/20' : 'bg-white border-slate-200'} mx-4 relative overflow-hidden">
+                
+                ${!isMaximized ? `
+                <button onclick="openMaximize()" class="absolute top-8 right-8 p-3 rounded-2xl bg-white/10 hover:bg-white/20 transition-all active:scale-95 border border-white/10 z-[60] shadow-lg">
+                    <i data-lucide="maximize-2" class="w-5 h-5 ${isDark ? 'text-amber-400' : 'text-slate-500'}"></i>
+                </button>
+                ` : ''}
                 <div class="flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
                     <!-- Triada TED -->
                     <div class="flex-1 grid grid-cols-1 gap-6">
@@ -553,6 +618,99 @@
             document.getElementById('modal-content').classList.replace('scale-100', 'scale-90');
             document.getElementById('modal-content').classList.replace('opacity-100', 'opacity-0');
             setTimeout(() => { modal.classList.replace('flex', 'hidden'); }, 300);
+        }
+
+        // Variables para Pan & Zoom
+        let currentScale = 1;
+        let offsetX = 0;
+        let offsetY = 0;
+        let isDragging = false;
+        let startX, startY;
+
+        function openMaximize() {
+            const slide = slides[currentSlideIndex];
+            const isDark = integrationMode || slide.isDark;
+            const modal = document.getElementById('maximize-modal');
+            const wrapper = document.getElementById('zoom-wrapper');
+            
+            resetZoom(); // Reiniciar al abrir
+            
+            let visualHtml = '';
+            if (slide.isMap) visualHtml = buildMapTemplate(isDark, true);
+            else if (slide.isRadialMap) visualHtml = buildRadialMapTemplate(isDark, true);
+            else if (slide.isTEDVisual) visualHtml = buildTEDVisual(isDark, true);
+            
+            wrapper.innerHTML = visualHtml;
+            modal.classList.replace('hidden', 'flex');
+            document.body.style.overflow = 'hidden';
+            
+            lucide.createIcons();
+            initPanZoom();
+        }
+
+        function closeMaximize() {
+            const modal = document.getElementById('maximize-modal');
+            modal.classList.replace('flex', 'hidden');
+            document.body.style.overflow = 'auto';
+            if (document.fullscreenElement) document.exitFullscreen();
+        }
+
+        function initPanZoom() {
+            const container = document.getElementById('maximize-modal-content');
+            const wrapper = document.getElementById('zoom-wrapper');
+
+            container.onwheel = (e) => {
+                e.preventDefault();
+                const delta = e.deltaY > 0 ? -0.1 : 0.1;
+                changeZoom(delta);
+            };
+
+            container.onmousedown = (e) => {
+                isDragging = true;
+                startX = e.clientX - offsetX;
+                startY = e.clientY - offsetY;
+                container.style.cursor = 'grabbing';
+            };
+
+            window.onmousemove = (e) => {
+                if (!isDragging) return;
+                offsetX = e.clientX - startX;
+                offsetY = e.clientY - startY;
+                applyTransform();
+            };
+
+            window.onmouseup = () => {
+                isDragging = false;
+                container.style.cursor = 'grab';
+            };
+        }
+
+        function changeZoom(delta) {
+            currentScale = Math.min(Math.max(currentScale + delta, 0.5), 3);
+            applyTransform();
+        }
+
+        function resetZoom() {
+            currentScale = 1;
+            offsetX = 0;
+            offsetY = 0;
+            applyTransform();
+        }
+
+        function applyTransform() {
+            const wrapper = document.getElementById('zoom-wrapper');
+            if (wrapper) {
+                wrapper.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${currentScale})`;
+            }
+        }
+
+        function toggleFullscreen() {
+            const modal = document.getElementById('maximize-modal');
+            if (!document.fullscreenElement) {
+                modal.requestFullscreen().catch(err => console.log(err));
+            } else {
+                document.exitFullscreen();
+            }
         }
     </script>
 </body>
