@@ -374,6 +374,7 @@
         }
 
         function closeModal() {
+            const modal = document.getElementById('node-modal');
             document.getElementById('modal-content').classList.replace('scale-100', 'scale-90');
             document.getElementById('modal-content').classList.replace('opacity-100', 'opacity-0');
             setTimeout(() => { modal.classList.replace('flex', 'hidden'); }, 300);
