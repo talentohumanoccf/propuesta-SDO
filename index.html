@@ -147,6 +147,7 @@
 
     <script>
         const detailedNodes = {
+            // ORIGINAL NODES
             root: { title: 'Subdirección Desarrollo Organizacional', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Dirección estratégica para asegurar que la cultura, la tecnología y el talento converjan en alta productividad interna.', vision: 'Puente crítico entre la visión ejecutiva y la ejecución operativa.', challenge: 'Superar el vacío de decisión entre los equipos que gestan ideas y la dirección que las aprueba.' },
             cultura: { title: 'Cultura, bienestar y experiencia', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Fortalecimiento de la cultura organizacional, cultura digital y la incorporación de la cultura de la felicidad.', vision: 'EX (Employee Experience) como pilar de desempeño.', challenge: 'Integrar el bienestar no como una actividad aislada, sino como un indicador de productividad real.' },
             equipo_psico: { title: 'Equipo psicosocial', color: 'bg-[#F5C2C2] text-[#4a1a1a]', desc: 'Apoyo integral al colaborador desde la salud mental y social para facilitar la Gestión del Cambio.', vision: 'Resiliencia humana ante la transformación.', challenge: 'Garantizar el acompañamiento psicosocial efectivo durante la adopción de nuevas herramientas y procesos.' },
@@ -162,15 +163,44 @@
             relaciones: { title: 'Relaciones laborales', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Gestión de acuerdos bajo enfoques de cultura neuronal.', vision: 'Seguridad jurídica y diálogo constructivo.', challenge: 'Modernizar los acuerdos laborales para soportar modalidades de trabajo flexibles e híbridas.' },
             control: { title: 'Control Disciplinario', color: 'bg-[#F5C2C2] text-[#4a1a1a]', desc: 'Seguimiento preventivo basado en los valores de la Caja.', vision: 'Ética y conducta organizacional.', challenge: 'Migrar de un enfoque punitivo a uno preventivo y pedagógico basado en la cultura.' },
             negociaciones: { title: 'Negociaciones Colectivas', color: 'bg-[#F5C2C2] text-[#4a1a1a]', desc: 'Articulación grupal para la evolución organizacional.', vision: 'Sinergia grupal y bienestar común.', challenge: 'Vincular los objetivos de madurez digital con las metas compartidas en los acuerdos colectivos.' },
-            productividad: { title: 'Productividad', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Apoyo metodológico transversal a proyectos PMO.', vision: 'Eficiencia operativa sistémica.', challenge: 'Convertir la productividad en una métrica objetiva basada en datos derivados de procesos automatizados.' }
+            productividad: { title: 'Productividad', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Apoyo metodológico transversal a proyectos PMO.', vision: 'Eficiencia operativa sistémica.', challenge: 'Convertir la productividad en una métrica objetiva basada en datos derivados de procesos automatizados.' },
+            
+            // NEW 4-NODE MAP
+            n_sdo: { title: 'Subdirección Desarrollo Organizacional', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Dirección estratégica para asegurar que la cultura, la tecnología y el talento converjan en alta productividad interna.', vision: 'Puente crítico estratégico.', challenge: 'Superar el vacío de decisión.' },
+            n_lider: { title: 'Líder Gestión Humana', color: 'bg-indigo-900 text-white shadow-[0_0_20px_theme(colors.indigo.500)]', desc: 'Centro rector que orquesta la operación estratégica y operativa de los 3 nodos.', vision: 'Alineación de talentos y objetivos.', challenge: 'Garantizar el balance entre desarrollo y cumplimiento.' },
+            n_integracion: { title: '1. Integración', color: 'bg-indigo-50 text-indigo-900 border-indigo-200', desc: 'Eje analítico y normativo que articula los procesos.', vision: 'Decisiones basadas en datos.', challenge: 'Unificar la información de talento.' },
+            n_rol_integrador: { title: 'Gestor EX', color: 'bg-indigo-100/50 text-indigo-900', desc: 'Figura puente entre los equipos ágiles y la jerarquía.', vision: 'Fluidez comunicacional.', challenge: 'Romper silos organizacionales.' },
+            n_analitica_tec: { title: 'Analítica y tecnología', color: 'bg-indigo-100/50 text-indigo-900', desc: 'Uso de datos para entender el comportamiento organizacional.', vision: 'People Analytics avanzado.', challenge: 'Migrar a una cultura Data-Driven.' },
+            n_rel_lab_norm: { title: 'Rel. labor. y cumpl. norm.', color: 'bg-indigo-100/50 text-indigo-900', desc: 'Mantenimiento del equilibrio legal y sindical.', vision: 'Paz laboral.', challenge: 'Actualizar marcos a nuevas realidades.' },
+            n_desarrollo_exp: { title: '2. Desarrollo y Experiencia', color: 'bg-blue-50 text-blue-900 border-blue-200', desc: 'Foco en el ciclo de vida del colaborador.', vision: 'EX de alto impacto.', challenge: 'Retención de talento clave.' },
+            n_seleccion: { title: 'Selección', color: 'bg-teal-600/10 text-teal-900 border border-teal-600/20', desc: 'Atracción de talento.', vision: 'Identificar ADN cultural.', challenge: 'Nuevos perfiles ágiles.' },
+            n_formacion: { title: 'Formación', color: 'bg-teal-600/10 text-teal-900 border border-teal-600/20', desc: 'Upskilling y Reskilling.', vision: 'Aprendizaje continuo.', challenge: 'Escalabilidad del conocimiento.' },
+            n_gest_comp: { title: 'Gestión competencias', color: 'bg-teal-600/10 text-teal-900 border border-teal-600/20', desc: 'Mapeo de habilidades.', vision: 'Alineación de roles.', challenge: 'Equidad en el plan de carrera.' },
+            n_bienestar: { title: 'Bienestar', color: 'bg-teal-600/10 text-teal-900 border border-teal-600/20', desc: 'Calidad de vida laboral.', vision: 'Salud integral del trabajador.', challenge: 'Personalizar el bienestar.' },
+            n_trabajo_social: { title: 'Trabajo social', color: 'bg-teal-600/10 text-teal-900 border border-teal-600/20', desc: 'Acompañamiento psicosocial y familiar.', vision: 'Entendimiento del entorno personal.', challenge: 'Apoyo preventivo y oportuno.' },
+            n_cultura: { title: 'Cultura', color: 'bg-teal-600/10 text-teal-900 border border-teal-600/20', desc: 'Valores y ADN corporativo.', vision: 'Sentido de pertenencia.', challenge: 'Transformar subculturas arraigadas.' },
+            n_operacion_admin: { title: '3. Operación y Adm.', color: 'bg-emerald-50 text-emerald-900 border-emerald-200', desc: 'Garantía del flujo transaccional y pagos.', vision: 'Cero errores de servicio interno.', challenge: 'Automatización total.' },
+            n_nomina: { title: 'Nómina', color: 'bg-emerald-600/10 text-emerald-900 border border-emerald-600/20', desc: 'Pagos y retribuciones.', vision: 'Precisión financiera.', challenge: 'Estandarización de novedades.' },
+            n_seguridad_social: { title: 'Seguridad social', color: 'bg-emerald-600/10 text-emerald-900 border border-emerald-600/20', desc: 'Aportes al sistema integral.', vision: 'Cumplimiento perfecto.', challenge: 'Evitar sobrecostos y sanciones.' },
+            n_contratacion: { title: 'Contratación', color: 'bg-emerald-600/10 text-emerald-900 border border-emerald-600/20', desc: 'Vinculación formal.', vision: 'Onboarding desde el día 0.', challenge: 'Agilidad en la firma y acceso.' },
+            n_historias_lab: { title: 'Historias laborales', color: 'bg-emerald-600/10 text-emerald-900 border border-emerald-600/20', desc: 'Gestión documental de legajos.', vision: 'Trazabilidad 100% digital.', challenge: 'Digitalización retroactiva garantizada.' },
+            n_control_ad: { title: 'Control Ad. Laboral', color: 'bg-emerald-600/10 text-emerald-900 border border-emerald-600/20', desc: 'Auditoría y tiempos.', vision: 'Transparencia productiva.', challenge: 'Control sin micromanagement.' },
+            n_compensacion: { title: 'Compensación y benef.', color: 'bg-emerald-600/10 text-emerald-900 border border-emerald-600/20', desc: 'Estructura salarial.', vision: 'Equidad interna y competitividad.', challenge: 'Beneficios flexibles atractivos.' },
+            n_sst_root: { title: '4. SST', color: 'bg-slate-800 text-white', desc: 'Salud y Seguridad en el Trabajo.', vision: 'Entornos seguros.', challenge: 'Cero accidentes laborales.' },
+            n_cumpl_norm: { title: 'Cumplimiento normativo', color: 'bg-slate-100 font-bold border-slate-300 text-slate-800', desc: 'Actualización y apego a la ley SST.', vision: 'Certificaciones al día.', challenge: 'Cultura de autoprotección.' },
+            n_agencia: { title: 'Empleo y Gestión de Talento', color: 'bg-amber-100 font-bold border-2 border-amber-500 text-amber-700 shadow-md', desc: 'Aliado externo de empleabilidad.', vision: 'Sinergia mercado-empresa.', challenge: 'Atraer talento externo validado.', isPulse: true },
+            n_productividad: { title: 'Productividad', color: 'bg-amber-100 font-bold border-2 border-amber-500 text-amber-700 shadow-md', desc: 'Aliado estratégico de métodos.', vision: 'Eficiencia extrema.', challenge: 'Eliminar desperdicios en procesos de RRHH.', isPulse: true },
+            n_ted: { title: 'TED', color: 'bg-amber-100 font-bold border-2 border-amber-500 text-amber-700 shadow-md isPulse', desc: 'Tecnología, Estrategia y Desempeño.', vision: 'Acelerar la adopción tecnológica.', challenge: 'Automatizar tareas mecánicas para elevar roles críticos.' },
+            n_innovacion: { title: 'Innovación', color: 'bg-amber-100 font-bold border-2 border-amber-500 text-amber-700 shadow-md isPulse', desc: 'Vanguardia metodológica.', vision: 'Nuevas soluciones ágiles.', challenge: 'Inyectar cultura de mejora en cada nodo.' }
         };
 
         const slides = [
             { id: 'vision', title: 'Propuesta Estratégica SDO', subtitle: 'Consolidación de la Subdirección de Desarrollo Organizacional', content: 'La creación de la Subdirección de Desarrollo Organizacional (SDO) no es una simple reestructuración, sino un imperativo estratégico para garantizar que el crecimiento de la organización sea sostenible, ágil y centrado en el talento. Esta subdirección se posiciona como el puente crítico entre la visión ejecutiva y la ejecución operativa, asegurando que la cultura, la tecnología y el talento converjan en resultados de alta productividad.', icon: 'sparkles', isDark: true, points: ['Cultura Neuronal Ágil', 'Modelo TED', 'Employee Experience'] },
             { id: 'justificacion', title: 'Justificación Estratégica', subtitle: 'Evolución Estructural Estratégica', content: 'Nuestra organización demanda una evolución en su estructura. Mientras la Subdirección Administrativa se enfoca en garantizar la excelencia operativa y el soporte transversal, la creación de la SDO asegura un espacio dedicado exclusivamente a la estrategia humana. Esta especialización potencia a la Caja con un Enfoque Diferenciado (potenciación humana proactiva), mayor Agilidad de Decisión (flujos directos y dinámicos) y una profunda Especialización Metodológica (liderazgo con ADN de cambio).', icon: 'network', isDark: false, adminTags: ['Excelencia Operativa', 'Soporte Transversal', 'Cumplimiento Institucional'] },
             { id: 'blueprint', title: 'Blueprint Organizacional', subtitle: 'Arquitectura de Procesos Integrados', content: 'Haz clic en cada proceso para identificar cómo se integra en la estructura y conocer su reto específico.', icon: 'layers', isMap: true, isDark: false },
+            { id: 'nodos4', title: 'Gestión Humana Integrada', subtitle: '3 Nodos de Acción Estratégica', content: 'Propuesta de despliegue radial con el Líder de Gestión Humana en el centro, orquestando 3 Nodos: Integración, Desarrollo y Operación. TED e Innovación intervienen como aliados analíticos.', icon: 'git-merge', isRadialMap: true, isDark: false },
             { id: 'pmo', title: 'Soporte Transversal PMO', subtitle: 'El Corazón Metodológico', content: 'La SDO asegura que cada proyecto de la PMO tenga éxito cultural mediante acompañamiento en la adopción de herramientas, asegurando que la agilidad no sea solo una palabra sino una realidad operativa que conecte ideas con ejecución.', icon: 'brain-circuit', isDark: false, highlights: [{label:'Gestión del Cambio', desc:'Garantizar la adopción tecnológica.'}, {label:'Cultura Neuronal', desc:'Implementar agilidad real en equipos.'}, {label:'Cierre de Brechas', desc:'Eliminar el vacío entre ideas y ejecución.'}] },
-            { id: 'ted', title: 'Modelo TED: Productividad + Automatización', subtitle: 'Corazón de la Innovación SDO', content: 'La necesidad de fusionar las estrategias de productividad con la automatización es el corazón de la innovación de esta subdirección, permitiendo una eficiencia real basada en datos.', icon: 'cpu', labels: ['Optimización de Procesos (TED)', 'Eficiencia Medible', 'Articulación del Proceso Ágil y Toma de Decisiones'], isDark: true, isChart: true },
+            { id: 'ted', title: 'Modelo TED: Productividad + Automatización', subtitle: 'Tecnología · Estrategia · Desempeño', content: 'La convergencia de estos tres pilares permite eliminar tareas mecánicas y elevar el rol del talento hacia el análisis estratégico y la innovación real.', icon: 'cpu', isDark: true, isTEDVisual: true },
             { id: 'conclusion', title: 'Resultados e Impacto', subtitle: 'Valor Organizacional 2026', content: 'Una estructura diseñada para reducir la rotación mediante una EX superior, acelerar la transformación digital eliminando la resistencia al cambio y aumentar la eficiencia operativa a través de la automatización estratégica TED.', icon: 'trending-up', points: ['Eficiencia Medible', 'Alineación Cultural', 'Madurez Digital'], isDark: true }
         ];
 
@@ -221,15 +251,19 @@
 
             let visualHtml = '';
             if (slide.isMap) visualHtml = buildMapTemplate(isDark);
+            else if (slide.isRadialMap) visualHtml = buildRadialMapTemplate(isDark);
+            else if (slide.isTEDVisual) visualHtml = buildTEDVisual(isDark);
             else if (slide.adminTags) visualHtml = buildComparison(isDark, slide.adminTags);
             else if (slide.highlights) visualHtml = buildHighlights(isDark, slide.highlights);
             else if (slide.isChart) visualHtml = buildChart(isDark, slide.labels);
             else if (slide.points) visualHtml = buildPoints(isDark, slide.points);
+            
+            const isFullWidthMap = slide.isMap || slide.isRadialMap;
 
             slideContainer.innerHTML = `
-                <div class="grid grid-cols-1 ${slide.isMap ? '' : 'md:grid-cols-2'} gap-12 items-start fade-in px-4 md:px-12">
-                    <div class="${slide.isMap ? 'text-center mb-10' : 'space-y-10 md:sticky md:top-32'}">
-                        <div class="flex items-center gap-6 ${slide.isMap ? 'justify-center' : ''}">
+                <div class="grid grid-cols-1 ${isFullWidthMap ? '' : 'md:grid-cols-2'} gap-12 items-start fade-in px-4 md:px-12">
+                    <div class="${isFullWidthMap ? 'text-center mb-10' : 'space-y-10 md:sticky md:top-32'}">
+                        <div class="flex items-center gap-6 ${isFullWidthMap ? 'justify-center' : ''}">
                             <div class="p-4 rounded-3xl backdrop-blur-xl shadow-2xl border ${isDark ? 'bg-white/10 border-white/20' : 'bg-white border-slate-100'}">
                                 <i data-lucide="${slide.icon}" class="w-14 h-14 ${isDark ? 'text-amber-400' : 'text-teal-600'}"></i>
                             </div>
@@ -259,6 +293,93 @@
                 dot.onclick = () => { currentSlideIndex = i; renderSlide(); window.scrollTo({top: 0, behavior: 'smooth'}); };
                 dotsContainer.appendChild(dot);
             });
+        }
+
+        function buildRadialMapTemplate(isDark) {
+            return `
+                <div class="rounded-[4rem] p-12 border shadow-[0_32px_120px_-10px_rgba(0,0,0,0.15)] transition-all duration-1000 ${isDark ? 'bg-slate-900/50 border-white/10 backdrop-blur-3xl' : 'bg-white/90 backdrop-blur-2xl border-slate-200'} overflow-visible">
+                    
+                    <div class="relative w-full max-w-[900px] h-[750px] mx-auto flex items-center justify-center">
+                        
+                        <!-- LÍNEAS DE CONEXIÓN SVG (FONDO) -->
+                        <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-20" viewBox="0 0 900 750">
+                            <!-- Círculos concéntricos -->
+                            <circle cx="450" cy="375" r="120" fill="none" class="${isDark ? 'stroke-amber-400' : 'stroke-indigo-400'}" stroke-width="1" stroke-dasharray="10 10" />
+                            <circle cx="450" cy="375" r="280" fill="none" class="${isDark ? 'stroke-slate-700' : 'stroke-slate-200'}" stroke-width="2" />
+                            
+                            <!-- Líneas radiales (Norte, Este, Oeste) -->
+                            <line x1="450" y1="375" x2="450" y2="100" class="${isDark ? 'stroke-indigo-500' : 'stroke-indigo-300'}" stroke-width="2" stroke-dasharray="5 5" />
+                            <line x1="450" y1="375" x2="100" y2="375" class="${isDark ? 'stroke-blue-500' : 'stroke-blue-300'}" stroke-width="2" stroke-dasharray="5 5" />
+                            <line x1="450" y1="375" x2="800" y2="375" class="${isDark ? 'stroke-emerald-500' : 'stroke-emerald-300'}" stroke-width="2" stroke-dasharray="5 5" />
+                        </svg>
+
+                        <!-- NODO CENTRAL (LÍDER) -->
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 flex flex-col items-center gap-4">
+                            ${buildRadialNode('n_sdo')}
+                            <div class="w-1 h-8 bg-gradient-to-b from-indigo-500 to-transparent"></div>
+                            ${buildRadialNode('n_lider')}
+                        </div>
+
+                        <!-- ALIADOS EXTERNOS (ESQUINAS) -->
+                        <div class="absolute top-0 right-0 flex flex-col gap-4 items-end slide-up">
+                            ${buildRadialNode('n_ted')}
+                            <div class="text-[10px] font-black uppercase text-amber-500 tracking-widest mr-4">Aliado Tech</div>
+                        </div>
+                        <div class="absolute top-0 left-0 flex flex-col gap-4 items-start slide-up">
+                            ${buildRadialNode('n_innovacion')}
+                            <div class="text-[10px] font-black uppercase text-amber-500 tracking-widest ml-4">Aliado Metodológico</div>
+                        </div>
+                        
+                        <!-- ALIADOS INFERIORES -->
+                        <div class="absolute bottom-0 right-0 flex flex-col gap-4 items-end">
+                            ${buildRadialNode('n_productividad')}
+                            <div class="text-[10px] font-black uppercase text-amber-500 tracking-widest mr-4">Aliado en Productividad</div>
+                        </div>
+                        <div class="absolute bottom-0 left-0 flex flex-col gap-4 items-start">
+                            ${buildRadialNode('n_agencia')}
+                            <div class="text-[10px] font-black uppercase text-amber-500 tracking-widest ml-4">Aliado en Atracción y Relacionamiento</div>
+                        </div>
+
+                        <!-- 3 NODOS CARDINALES -->
+                        
+                        <!-- NORTE (1. INTEGRACIÓN) -->
+                        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[350px] p-6 rounded-[3rem] border-2 shadow-xl hover:scale-105 transition-all duration-500 cursor-pointer ${isDark ? 'bg-indigo-950/40 border-indigo-400/30' : 'bg-indigo-50/90 border-indigo-200'}" onclick="openModal('n_integracion')">
+                            <h3 class="font-black text-center mb-4 text-[13px] uppercase tracking-widest ${isDark ? 'text-indigo-400' : 'text-indigo-900'}">1. Integración</h3>
+                            <div class="flex flex-col gap-2 scale-90">
+                                ${buildRadialNode('n_rol_integrador')} ${buildRadialNode('n_analitica_tec')} ${buildRadialNode('n_rel_lab_norm')}
+                            </div>
+                        </div>
+
+                        <!-- OESTE (2. DESARROLLO Y EXP) -->
+                        <div class="absolute top-1/2 left-0 -translate-y-1/2 w-[380px] p-6 rounded-[3rem] border-2 shadow-xl hover:scale-105 transition-all duration-500 cursor-pointer ${isDark ? 'bg-blue-950/40 border-blue-400/30' : 'bg-blue-50/90 border-blue-200'}" onclick="openModal('n_desarrollo_exp')">
+                            <h3 class="font-black text-center mb-4 text-[13px] uppercase tracking-widest ${isDark ? 'text-blue-400' : 'text-blue-900'}">2. Desarrollo y Experiencia</h3>
+                            <div class="flex flex-wrap gap-2 justify-center scale-75 -my-4">
+                                ${buildRadialNode('n_seleccion')} ${buildRadialNode('n_formacion')} ${buildRadialNode('n_gest_comp')} ${buildRadialNode('n_bienestar')} ${buildRadialNode('n_trabajo_social')} ${buildRadialNode('n_cultura')}
+                            </div>
+                        </div>
+
+                        <!-- ESTE (3. OPERACION Y ADMIN) -->
+                        <div class="absolute top-1/2 right-0 -translate-y-1/2 w-[380px] p-6 rounded-[3rem] border-2 shadow-xl hover:scale-105 transition-all duration-500 cursor-pointer ${isDark ? 'bg-emerald-950/40 border-emerald-400/30' : 'bg-emerald-50/90 border-emerald-200'}" onclick="openModal('n_operacion_admin')">
+                            <h3 class="font-black text-center mb-4 text-[13px] uppercase tracking-widest ${isDark ? 'text-emerald-400' : 'text-emerald-900'}">3. Operación y Admin.</h3>
+                            <div class="flex flex-wrap gap-2 justify-center scale-90">
+                                ${buildRadialNode('n_nomina')} ${buildRadialNode('n_seguridad_social')} ${buildRadialNode('n_contratacion')} ${buildRadialNode('n_historias_lab')} ${buildRadialNode('n_control_ad')} ${buildRadialNode('n_compensacion')}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>`;
+        }
+
+        function buildRadialNode(id) {
+            const node = detailedNodes[id];
+            if (!node) return '';
+            const isHeader = id === 'n_sdo' || id === 'n_lider';
+            const isGroupRoot = id === 'n_integracion' || id === 'n_desarrollo_exp' || id === 'n_operacion_admin' || id === 'n_sst_root';
+            if(isGroupRoot) return ''; // We don't render group roots as single bubbles anymore, their info is on the group box
+            
+            return `<div onclick="event.stopPropagation(); openModal('${id}')" class="relative px-5 py-2.5 rounded-2xl shadow-lg border border-black/10 text-[9px] font-black uppercase cursor-pointer transition-all duration-300 hover:scale-[1.15] flex flex-col items-center justify-center min-h-[45px] ${isHeader ? 'w-[320px] py-5 text-[11px] ring-2 ring-black/5' : 'w-[150px]'} ${integrationMode && node.isPulse ? 'node-pulse border-amber-400' : ''} ${node.color}">
+                <span class="leading-tight text-center break-words">${node.title}</span>
+            </div>`;
         }
 
         function buildMapTemplate(isDark) {
@@ -312,6 +433,7 @@
 
         function buildNode(id) {
             const node = detailedNodes[id];
+            if (!node) return '';
             const isRoot = id === 'root';
             return `<div onclick="openModal('${id}')" class="relative px-6 py-3 rounded-2xl shadow-xl border border-black/10 text-[10px] font-black uppercase cursor-pointer transition-all duration-500 hover:scale-110 flex flex-col items-center justify-center min-h-[55px] ${isRoot ? 'w-[320px] py-6 text-xs ring-4 ring-white/10' : 'w-[180px]'} ${integrationMode && node.isPulse ? 'node-pulse border-amber-400' : ''} ${node.color}">
                 <span class="leading-tight text-center">${node.title}</span>
@@ -345,18 +467,49 @@
             `).join('')}</div>`;
         }
 
-        function buildChart(isDark, labels) {
-            return `<div class="p-10 rounded-[3rem] border transition-all duration-1000 ${isDark ? 'bg-amber-900/10 border-amber-500/30' : 'bg-white border-slate-200 shadow-2xl'} mx-4">
-                <div class="flex flex-col gap-4 mb-10">${labels.map(l => `
-                    <div class="flex items-center gap-4 p-5 rounded-3xl border ${isDark ? 'bg-white/5 border-white/10 text-white' : 'bg-slate-50 border-slate-100 text-slate-800'}">
-                        <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-500 font-black"><i data-lucide="check" class="w-5 h-5"></i></div>
-                        <span class="text-base font-black text-justify leading-snug">${l}</span>
-                    </div>`).join('')}</div>
-                <div class="flex justify-between items-end gap-5 h-40 px-6">
-                    ${[40, 65, 55, 100].map((h, i) => `<div class="flex-1 flex flex-col items-center gap-3">
-                        <div class="w-full rounded-t-2xl transition-all duration-1000 ${i === 3 ? (isDark ? 'bg-amber-500 shadow-lg' : 'bg-emerald-500 animate-pulse') : 'bg-slate-300/30'}" style="height: ${h}%"></div>
-                        <span class="text-[9px] font-black uppercase ${isDark ? 'text-white/40' : 'text-slate-400'}">Fase ${i+1}</span>
-                    </div>`).join('')}
+        function buildTEDVisual(isDark) {
+            return `<div class="p-12 rounded-[4rem] border shadow-2xl transition-all duration-1000 ${isDark ? 'bg-slate-900/50 border-amber-500/20' : 'bg-white border-slate-200'} mx-4 relative overflow-hidden">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
+                    <!-- Triada TED -->
+                    <div class="flex-1 grid grid-cols-1 gap-6">
+                        <div class="p-8 rounded-[3rem] border-2 border-indigo-500/30 bg-indigo-500/5 hover:bg-indigo-500/10 transition-all group">
+                            <div class="flex items-center gap-5 mb-4">
+                                <div class="p-4 rounded-2xl bg-indigo-500 text-white shadow-lg"><i data-lucide="monitor" class="w-8 h-8"></i></div>
+                                <h3 class="text-2xl font-black uppercase tracking-tighter ${isDark ? 'text-indigo-400' : 'text-indigo-900'}">Tecnología</h3>
+                            </div>
+                            <p class="text-sm font-medium leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}">Automatización de tareas repetitivas y digitalización total del ciclo de vida del colaborador.</p>
+                        </div>
+                        <div class="p-8 rounded-[3rem] border-2 border-amber-500/30 bg-amber-500/5 hover:bg-amber-500/10 transition-all group">
+                            <div class="flex items-center gap-5 mb-4">
+                                <div class="p-4 rounded-2xl bg-amber-500 text-white shadow-lg"><i data-lucide="compass" class="w-8 h-8"></i></div>
+                                <h3 class="text-2xl font-black uppercase tracking-tighter ${isDark ? 'text-amber-400' : 'text-amber-900'}">Estrategia</h3>
+                            </div>
+                            <p class="text-sm font-medium leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}">Alineación de objetivos institucionales con el desempeño dinámico y metodologías ágiles.</p>
+                        </div>
+                        <div class="p-8 rounded-[3rem] border-2 border-emerald-500/30 bg-emerald-500/5 hover:bg-emerald-500/10 transition-all group">
+                            <div class="flex items-center gap-5 mb-4">
+                                <div class="p-4 rounded-2xl bg-emerald-500 text-white shadow-lg"><i data-lucide="bar-chart-3" class="w-8 h-8"></i></div>
+                                <h3 class="text-2xl font-black uppercase tracking-tighter ${isDark ? 'text-emerald-400' : 'text-emerald-900'}">Desempeño</h3>
+                            </div>
+                            <p class="text-sm font-medium leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}">Resultados de alta productividad medibles con People Analytics y cultura neuronal.</p>
+                        </div>
+                    </div>
+                    <!-- Diagrama Central -->
+                    <div class="w-full md:w-1/3 flex flex-col items-center justify-center relative">
+                        <div class="relative w-64 h-64">
+                            <div class="absolute inset-0 rounded-full border-4 border-dashed border-slate-300 animate-[spin_20s_linear_infinite]"></div>
+                            <div class="absolute inset-4 rounded-full border-4 border-indigo-500/20"></div>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="text-center">
+                                    <div class="text-6xl font-black text-amber-500">TED</div>
+                                    <div class="text-[10px] font-black uppercase tracking-[0.3em] ${isDark ? 'text-slate-500' : 'text-slate-400'}">Ecosistema 2026</div>
+                                </div>
+                            </div>
+                            <!-- Satélites -->
+                            <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 bg-indigo-500 rounded-xl text-white shadow-xl animate-pulse"><i data-lucide="zap" class="w-4 h-4"></i></div>
+                            <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 p-3 bg-emerald-500 rounded-xl text-white shadow-xl animate-pulse"><i data-lucide="cpu" class="w-4 h-4"></i></div>
+                        </div>
+                    </div>
                 </div>
             </div>`;
         }
