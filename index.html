@@ -15,8 +15,10 @@
         }
         body {
             font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            /* Permitimos el scroll vertical */
+            overflow-x: hidden;
+            overflow-y: auto;
         }
         h1, h2, h3, .font-urbanist {
             font-family: 'Urbanist', sans-serif;
@@ -47,21 +49,37 @@
         .bg-integration {
             background-color: #020617; /* slate-950 */
         }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        /* Estilo para los botones de navegación laterales fijos */
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.1);
+        }
+        .dark .nav-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; border: 2px solid transparent; background-clip: content-box; }
+        .dark ::-webkit-scrollbar-thumb { background: #475569; border: 2px solid transparent; background-clip: content-box; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 transition-colors duration-700 overflow-hidden">
+<body class="bg-slate-50 text-slate-900 transition-colors duration-700 min-h-screen">
 
-    <!-- Barra de Progreso Superior -->
+    <!-- Barra de Progreso Superior Fija -->
     <div class="fixed top-0 left-0 w-full h-1 bg-black/10 z-[100]">
         <div id="progress-bar" class="h-full bg-teal-500 transition-all duration-500" style="width: 16.66%"></div>
     </div>
 
-    <!-- Cabecera -->
-    <header class="fixed top-0 left-0 w-full p-6 flex justify-between items-center z-50 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl border-b border-slate-200 dark:border-white/10">
-        <div class="flex items-center gap-5">
-            <div class="bg-slate-900 p-2.5 rounded-2xl shadow-xl border border-white/10 flex items-center justify-center min-w-[65px]">
+    <!-- Cabecera Fija -->
+    <header class="fixed top-0 left-0 w-full p-5 flex justify-between items-center z-50 bg-white/60 dark:bg-slate-950/60 backdrop-blur-md border-b border-slate-200/50 dark:border-white/5">
+        <div class="flex items-center gap-4">
+            <div class="bg-slate-900 p-2 rounded-xl shadow-xl border border-white/10 flex items-center justify-center min-w-[60px]">
                 <img src="https://i.imgur.com/yyI6FWO.png" alt="Logo SDO" class="h-10 w-auto object-contain">
             </div>
             <div class="hidden md:block">
@@ -70,52 +88,45 @@
             </div>
         </div>
 
-        <button onclick="toggleIntegrationMode()" class="flex items-center gap-3 px-7 py-3 rounded-full font-black text-[10px] uppercase tracking-widest transition-all border border-slate-200 bg-white text-slate-600 shadow-md hover:scale-105 active:scale-95" id="integration-toggle">
+        <button onclick="toggleIntegrationMode()" class="flex items-center gap-3 px-6 py-2.5 rounded-full font-black text-[10px] uppercase tracking-widest transition-all border border-slate-200 bg-white/90 text-slate-600 shadow-md hover:scale-105 active:scale-95" id="integration-toggle">
             <i data-lucide="lightbulb" class="w-4 h-4"></i>
             <span>Ver Capas de Valor</span>
         </button>
     </header>
 
-    <!-- Contenedor Principal -->
-    <main class="h-screen flex flex-col items-center justify-center p-4 relative grid-pattern transition-all duration-1000" id="main-bg">
-        
-        <div id="slide-container" class="w-full max-w-7xl pt-20 pb-32">
-            <!-- El contenido se inyecta dinámicamente -->
-        </div>
+    <!-- Botones de Navegación Lateral Fijos -->
+    <button onclick="prevSlide()" id="prev-btn-side" class="fixed left-6 top-1/2 -translate-y-1/2 z-[60] p-4 rounded-full nav-btn border border-black/5 text-slate-400 hover:text-teal-600 dark:hover:text-amber-400 opacity-0 pointer-events-none">
+        <i data-lucide="chevron-left" class="w-8 h-8"></i>
+    </button>
 
+    <button onclick="nextSlide()" id="next-btn-side" class="fixed right-6 top-1/2 -translate-y-1/2 z-[60] p-4 rounded-full nav-btn border border-black/5 text-slate-400 hover:text-teal-600 dark:hover:text-amber-400">
+        <i data-lucide="chevron-right" class="w-8 h-8"></i>
+    </button>
+
+    <!-- Indicador de Puntos Flotante Fijo -->
+    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex gap-3 px-6 py-3 rounded-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-lg border border-black/5 dark:border-white/10" id="dots-container">
+        <!-- Puntos generados por JS -->
+    </div>
+
+    <!-- Contenedor Principal (Permite crecimiento vertical) -->
+    <main class="min-h-screen flex flex-col items-center justify-center p-4 pt-32 pb-32 relative grid-pattern transition-all duration-1000" id="main-bg">
+        <div id="slide-container" class="w-full max-w-7xl">
+            <!-- Contenido dinámico -->
+        </div>
     </main>
 
-    <!-- Navegación Inferior -->
-    <footer class="fixed bottom-0 left-0 w-full p-8 flex justify-between items-center z-50 bg-white/30 dark:bg-black/20 backdrop-blur-md border-t border-black/5 dark:border-white/5">
-        <div class="flex gap-2.5" id="dots-container">
-            <!-- Puntos de navegación -->
-        </div>
-        <div class="flex gap-5">
-            <button onclick="prevSlide()" id="prev-btn" class="p-4 rounded-full border border-slate-300 dark:border-white/20 transition-all disabled:opacity-10 text-slate-600 dark:text-white hover:bg-white/20">
-                <i data-lucide="chevron-left" class="w-7 h-7"></i>
-            </button>
-            <button onclick="nextSlide()" id="next-btn" class="flex items-center gap-5 px-12 py-5 rounded-full font-black uppercase text-[11px] tracking-widest shadow-2xl transition-all hover:scale-105 active:scale-95 bg-teal-600 text-white">
-                <span id="next-text">Siguiente Pilar</span>
-                <i data-lucide="chevron-right" class="w-6 h-6"></i>
-            </button>
-        </div>
-    </footer>
-
     <!-- Modal de Ficha Técnica -->
-    <div id="node-modal" class="fixed inset-0 z-[200] hidden items-center justify-center p-6 bg-slate-950/90 backdrop-blur-xl">
-        <div class="relative p-12 rounded-[3.5rem] max-w-xl w-full shadow-[0_0_50px_rgba(0,0,0,0.5)] border bg-white border-white transition-all duration-500 scale-90 opacity-0" id="modal-content">
-            <button onclick="closeModal()" class="absolute top-10 right-10 text-slate-400 hover:text-slate-900 transition-colors">
-                <i data-lucide="x" class="w-7 h-7"></i>
+    <div id="node-modal" class="fixed inset-0 z-[200] hidden items-center justify-center p-6 bg-slate-950/95 backdrop-blur-xl">
+        <div class="relative p-10 rounded-[3.5rem] max-w-xl w-full shadow-2xl border bg-white border-white transition-all duration-500 scale-90 opacity-0 overflow-y-auto max-h-[90vh]" id="modal-content">
+            <button onclick="closeModal()" class="absolute top-8 right-8 text-slate-400 hover:text-slate-900 transition-colors">
+                <i data-lucide="x" class="w-6 h-6"></i>
             </button>
-            
             <div id="modal-tag" class="inline-flex items-center gap-2.5 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-8">
                 <i data-lucide="fingerprint" class="w-4 h-4"></i> Ficha de Integración SDO
             </div>
-            
-            <h3 id="modal-title" class="text-4xl font-black mb-5 leading-none tracking-tight text-slate-900">Proceso</h3>
+            <h3 id="modal-title" class="text-3xl font-black mb-4 leading-none tracking-tight text-slate-900">Proceso</h3>
             <p id="modal-desc" class="text-base mb-10 text-justify leading-relaxed font-medium text-slate-600">Descripción.</p>
-            
-            <div class="p-8 rounded-[2rem] space-y-5 mb-10 bg-slate-50 border border-slate-100" id="modal-info-box">
+            <div class="p-6 rounded-[2rem] space-y-5 mb-10 bg-slate-50 border border-slate-100" id="modal-info-box">
                 <div class="flex items-start gap-4 text-left">
                     <div class="p-2.5 bg-indigo-500/10 rounded-xl text-indigo-500 mt-1"><i data-lucide="target" class="w-5 h-5"></i></div>
                     <div>
@@ -124,22 +135,17 @@
                     </div>
                 </div>
             </div>
-
-            <section class="p-8 rounded-[2.5rem] border-l-8 border-amber-500 text-left bg-amber-50" id="modal-challenge-box">
+            <section class="p-6 rounded-[2rem] border-l-8 border-amber-500 text-left bg-amber-50" id="modal-challenge-box">
                 <div class="flex items-center gap-2.5 font-black text-[11px] uppercase mb-3 tracking-widest text-amber-600">
                     <i data-lucide="alert-circle" class="w-5 h-5"></i> Reto Identificado
                 </div>
-                <p id="modal-challenge" class="text-sm italic text-justify font-bold leading-relaxed text-amber-900">
-                    "Reto."
-                </p>
+                <p id="modal-challenge" class="text-sm italic text-justify font-bold leading-relaxed text-amber-900">"Reto."</p>
             </section>
-
-            <button onclick="closeModal()" class="mt-12 w-full font-black py-5 rounded-[2rem] transition-all active:scale-95 text-sm uppercase tracking-widest bg-slate-900 text-white shadow-2xl" id="modal-close-btn">Cerrar e Integrar</button>
+            <button onclick="closeModal()" class="mt-10 w-full font-black py-5 rounded-[2rem] transition-all active:scale-95 text-sm uppercase tracking-widest bg-slate-900 text-white shadow-xl" id="modal-close-btn">Cerrar e Integrar</button>
         </div>
     </div>
 
     <script>
-        // --- DATA ---
         const detailedNodes = {
             root: { title: 'Subdirección Desarrollo Organizacional', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Dirección estratégica para asegurar que la cultura, la tecnología y el talento converjan en alta productividad interna.', vision: 'Puente crítico entre la visión ejecutiva y la ejecución operativa.', challenge: 'Superar el vacío de decisión entre los equipos que gestan ideas y la dirección que las aprueba.' },
             cultura: { title: 'Cultura, bienestar y experiencia', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Fortalecimiento de la cultura organizacional, cultura digital y la incorporación de la cultura de la felicidad.', vision: 'EX (Employee Experience) como pilar de desempeño.', challenge: 'Integrar el bienestar no como una actividad aislada, sino como un indicador de productividad real.' },
@@ -168,64 +174,50 @@
             { id: 'conclusion', title: 'Resultados e Impacto', subtitle: 'Valor Organizacional 2026', content: 'Una estructura diseñada para reducir la rotación mediante una EX superior, acelerar la transformación digital eliminando la resistencia al cambio y aumentar la eficiencia operativa a través de la automatización estratégica TED.', icon: 'trending-up', points: ['Eficiencia Medible', 'Alineación Cultural', 'Madurez Digital'], isDark: true }
         ];
 
-        // --- ESTADO ---
         let currentSlideIndex = 0;
         let integrationMode = false;
 
-        // --- ELEMENTOS ---
         const slideContainer = document.getElementById('slide-container');
         const progressBar = document.getElementById('progress-bar');
         const dotsContainer = document.getElementById('dots-container');
-        const nextText = document.getElementById('next-text');
-        const nextBtn = document.getElementById('next-btn');
+        const prevBtnSide = document.getElementById('prev-btn-side');
+        const nextBtnSide = document.getElementById('next-btn-side');
 
-        // --- INICIALIZACIÓN ---
         window.onload = () => {
             renderSlide();
-            renderDots();
             lucide.createIcons();
+            document.addEventListener('keydown', (e) => {
+                if(e.key === "ArrowRight") nextSlide();
+                if(e.key === "ArrowLeft") prevSlide();
+            });
         };
 
-        // --- FUNCIONES ---
         function toggleIntegrationMode() {
             integrationMode = !integrationMode;
             const btn = document.getElementById('integration-toggle');
+            document.body.classList.toggle('dark', integrationMode);
             if(integrationMode) {
-                document.body.classList.add('dark');
-                btn.className = "flex items-center gap-3 px-7 py-3 rounded-full font-black text-[10px] uppercase tracking-widest transition-all border border-amber-400 bg-amber-500 text-white shadow-[0_0_20px_rgba(245,158,11,0.4)]";
+                btn.className = "flex items-center gap-3 px-6 py-2.5 rounded-full font-black text-[10px] uppercase tracking-widest transition-all border border-amber-400 bg-amber-500 text-white shadow-lg";
                 btn.querySelector('span').innerText = 'Sinergias Activas';
             } else {
-                document.body.classList.remove('dark');
-                btn.className = "flex items-center gap-3 px-7 py-3 rounded-full font-black text-[10px] uppercase tracking-widest transition-all border border-slate-200 bg-white text-slate-600 shadow-md";
+                btn.className = "flex items-center gap-3 px-6 py-2.5 rounded-full font-black text-[10px] uppercase tracking-widest transition-all border border-slate-200 bg-white/90 text-slate-600 shadow-md";
                 btn.querySelector('span').innerText = 'Ver Capas de Valor';
             }
             renderSlide();
-        }
-
-        function renderDots() {
-            dotsContainer.innerHTML = '';
-            slides.forEach((_, i) => {
-                const dot = document.createElement('div');
-                const isActive = i === currentSlideIndex;
-                dot.className = `w-2 h-2 rounded-full transition-all duration-500 ${isActive ? (integrationMode ? 'bg-amber-500 w-10' : 'bg-teal-500 w-10') : 'bg-slate-400/30'}`;
-                dotsContainer.appendChild(dot);
-            });
         }
 
         function renderSlide() {
             const slide = slides[currentSlideIndex];
             const isDark = integrationMode || slide.isDark;
             
-            // Colores globales
-            document.body.className = `min-h-screen flex flex-col transition-all duration-1000 font-sans ${isDark ? 'bg-integration text-slate-100' : 'bg-slate-50 text-slate-900'}`;
+            document.body.className = `transition-all duration-1000 font-sans ${isDark ? 'bg-integration text-slate-100' : 'bg-slate-50 text-slate-900'} min-h-screen`;
             document.getElementById('header-title').className = `text-base font-black uppercase tracking-tighter leading-none ${isDark ? 'text-white' : 'text-slate-900'}`;
-            
-            // Barra de Progreso
             progressBar.style.width = `${((currentSlideIndex + 1) / slides.length) * 100}%`;
             
-            // Botones
-            nextText.innerText = currentSlideIndex === slides.length - 1 ? 'Finalizar Propuesta' : 'Siguiente Pilar';
-            nextBtn.className = `flex items-center gap-5 px-12 py-5 rounded-full font-black uppercase text-[11px] tracking-widest shadow-2xl transition-all hover:scale-105 active:scale-95 ${integrationMode ? 'bg-amber-500 text-white' : 'bg-teal-600 text-white'}`;
+            prevBtnSide.style.opacity = currentSlideIndex === 0 ? "0" : "1";
+            prevBtnSide.style.pointerEvents = currentSlideIndex === 0 ? "none" : "auto";
+            nextBtnSide.style.opacity = currentSlideIndex === slides.length - 1 ? "0" : "1";
+            nextBtnSide.style.pointerEvents = currentSlideIndex === slides.length - 1 ? "none" : "auto";
 
             let visualHtml = '';
             if (slide.isMap) visualHtml = buildMapTemplate(isDark);
@@ -235,19 +227,19 @@
             else if (slide.points) visualHtml = buildPoints(isDark, slide.points);
 
             slideContainer.innerHTML = `
-                <div class="grid grid-cols-1 ${slide.isMap ? '' : 'md:grid-cols-2'} gap-12 items-center fade-in">
-                    <div class="${slide.isMap ? 'text-center mb-10' : 'space-y-10'}">
+                <div class="grid grid-cols-1 ${slide.isMap ? '' : 'md:grid-cols-2'} gap-12 items-start fade-in px-4 md:px-12">
+                    <div class="${slide.isMap ? 'text-center mb-10' : 'space-y-10 md:sticky md:top-32'}">
                         <div class="flex items-center gap-6 ${slide.isMap ? 'justify-center' : ''}">
                             <div class="p-4 rounded-3xl backdrop-blur-xl shadow-2xl border ${isDark ? 'bg-white/10 border-white/20' : 'bg-white border-slate-100'}">
                                 <i data-lucide="${slide.icon}" class="w-14 h-14 ${isDark ? 'text-amber-400' : 'text-teal-600'}"></i>
                             </div>
                             <div class="text-left">
                                 <span class="text-[11px] font-black uppercase tracking-[0.4em] ${isDark ? 'text-amber-400/80' : 'text-slate-400'}">Estrategia 2026</span>
-                                <h1 class="text-4xl md:text-6xl font-black leading-none tracking-tighter ${isDark ? 'text-white' : 'text-slate-900'}">${slide.title}</h1>
+                                <h1 class="text-4xl md:text-5xl font-black leading-none tracking-tighter ${isDark ? 'text-white' : 'text-slate-900'}">${slide.title}</h1>
                             </div>
                         </div>
                         <h2 class="text-2xl font-bold ${isDark ? 'text-amber-400' : 'text-teal-700'}">${slide.subtitle}</h2>
-                        <p class="text-lg md:text-xl text-justify leading-relaxed ${slide.isMap ? 'max-w-5xl mx-auto' : 'max-w-lg'} ${isDark ? 'text-slate-300' : 'text-slate-600'}">${slide.content}</p>
+                        <p class="text-lg md:text-xl text-justify leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}">${slide.content}</p>
                     </div>
                     <div class="relative w-full">
                         ${visualHtml}
@@ -258,55 +250,42 @@
             renderDots();
         }
 
+        function renderDots() {
+            dotsContainer.innerHTML = '';
+            slides.forEach((_, i) => {
+                const dot = document.createElement('div');
+                const isActive = i === currentSlideIndex;
+                dot.className = `w-2 h-2 rounded-full transition-all duration-500 cursor-pointer ${isActive ? (integrationMode ? 'bg-amber-500 w-10' : 'bg-teal-500 w-10') : 'bg-slate-400/30 hover:bg-slate-400'}`;
+                dot.onclick = () => { currentSlideIndex = i; renderSlide(); window.scrollTo({top: 0, behavior: 'smooth'}); };
+                dotsContainer.appendChild(dot);
+            });
+        }
+
         function buildMapTemplate(isDark) {
             return `
-                <div class="rounded-[3rem] p-10 border shadow-[0_30px_100px_rgba(0,0,0,0.1)] transition-all duration-1000 ${isDark ? 'bg-white/5 border-white/10' : 'bg-white/90 backdrop-blur-xl border-slate-200'} overflow-x-auto">
+                <div class="rounded-[3rem] p-10 border shadow-2xl transition-all duration-1000 ${isDark ? 'bg-white/5 border-white/10' : 'bg-white/90 backdrop-blur-xl border-slate-200'} overflow-x-auto">
                     <div class="min-w-[900px] flex flex-col items-center">
-                        <div class="w-full flex justify-center mb-16">
-                            ${buildNode('root')}
-                        </div>
+                        <div class="mb-16">${buildNode('root')}</div>
                         <div class="relative w-full flex justify-center gap-32">
                             <div class="absolute left-1/2 top-0 bottom-0 w-[2px] -translate-x-1/2 transition-colors ${isDark ? 'bg-indigo-500/30' : 'bg-slate-300'}"></div>
-                            
                             <div class="flex flex-col gap-12 items-end w-1/2 relative z-10">
-                                <div class="flex items-center gap-4">
-                                    ${buildNode('equipo_psico')} <i data-lucide="arrow-left" class="w-5 h-5 ${isDark ? 'text-indigo-400' : 'opacity-20'}"></i> ${buildNode('cultura')}
-                                </div>
-                                <div class="flex items-center gap-4">
-                                    ${buildNode('empleo_talento')} <div class="w-10 border-t-2 border-dashed ${isDark ? 'border-indigo-400/30' : 'border-slate-300'}"></div> <i data-lucide="arrow-left" class="w-5 h-5 ${isDark ? 'text-indigo-400' : 'opacity-20'}"></i> ${buildNode('seleccion')}
-                                </div>
+                                <div class="flex items-center gap-4">${buildNode('equipo_psico')} <i data-lucide="arrow-left" class="w-5 h-5 ${isDark ? 'text-indigo-400' : 'opacity-20'}"></i> ${buildNode('cultura')}</div>
+                                <div class="flex items-center gap-4">${buildNode('empleo_talento')} <div class="w-10 border-t-2 border-dashed ${isDark ? 'border-indigo-400/30' : 'border-slate-300'}"></div> <i data-lucide="arrow-left" class="w-5 h-5 ${isDark ? 'text-indigo-400' : 'opacity-20'}"></i> ${buildNode('seleccion')}</div>
                                 ${buildNode('desarrollo')}
-                                
                                 <div class="flex flex-col items-end gap-5 p-6 rounded-[2.5rem] border-2 border-dashed transition-all ${isDark ? 'border-indigo-500/40 bg-indigo-500/5' : 'border-slate-300 bg-black/5'}">
-                                    <Node id="innovacion" class="flex flex-col items-center gap-4">
-                                        ${buildNode('innovacion')}
-                                        <div class="h-4"></div>
-                                        ${buildNode('transformacion')}
-                                    </Node>
-                                    <div class="flex items-center gap-4 pr-12">
-                                        <i data-lucide="arrow-left" class="w-5 h-5 ${isDark ? 'text-indigo-400' : 'opacity-20'}"></i> <div class="w-10 border-t-2 border-dashed ${isDark ? 'border-indigo-400/30' : 'border-slate-300'}"></div> ${buildNode('vector_cultura')}
-                                    </div>
+                                    <div class="flex flex-col items-center gap-4">${buildNode('innovacion')}<div class="h-4"></div>${buildNode('transformacion')}</div>
+                                    <div class="flex items-center gap-4 pr-12"><i data-lucide="arrow-left" class="w-5 h-5 ${isDark ? 'text-indigo-400' : 'opacity-20'}"></i> <div class="w-10 border-t-2 border-dashed ${isDark ? 'border-indigo-400/30' : 'border-slate-300'}"></div> ${buildNode('vector_cultura')}</div>
                                 </div>
                             </div>
-
                             <div class="flex flex-col gap-12 items-start w-1/2 relative z-10">
-                                <div class="flex items-center gap-4">
-                                    ${buildNode('competencias')} <i data-lucide="arrow-right" class="w-5 h-5 ${isDark ? 'text-indigo-400' : 'opacity-20'}"></i> ${buildNode('historias')}
-                                </div>
+                                <div class="flex items-center gap-4">${buildNode('competencias')} <i data-lucide="arrow-right" class="w-5 h-5 ${isDark ? 'text-indigo-400' : 'opacity-20'}"></i> ${buildNode('historias')}</div>
                                 ${buildNode('nomina')}
-                                <div class="flex gap-6 items-start">
-                                    ${buildNode('relaciones')}
-                                    <div class="flex flex-col gap-4 border-l-2 pl-6 transition-colors ${isDark ? 'border-indigo-500/30' : 'border-slate-300'}">
-                                        ${buildNode('control')}
-                                        ${buildNode('negociaciones')}
-                                    </div>
-                                </div>
+                                <div class="flex gap-6 items-start">${buildNode('relaciones')}<div class="flex flex-col gap-4 border-l-2 pl-6 transition-colors ${isDark ? 'border-indigo-500/30' : 'border-slate-300'}">${buildNode('control')}${buildNode('negociaciones')}</div></div>
                                 ${buildNode('productividad')}
                             </div>
                         </div>
                     </div>
-                </div>
-            `;
+                </div>`;
         }
 
         function buildNode(id) {
@@ -318,15 +297,15 @@
         }
 
         function buildComparison(isDark, tags) {
-            return `<div class="space-y-6 fade-in">
+            return `<div class="space-y-6 fade-in px-4">
                 <div class="p-8 rounded-[2.5rem] border border-slate-200 bg-slate-100/50 opacity-60">
                     <div class="text-[11px] font-black uppercase mb-4 text-slate-500">Gestión Administrativa</div>
                     <div class="flex flex-wrap gap-3">${tags.map(t => `<span class="px-4 py-2 rounded-full text-xs font-bold bg-white text-slate-800 shadow-sm">${t}</span>`).join('')}</div>
                 </div>
                 <div class="flex justify-center -my-3 relative z-10"><div class="bg-teal-600 text-white p-3 rounded-full shadow-2xl"><i data-lucide="arrow-down" class="w-8 h-8"></i></div></div>
                 <div class="p-10 rounded-[3.5rem] border-2 border-amber-500 bg-amber-500/5 shadow-2xl shadow-amber-500/10">
-                    <div class="text-[11px] font-black uppercase text-amber-500 mb-4 tracking-widest">Subdirección de Desarrollo Organizacional</div>
-                    <div class="flex flex-wrap gap-3">
+                    <div class="text-[11px] font-black uppercase text-amber-500 mb-4 tracking-widest text-center">Desarrollo Organizacional</div>
+                    <div class="flex flex-wrap gap-3 justify-center">
                         <span class="px-5 py-2.5 rounded-full text-sm font-black bg-amber-500 text-white shadow-xl">Enfoque Proactivo</span>
                         <span class="px-5 py-2.5 rounded-full text-sm font-black bg-amber-500 text-white shadow-xl">Interlocución Directa</span>
                         <span class="px-5 py-2.5 rounded-full text-sm font-black bg-amber-500 text-white shadow-xl">ADN Metodológico</span>
@@ -336,7 +315,7 @@
         }
 
         function buildHighlights(isDark, items) {
-            return `<div class="space-y-5 fade-in">${items.map((h, i) => `
+            return `<div class="space-y-5 fade-in px-4">${items.map((h, i) => `
                 <div class="p-6 rounded-[2rem] shadow-2xl flex gap-6 items-center transition-all hover:scale-105 ${isDark ? 'bg-white/5 border border-white/10' : 'bg-white border-slate-100'}">
                     <div class="w-16 h-16 rounded-2xl flex items-center justify-center font-black text-2xl ${isDark ? 'bg-amber-500 text-white' : 'bg-indigo-100 text-indigo-600'}">${i + 1}</div>
                     <div class="text-left"><div class="font-black text-lg ${isDark ? 'text-white' : 'text-slate-900'}">${h.label}</div><div class="text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'} font-medium">${h.desc}</div></div>
@@ -345,35 +324,32 @@
         }
 
         function buildChart(isDark, labels) {
-            return `<div class="p-12 rounded-[4rem] border transition-all duration-1000 ${isDark ? 'bg-amber-900/10 border-amber-500/30' : 'bg-white border-slate-200 shadow-[0_40px_100px_rgba(0,0,0,0.1)]'}">
-                <div class="flex flex-col gap-5 mb-10">${labels.map(l => `
-                    <div class="flex items-center gap-5 p-5 rounded-3xl border ${isDark ? 'bg-white/5 border-white/10 text-white' : 'bg-slate-50 border-slate-100 text-slate-800'}">
+            return `<div class="p-10 rounded-[3rem] border transition-all duration-1000 ${isDark ? 'bg-amber-900/10 border-amber-500/30' : 'bg-white border-slate-200 shadow-2xl'} mx-4">
+                <div class="flex flex-col gap-4 mb-10">${labels.map(l => `
+                    <div class="flex items-center gap-4 p-5 rounded-3xl border ${isDark ? 'bg-white/5 border-white/10 text-white' : 'bg-slate-50 border-slate-100 text-slate-800'}">
                         <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-500 font-black"><i data-lucide="check" class="w-5 h-5"></i></div>
                         <span class="text-base font-black text-justify leading-snug">${l}</span>
                     </div>`).join('')}</div>
                 <div class="flex justify-between items-end gap-5 h-40 px-6">
-                    ${[40, 65, 55, 100].map((h, i) => `
-                        <div class="flex-1 flex flex-col items-center gap-3">
-                            <div class="w-full rounded-t-2xl transition-all duration-1000 ${i === 3 ? (isDark ? 'bg-amber-500 shadow-[0_0_30px_rgba(245,158,11,0.5)]' : 'bg-emerald-500 animate-pulse') : 'bg-slate-300/30'}" style="height: ${h}%"></div>
-                            <span class="text-[9px] font-black uppercase ${isDark ? 'text-white/40' : 'text-slate-400'} tracking-widest">Nivel ${i+1}</span>
-                        </div>`).join('')}
+                    ${[40, 65, 55, 100].map((h, i) => `<div class="flex-1 flex flex-col items-center gap-3">
+                        <div class="w-full rounded-t-2xl transition-all duration-1000 ${i === 3 ? (isDark ? 'bg-amber-500 shadow-lg' : 'bg-emerald-500 animate-pulse') : 'bg-slate-300/30'}" style="height: ${h}%"></div>
+                        <span class="text-[9px] font-black uppercase ${isDark ? 'text-white/40' : 'text-slate-400'}">Fase ${i+1}</span>
+                    </div>`).join('')}
                 </div>
             </div>`;
         }
 
         function buildPoints(isDark, points) {
-            return `<div class="grid grid-cols-1 gap-6 fade-in">${points.map(p => `
+            return `<div class="grid grid-cols-1 gap-6 fade-in px-4">${points.map(p => `
                 <div class="p-7 rounded-[2.5rem] flex items-center gap-6 border shadow-xl transition-all ${isDark ? 'bg-white/5 border-white/10 text-white' : 'bg-white border-slate-100 text-slate-800'}">
                     <div class="w-10 h-10 rounded-full bg-teal-500/20 flex items-center justify-center text-teal-600 font-black"><i data-lucide="zap" class="w-6 h-6"></i></div>
                     <span class="font-black text-lg text-justify leading-tight">${p}</span>
                 </div>`).join('')}</div>`;
         }
 
-        // --- NAVEGACIÓN ---
-        function nextSlide() { if (currentSlideIndex < slides.length - 1) { currentSlideIndex++; renderSlide(); } }
-        function prevSlide() { if (currentSlideIndex > 0) { currentSlideIndex--; renderSlide(); } }
+        function nextSlide() { if (currentSlideIndex < slides.length - 1) { currentSlideIndex++; renderSlide(); window.scrollTo({top: 0, behavior: 'smooth'}); } }
+        function prevSlide() { if (currentSlideIndex > 0) { currentSlideIndex--; renderSlide(); window.scrollTo({top: 0, behavior: 'smooth'}); } }
 
-        // --- MODAL ---
         function openModal(id) {
             const node = detailedNodes[id];
             const isDark = integrationMode || slides[currentSlideIndex].isDark;
@@ -387,23 +363,12 @@
             document.getElementById('modal-tag').className = `inline-flex items-center gap-2.5 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-8 ${node.color}`;
 
             if(isDark) {
-                content.className = "relative p-12 rounded-[3.5rem] max-w-xl w-full shadow-2xl border bg-slate-900 border-amber-500/30 text-white transition-all duration-500 scale-100 opacity-100";
-                document.getElementById('modal-title').className = "text-4xl font-black mb-5 leading-none tracking-tight text-white";
-                document.getElementById('modal-desc').className = "text-base mb-10 text-justify leading-relaxed font-medium text-slate-300";
-                document.getElementById('modal-vision').className = "text-base font-bold text-white";
-                document.getElementById('modal-info-box').className = "p-8 rounded-[2rem] space-y-5 mb-10 bg-white/5 border border-white/10";
-                document.getElementById('modal-challenge-box').className = "p-8 rounded-[2.5rem] border-l-8 border-amber-500 text-left bg-amber-500/10";
-                document.getElementById('modal-close-btn').className = "mt-12 w-full font-black py-5 rounded-[2rem] transition-all active:scale-95 text-sm uppercase tracking-widest bg-amber-500 text-white shadow-xl shadow-amber-500/20";
+                content.className = "relative p-10 rounded-[3.5rem] max-w-xl w-full shadow-2xl border bg-slate-900 border-amber-500/30 text-white transition-all duration-500 scale-100 opacity-100 overflow-y-auto max-h-[90vh]";
+                document.getElementById('modal-challenge-box').className = "p-6 rounded-[2rem] border-l-8 border-amber-500 text-left bg-amber-500/10";
             } else {
-                content.className = "relative p-12 rounded-[3.5rem] max-w-xl w-full shadow-2xl border bg-white border-white transition-all duration-500 scale-100 opacity-100";
-                document.getElementById('modal-title').className = "text-4xl font-black mb-5 leading-none tracking-tight text-slate-900";
-                document.getElementById('modal-desc').className = "text-base mb-10 text-justify leading-relaxed font-medium text-slate-600";
-                document.getElementById('modal-vision').className = "text-base font-bold text-slate-900";
-                document.getElementById('modal-info-box').className = "p-8 rounded-[2rem] space-y-5 mb-10 bg-slate-50 border border-slate-100";
-                document.getElementById('modal-challenge-box').className = "p-8 rounded-[2.5rem] border-l-8 border-amber-500 text-left bg-amber-50";
-                document.getElementById('modal-close-btn').className = "mt-12 w-full font-black py-5 rounded-[2rem] transition-all active:scale-95 text-sm uppercase tracking-widest bg-slate-900 text-white shadow-2xl";
+                content.className = "relative p-10 rounded-[3.5rem] max-w-xl w-full shadow-2xl border bg-white border-white transition-all duration-500 scale-100 opacity-100 overflow-y-auto max-h-[90vh]";
+                document.getElementById('modal-challenge-box').className = "p-6 rounded-[2rem] border-l-8 border-amber-500 text-left bg-amber-50";
             }
-
             modal.classList.replace('hidden', 'flex');
             lucide.createIcons();
         }
@@ -411,11 +376,7 @@
         function closeModal() {
             document.getElementById('modal-content').classList.replace('scale-100', 'scale-90');
             document.getElementById('modal-content').classList.replace('opacity-100', 'opacity-0');
-            setTimeout(() => {
-                document.getElementById('node-modal').classList.replace('flex', 'hidden');
-                document.getElementById('modal-content').classList.replace('scale-90', 'scale-100');
-                document.getElementById('modal-content').classList.replace('opacity-0', 'opacity-100');
-            }, 300);
+            setTimeout(() => { modal.classList.replace('flex', 'hidden'); }, 300);
         }
     </script>
 </body>
