@@ -1,521 +1,460 @@
-import React, { useState } from 'react';
-import { 
-  Target, Users, Zap, TrendingUp, Cpu, ShieldCheck, Sparkles,
-  ArrowRight, ArrowLeft, BrainCircuit, Network, X, Map as MapIcon,
-  Sun, Layers, Lightbulb, Fingerprint, ChevronRight, ChevronLeft,
-  LayoutDashboard, Activity, Gauge, Microscope, Gem, Share2,
-  AlertCircle
-} from 'lucide-react';
-
-const App = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [integrationMode, setIntegrationMode] = useState(false);
-  const [selectedNode, setSelectedNode] = useState(null);
-
-  const colors = {
-    teal: 'bg-[#78A49B] text-[#1a2e2a]',
-    pink: 'bg-[#F5C2C2] text-[#4a1a1a]',
-    yellow: 'bg-[#FEFE96] text-[#4a4a1a]',
-  };
-
-  const logoUrl = "https://i.imgur.com/yyI6FWO.png";
-
-  const detailedNodes = {
-    root: { 
-      id: 'root', 
-      title: 'Subdirección Desarrollo Organizacional', 
-      color: colors.teal, 
-      desc: 'Dirección estratégica para asegurar que la cultura, la tecnología y el talento converjan en alta productividad interna.',
-      vision: 'Puente crítico entre la visión ejecutiva y la ejecución operativa.',
-      challenge: 'Superar el vacío de decisión entre los equipos que gestan ideas y la dirección que las aprueba.'
-    },
-    cultura: { 
-      id: 'cultura', 
-      title: 'Cultura, bienestar y experiencia', 
-      color: colors.teal, 
-      desc: 'Fortalecimiento de la cultura organizacional, cultura digital y la incorporación de la cultura de la felicidad.',
-      vision: 'EX (Employee Experience) como pilar de desempeño.',
-      challenge: 'Integrar el bienestar no como una actividad aislada, sino como un indicador de productividad real.'
-    },
-    equipo_psico: { 
-      id: 'equipo_psico', 
-      title: 'Equipo psicosocial', 
-      color: colors.pink, 
-      desc: 'Apoyo integral al colaborador desde la salud mental y social para facilitar la Gestión del Cambio.',
-      vision: 'Resiliencia humana ante la transformación.',
-      challenge: 'Garantizar el acompañamiento psicosocial efectivo durante la adopción de nuevas herramientas y procesos.'
-    },
-    seleccion: { 
-      id: 'seleccion', 
-      title: 'Selección de personal', 
-      color: colors.teal, 
-      desc: 'Captación de talento alineado a metodologías ágiles y cultura neuronal.',
-      vision: 'Asegurar perfiles con ADN de cambio.',
-      challenge: 'Evolucionar los criterios de selección hacia la adaptabilidad digital y el aprendizaje continuo.'
-    },
-    empleo_talento: { 
-      id: 'empleo_talento', 
-      title: 'Agencia de Empleo y Gestión del Talento', 
-      color: colors.yellow, 
-      desc: 'Programa articulado a FOSFEC. Gestión y colocación de empleo para la Caja y empresas vinculadas.',
-      vision: 'Socio de relacionamiento estratégico externo.',
-      challenge: 'Convertir a la Caja en un aliado metodológico y referente digital para las empresas vinculadas, proveyendo marcos de trabajo modernos para la gestión del talento.'
-    },
-    desarrollo: { 
-      id: 'desarrollo', 
-      title: 'Desarrollo y formación', 
-      color: colors.teal, 
-      desc: 'Planes de formación alineados con las brechas detectadas en las Evaluaciones 360.',
-      vision: 'Capacitación continua y escalabilidad.',
-      challenge: 'Asegurar que la formación técnica habilite realmente la cultura neuronal y el uso de metodologías ágiles.'
-    },
-    innovacion: { 
-      id: 'innovacion', 
-      title: 'Gestión de la Innovación', 
-      color: colors.yellow, 
-      desc: 'Creación de proyectos internos para el fortalecimiento de la cultura digital y agilidad.',
-      vision: 'Motor de soluciones internas disruptivas.',
-      challenge: 'Materializar la cultura neuronal potenciando los proyectos en metodologías ágiles.',
-      isPulse: true 
-    },
-    transformacion: { 
-      id: 'transformacion', 
-      title: 'Transformación digital', 
-      color: colors.yellow, 
-      desc: 'Implementación del Modelo TED (Tecnología, Estrategia, Desempeño) para automatizar procesos.',
-      vision: 'Fusión de productividad con automatización.',
-      challenge: 'Eliminar tareas repetitivas mediante tecnología para liberar el potencial analítico del equipo.',
-      isPulse: true 
-    },
-    vector_cultura: { 
-      id: 'vector_cultura', 
-      title: 'Vector Cultura', 
-      color: colors.pink, 
-      desc: 'Gestión del cambio transversal para la adopción de la transformación digital.',
-      vision: 'Sustento cultural de la tecnología.',
-      challenge: 'Reducir la resistencia al cambio y asegurar que la digitalización sea adoptada con propósito.'
-    },
-    competencias: { 
-      id: 'competencias', 
-      title: 'Gestión de competencias y efectividad', 
-      color: colors.teal, 
-      desc: 'Evaluaciones 360 e impacto en el desempeño dinámico.',
-      vision: 'Equidad y estructura dinámica.',
-      challenge: 'Mantener manuales de funciones actualizados y alineados a las nuevas exigencias de la era digital.'
-    },
-    historias: { 
-      id: 'historias', 
-      title: 'Historias Laborales', 
-      color: colors.pink, 
-      desc: 'Trazabilidad digital del ciclo de vida del colaborador.',
-      vision: 'Datos centralizados para gestión humana.',
-      challenge: 'Lograr la digitalización total de expedientes para habilitar el People Analytics.'
-    },
-    nomina: { 
-      id: 'nomina', 
-      title: 'Nómina y seguridad social', 
-      color: colors.teal, 
-      desc: 'Gestión eficiente de compensaciones bajo marcos de agilidad.',
-      vision: 'Transparencia y soporte prestacional.',
-      challenge: 'Automatizar flujos de pago para integrarlos al modelo de productividad institucional.'
-    },
-    relaciones: { 
-      id: 'relaciones', 
-      title: 'Relaciones laborales', 
-      color: colors.teal, 
-      desc: 'Gestión de acuerdos bajo enfoques de cultura neuronal.',
-      vision: 'Seguridad jurídica y diálogo constructivo.',
-      challenge: 'Modernizar los acuerdos laborales para soportar modalidades de trabajo flexibles e híbridas.'
-    },
-    control: { 
-      id: 'control', 
-      title: 'Control Disciplinario', 
-      color: colors.pink, 
-      desc: 'Seguimiento preventivo basado en los valores de la Caja.',
-      vision: 'Ética y conducta organizacional.',
-      challenge: 'Migrar de un enfoque punitivo a uno preventivo y pedagógico basado en la cultura.'
-    },
-    negociaciones: { 
-      id: 'negociaciones', 
-      title: 'Negociaciones Colectivas', 
-      color: colors.pink, 
-      desc: 'Articulación grupal para la evolución organizacional.',
-      vision: 'Sinergia grupal y bienestar común.',
-      challenge: 'Vincular los objetivos de madurez digital con las metas compartidas en los acuerdos colectivos.'
-    },
-    productividad: { 
-      id: 'productividad', 
-      title: 'Productividad', 
-      color: colors.teal, 
-      desc: 'Apoyo metodológico transversal a proyectos PMO.',
-      vision: 'Eficiencia operativa sistémica.',
-      challenge: 'Convertir la productividad en una métrica objetiva basada en datos derivados de procesos automatizados.'
-    }
-  };
-
-  const slides = [
-    {
-      id: 'vision',
-      title: 'Propuesta Estratégica SDO',
-      subtitle: 'Consolidación de la Subdirección de Desarrollo Organizacional',
-      content: 'La creación de la Subdirección de Desarrollo Organizacional (SDO) no es una simple reestructuración, sino un imperativo estratégico para garantizar que el crecimiento de la organización sea sostenible, ágil y centrado en el talento. Esta subdirección se posiciona como el puente crítico entre la visión ejecutiva y la ejecución operativa, asegurando que la cultura, la tecnología y el talento converjan en resultados de alta productividad.',
-      icon: <Sparkles className="text-amber-400" size={48} />,
-      points: ['Cultura Neuronal Ágil', 'Modelo TED', 'Employee Experience'],
-      bgColor: 'bg-slate-900',
-      isDark: true
-    },
-    {
-      id: 'justificacion',
-      title: 'Justificación Estratégica',
-      subtitle: 'Razones de la Separación Necesaria',
-      content: 'Tradicionalmente, el desarrollo organizacional ha sido absorbido por la Subdirección Administrativa, lo que limita su alcance a tareas de cumplimiento y soporte. La separación es necesaria por las siguientes razones: Enfoque Diferenciado (potenciación humana proactiva), Agilidad de Decisión (eliminación de cuellos de botella) y Especialización Metodológica (liderazgo con ADN de cambio).',
-      icon: <Network className="text-teal-500" size={48} />,
-      comparison: {
-        admin: ['Enfoque Diferenciado', 'Agilidad de Decisión', 'Especialización Metodológica'],
-        do: ['Proactivo / Futuro', 'Interlocución Directa', 'ADN Metodológico']
-      },
-      bgColor: 'bg-white',
-      isDark: false
-    },
-    {
-      id: 'blueprint',
-      title: 'Articulación de Procesos',
-      subtitle: 'Arquitectura de la Propuesta Integrada',
-      content: 'Visualiza cómo se entrelazan los procesos internos para lograr la madurez digital. Haz clic en los nodos para ver sus retos específicos dentro de la nueva estructura organizacional diseñada para la Caja.',
-      icon: <Layers className="text-teal-600" size={48} />,
-      isMap: true,
-      bgColor: 'bg-slate-50',
-      isDark: false
-    },
-    {
-      id: 'pmo',
-      title: 'Soporte Transversal PMO',
-      subtitle: 'El Corazón Metodológico',
-      content: 'La SDO asegura que cada proyecto de la PMO tenga éxito cultural mediante acompañamiento en la adopción de herramientas, asegurando que la agilidad no sea solo una palabra sino una realidad operativa que conecte ideas con ejecución.',
-      icon: <BrainCircuit className="text-indigo-600" size={48} />,
-      highlights: [
-        { label: 'Gestión del Cambio', desc: 'Garantizar la adopción tecnológica.' },
-        { label: 'Cultura Neuronal', desc: 'Implementar agilidad real en equipos.' },
-        { label: 'Cierre de Brechas', desc: 'Eliminar el vacío entre ideas y ejecución.' }
-      ],
-      bgColor: 'bg-indigo-50',
-      isDark: false
-    },
-    {
-      id: 'ted',
-      title: 'Modelo TED: Productividad + Automatización',
-      subtitle: 'Corazón de la Innovación SDO',
-      content: 'La necesidad de fusionar las estrategias de productividad con la automatización es el corazón de la innovación de esta subdirección, permitiendo una eficiencia real basada en datos.',
-      icon: <Cpu className="text-emerald-400" size={48} />,
-      chart: true,
-      labels: [
-        'Optimización de Procesos (TED)',
-        'Eficiencia Medible',
-        'Articulación del Proceso Ágil y Toma de Decisiones'
-      ],
-      bgColor: 'bg-slate-900',
-      isDark: true
-    },
-    {
-      id: 'conclusion',
-      title: 'Resultados e Impacto',
-      subtitle: 'Valor Organizacional 2026',
-      content: 'Una estructura diseñada para reducir la rotación mediante una EX superior, acelerar la transformación digital eliminando la resistencia al cambio y aumentar la eficiencia operativa a través de la automatización estratégica TED.',
-      icon: <TrendingUp className="text-amber-500" size={48} />,
-      points: ['Eficiencia Medible', 'Alineación Cultural', 'Madurez Digital'],
-      bgColor: 'bg-teal-950',
-      isDark: true
-    }
-  ];
-
-  const slide = slides[currentSlide];
-  const isDarkUi = integrationMode || slide.isDark;
-
-  const nextSlide = () => { if (currentSlide < slides.length - 1) setCurrentSlide(currentSlide + 1); };
-  const prevSlide = () => { if (currentSlide > 0) setCurrentSlide(currentSlide - 1); };
-
-  const Node = ({ id, node, className = "" }) => (
-    <div 
-      onClick={(e) => { e.stopPropagation(); setSelectedNode({ ...node, id }); }}
-      className={`
-        relative px-4 py-2 rounded-xl shadow-lg border border-black/10 text-[9px] font-black uppercase cursor-pointer 
-        transition-all duration-500 hover:scale-110 flex flex-col items-center justify-center min-h-[45px] w-[160px]
-        ${integrationMode && node.isPulse ? 'animate-pulse shadow-amber-500/40 border-amber-400' : ''}
-        ${node.color} ${className}
-      `}
-    >
-      <span className="leading-tight text-center">{node.title}</span>
-    </div>
-  );
-
-  return (
-    <div className={`min-h-screen flex flex-col transition-all duration-700 font-sans ${isDarkUi ? 'bg-slate-950 text-slate-100' : slide.bgColor}`}>
-      
-      <div className="w-full h-1 bg-black/10 relative z-50">
-        <div 
-          className="h-full bg-teal-500 transition-all duration-500"
-          style={{ width: `${((currentSlide + 1) / slides.length) * 100}%` }}
-        ></div>
-      </div>
-
-      <header className="p-6 flex justify-between items-center relative z-50">
-        <div className="flex items-center gap-4">
-          <div className="bg-slate-900 p-2 rounded-xl shadow-inner border border-white/10 overflow-hidden flex items-center justify-center min-w-[60px]">
-            <img src={logoUrl} alt="Logo" className="h-10 w-auto object-contain" />
-          </div>
-          <div className="hidden md:block text-left">
-            <h1 className={`text-sm font-black uppercase tracking-tighter leading-none ${isDarkUi ? 'text-white' : 'text-slate-900'}`}>
-                SDO Strategist Hub
-            </h1>
-            <p className={`text-[8px] font-bold uppercase tracking-[0.2em] ${isDarkUi ? 'text-amber-400/80' : 'text-slate-500'}`}>
-                Sustentación Técnica
-            </p>
-          </div>
-        </div>
-
-        <button 
-          onClick={() => setIntegrationMode(!integrationMode)}
-          className={`flex items-center gap-2 px-6 py-2 rounded-full font-black text-[9px] uppercase tracking-widest transition-all border
-            ${integrationMode ? 'bg-amber-500 border-amber-400 text-white shadow-lg' : 'bg-white border-slate-200 text-slate-600 shadow-sm'}`}
-        >
-          {integrationMode ? <Sparkles size={14} /> : <Lightbulb size={14} />}
-          {integrationMode ? 'Capas Estratégicas ON' : 'Ver Enfoque de Integración'}
-        </button>
-      </header>
-
-      <main className="flex-1 flex flex-col items-center justify-center p-4 relative overflow-hidden">
-        
-        <div className={`absolute inset-0 pointer-events-none transition-opacity duration-1000 ${isDarkUi ? 'opacity-20' : 'opacity-10'}`}>
-          <svg width="100%" height="100%">
-            <pattern id="grid" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
-              <circle cx="50" cy="50" r="1.5" fill={isDarkUi ? '#f59e0b' : '#475569'} />
-              {isDarkUi && <line x1="0" y1="50" x2="100" y2="50" stroke="#f59e0b" strokeWidth="0.05" />}
-            </pattern>
-            <rect width="100%" height="100%" fill="url(#grid)" />
-          </svg>
-        </div>
-
-        <div className={`w-full max-w-7xl grid grid-cols-1 ${slide.isMap ? '' : 'md:grid-cols-2'} gap-8 items-center animate-in fade-in zoom-in duration-500`}>
-          
-          <div className={`${slide.isMap ? 'text-center mb-6' : 'space-y-6'}`}>
-            <div className={`flex items-center gap-4 ${slide.isMap ? 'justify-center' : ''}`}>
-              <div className={`p-3 rounded-2xl backdrop-blur-md shadow-xl border ${isDarkUi ? 'bg-white/5 border-white/20' : 'bg-white border-slate-100'}`}>
-                {slide.icon}
-              </div>
-              <div className="text-left">
-                <span className={`text-[10px] font-black uppercase tracking-[0.3em] ${isDarkUi ? 'text-amber-500/80' : 'text-slate-400'}`}>
-                    Propuesta 2026
-                </span>
-                <h1 className={`text-3xl md:text-5xl font-black leading-none tracking-tighter ${isDarkUi ? 'text-white' : 'text-slate-900'}`}>
-                    {slide.title}
-                </h1>
-              </div>
-            </div>
-            <h2 className={`text-xl font-bold ${isDarkUi ? 'text-amber-400' : 'text-teal-700'}`}>
-                {slide.subtitle}
-            </h2>
-            <p className={`text-sm md:text-lg text-justify leading-relaxed ${slide.isMap ? 'max-w-5xl mx-auto' : 'max-w-md'} ${isDarkUi ? 'text-slate-300' : 'text-slate-600'}`}>
-                {slide.content}
-            </p>
-          </div>
-
-          <div className="relative">
-            {slide.isMap ? (
-              <div className={`rounded-[40px] p-6 border shadow-2xl transition-all duration-700 ${isDarkUi ? 'bg-white/5 border-white/10' : 'bg-white/80 backdrop-blur-md border-slate-200'}`}>
-                <div className="min-w-[850px] flex flex-col items-center">
-                    
-                    <div className="w-full flex justify-center mb-10 items-center">
-                        <Node id="root" node={detailedNodes.root} className="!w-[280px] !py-4 !text-xs shadow-xl ring-2 ring-white/20" />
-                    </div>
-
-                    <div className="relative w-full flex justify-center gap-24">
-                        <div className={`absolute left-1/2 top-0 bottom-0 w-[1.5px] -translate-x-1/2 -z-0 transition-colors ${isDarkUi ? 'bg-indigo-500/30' : 'bg-slate-300'}`}></div>
-
-                        <div className="flex flex-col gap-8 items-end w-1/2 relative z-10">
-                            <div className="flex items-center gap-3">
-                                <Node id="equipo_psico" node={detailedNodes.equipo_psico} /> <ArrowLeft size={16} className={isDarkUi ? 'text-indigo-400/50' : 'opacity-20'}/> <Node id="cultura" node={detailedNodes.cultura} />
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <Node id="empleo_talento" node={detailedNodes.empleo_talento} /> <ArrowLeft size={16} className={`${isDarkUi ? 'text-indigo-400/50' : 'opacity-20'} border-t border-dashed w-6`}/><Node id="seleccion" node={detailedNodes.seleccion} />
-                            </div>
-                            <Node id="desarrollo" node={detailedNodes.desarrollo} />
-                            
-                            <div className={`flex flex-col items-end gap-4 p-4 rounded-3xl border border-dashed transition-all ${isDarkUi ? 'border-indigo-500/40 bg-indigo-500/5' : 'border-slate-300 bg-black/5'}`}>
-                                <div className="flex items-center gap-3">
-                                    <Node id="innovacion" node={detailedNodes.innovacion} /> <ArrowLeft size={16} className={isDarkUi ? 'text-indigo-400/50' : 'opacity-20'}/> <Node id="transformacion" node={detailedNodes.transformacion} />
-                                </div>
-                                <div className="flex items-center gap-3 pr-8">
-                                    <ArrowLeft size={16} className={`${isDarkUi ? 'text-indigo-400/50' : 'opacity-20'} border-t border-dashed w-6`}/><Node id="vector_cultura" node={detailedNodes.vector_cultura} />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col gap-8 items-start w-1/2 relative z-10">
-                            <div className="flex items-center gap-3">
-                                <Node id="competencias" node={detailedNodes.competencias} /> <ArrowRight size={16} className={isDarkUi ? 'text-indigo-400/50' : 'opacity-20'}/> <Node id="historias" node={detailedNodes.historias} />
-                            </div>
-                            <Node id="nomina" node={detailedNodes.nomina} />
-                            <div className="flex gap-4 items-start">
-                                <Node id="relaciones" node={detailedNodes.relaciones} />
-                                <div className={`flex flex-col gap-2 border-l pl-4 transition-colors ${isDarkUi ? 'border-indigo-500/30' : 'border-slate-300'}`}>
-                                    <Node id="control" node={detailedNodes.control} />
-                                    <Node id="negociaciones" node={detailedNodes.negociaciones} />
-                                </div>
-                            </div>
-                            <Node id="productividad" node={detailedNodes.productividad} />
-                        </div>
-                    </div>
-                </div>
-              </div>
-            ) : (
-              <div className="relative animate-in slide-in-from-right duration-700">
-                {slide.comparison && (
-                  <div className="space-y-4">
-                    <div className={`p-6 rounded-3xl border transition-colors ${isDarkUi ? 'bg-white/5 border-white/10' : 'bg-slate-100 border-slate-200'}`}>
-                      <div className={`text-[10px] font-black uppercase mb-3 ${isDarkUi ? 'text-slate-400' : 'text-slate-500'}`}>Gestión Tradicional</div>
-                      <div className="flex flex-wrap gap-2">
-                        {slide.comparison.admin.map((item, i) => (
-                          <span key={`admin-${i}`} className={`px-4 py-1.5 rounded-full text-[10px] font-bold shadow-sm ${isDarkUi ? 'bg-slate-800 text-slate-300' : 'bg-white text-slate-900'}`}>{item}</span>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="flex justify-center -my-2 relative z-10">
-                      <div className="bg-teal-500 text-white p-2 rounded-full shadow-lg"><ArrowRight size={20} /></div>
-                    </div>
-                    <div className={`p-8 rounded-[3rem] border-2 transition-colors ${isDarkUi ? 'bg-amber-500/10 border-amber-500' : 'bg-teal-50 border-teal-200 ring-4 ring-teal-500/10'}`}>
-                      <div className={`text-[10px] font-black uppercase mb-3 ${isDarkUi ? 'text-amber-400' : 'text-teal-600'}`}>Nueva SDO</div>
-                      <div className="flex flex-wrap gap-2">
-                        {slide.comparison.do.map((item, i) => (
-                          <span key={`do-${i}`} className={`px-4 py-1.5 rounded-full text-[11px] font-black shadow-md ${isDarkUi ? 'bg-amber-500 text-white' : 'bg-teal-500 text-white'}`}>{item}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {slide.highlights && (
-                  <div className="space-y-3">
-                    {slide.highlights.map((h, i) => (
-                      <div key={i} className={`p-4 rounded-2xl shadow-xl flex gap-4 items-center group hover:scale-105 transition-all ${isDarkUi ? 'bg-white/5 border border-white/10' : 'bg-white border-slate-100'}`}>
-                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold text-xl ${isDarkUi ? 'bg-amber-500 text-white' : 'bg-indigo-100 text-indigo-600'}`}>
-                          {i + 1}
-                        </div>
-                        <div className="text-left">
-                          <div className={`font-black text-sm ${isDarkUi ? 'text-white' : 'text-slate-900'}`}>{h.label}</div>
-                          <div className={`text-[10px] ${isDarkUi ? 'text-white/60' : 'text-slate-500'}`}>{h.desc}</div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {slide.chart && (
-                  <div className={`p-10 rounded-[40px] border transition-all ${isDarkUi ? 'bg-amber-900/20 border-amber-500/30' : 'bg-white border-slate-200 shadow-2xl'}`}>
-                    <div className="flex flex-col gap-6 mb-8">
-                       {slide.labels.map((label, i) => (
-                         <div key={i} className={`flex items-center gap-4 p-4 rounded-2xl border transition-all ${isDarkUi ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-100'}`}>
-                            <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-500 font-bold">✓</div>
-                            <span className={`text-sm font-black text-left text-justify tracking-tight ${isDarkUi ? 'text-white' : 'text-slate-800'}`}>{label}</span>
-                         </div>
-                       ))}
-                    </div>
-                    
-                    <div className="flex justify-between items-end gap-3 h-32 px-4">
-                      {[35, 60, 45, 100].map((h, i) => (
-                        <div key={i} className="flex-1 flex flex-col items-center gap-2">
-                          <div className={`w-full rounded-t-xl transition-all duration-1000 ${i === 3 ? (isDarkUi ? 'bg-amber-500 shadow-lg' : 'bg-emerald-500 animate-pulse') : 'bg-slate-300/30'}`} style={{ height: `${h}%` }}></div>
-                          <span className={`text-[8px] font-bold uppercase ${isDarkUi ? 'text-white/40' : 'text-slate-400'}`}>Nivel {i+1}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {slide.points && (
-                   <div className="grid grid-cols-1 gap-4">
-                      {slide.points.map((p, i) => (
-                         <div key={i} className={`p-5 rounded-2xl flex items-center gap-4 border transition-all ${isDarkUi ? 'bg-white/5 border-white/10 text-white' : 'bg-white border-slate-100 text-slate-800 shadow-md'}`}>
-                            <div className="w-8 h-8 rounded-full bg-teal-500/20 flex items-center justify-center text-teal-500 font-bold">✓</div>
-                            <span className="font-bold text-sm text-justify">{p}</span>
-                         </div>
-                      ))}
-                   </div>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-      </main>
-
-      {/* Pop-up de Detalle */}
-      {selectedNode && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
-          <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-md" onClick={() => setSelectedNode(null)}></div>
-          <div className={`relative p-10 rounded-[3rem] max-w-lg w-full shadow-2xl border transition-all animate-in zoom-in duration-300 ${isDarkUi ? 'bg-slate-900 border-amber-500/30 text-white' : 'bg-white border-white'}`}>
-            <button onClick={() => setSelectedNode(null)} className={`absolute top-8 right-8 transition-colors ${isDarkUi ? 'text-white/40 hover:text-white' : 'text-slate-400 hover:text-slate-900'}`}><X size={24}/></button>
-            <div className={`inline-flex items-center gap-2 px-4 py-1 rounded-full text-[9px] font-black uppercase tracking-widest mb-6 ${selectedNode.color}`}>
-                <Fingerprint size={14} /> Ficha Técnica SDO
-            </div>
-            <h3 className={`text-3xl font-black mb-4 ${isDarkUi ? 'text-white' : 'text-slate-900'}`}>{selectedNode.title}</h3>
-            <p className={`text-sm mb-8 text-justify leading-relaxed font-medium ${isDarkUi ? 'text-slate-300' : 'text-slate-600'}`}>{selectedNode.desc}</p>
-            
-            <div className={`p-6 rounded-3xl space-y-4 mb-8 ${isDarkUi ? 'bg-white/5 border border-white/10' : 'bg-slate-50 border border-slate-100'}`}>
-                <div className="flex items-center gap-3 text-left">
-                    <div className="p-2 bg-indigo-500/10 rounded-lg text-indigo-500"><Target size={18}/></div>
-                    <div>
-                      <span className={`text-[10px] font-bold block uppercase text-slate-400`}>Foco Estratégico</span>
-                      <span className={`text-sm font-bold ${isDarkUi ? 'text-white' : 'text-slate-900'}`}>{selectedNode.vision}</span>
-                    </div>
-                </div>
-            </div>
-
-            <section className={`p-6 rounded-[2rem] border-l-4 border-amber-500 text-left ${isDarkUi ? 'bg-amber-500/10' : 'bg-amber-50'}`}>
-              <div className={`flex items-center gap-2 font-black text-[10px] uppercase mb-2 tracking-widest ${isDarkUi ? 'text-amber-400' : 'text-amber-600'}`}>
-                <AlertCircle size={16} /> Reto del Proceso
-              </div>
-              <p className={`text-xs italic text-justify font-semibold leading-relaxed ${isDarkUi ? 'text-amber-100' : 'text-amber-900'}`}>
-                "{selectedNode.challenge}"
-              </p>
-            </section>
-
-            <button onClick={() => setSelectedNode(null)} className={`mt-10 w-full font-black py-4 rounded-2xl transition-all active:scale-95 ${isDarkUi ? 'bg-amber-500 hover:bg-amber-600 text-white shadow-lg' : 'bg-slate-900 text-white shadow-xl'}`}>Cerrar Ficha</button>
-          </div>
-        </div>
-      )}
-
-      <footer className="p-8 flex justify-between items-center relative z-50 bg-black/5 backdrop-blur-sm border-t border-black/5">
-        <div className="flex gap-2">
-          {slides.map((_, i) => (
-            <div key={i} className={`w-1.5 h-1.5 rounded-full transition-all ${i === currentSlide ? (integrationMode ? 'bg-amber-500 w-8' : 'bg-teal-500 w-8') : 'bg-slate-400/30'}`}></div>
-          ))}
-        </div>
-        <div className="flex gap-4">
-          <button 
-            onClick={prevSlide} 
-            disabled={currentSlide === 0} 
-            className={`p-4 rounded-full border border-white/20 transition-all disabled:opacity-10 text-white hover:bg-white/10`}
-          ><ChevronLeft size={24}/></button>
-          <button 
-            onClick={nextSlide} 
-            disabled={currentSlide === slides.length - 1} 
-            className={`flex items-center gap-4 px-10 py-4 rounded-full font-black uppercase text-[10px] tracking-widest shadow-2xl transition-all hover:scale-105 active:scale-95 ${integrationMode ? 'bg-amber-500 text-white' : 'bg-teal-600 text-white'}`}
-          >
-            {currentSlide === slides.length - 1 ? 'Finalizar Propuesta' : 'Siguiente Pilar'}
-            <ChevronRight size={20} />
-          </button>
-        </div>
-      </footer>
-
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .animate-spin-slow { animation: spin-slow 20s linear infinite; }
-        .tracking-tighter { letter-spacing: -0.05em; }
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub Estratégico SDO 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sdo-teal: #78A49B;
+            --sdo-pink: #F5C2C2;
+            --sdo-yellow: #FEFE96;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, .font-urbanist {
+            font-family: 'Urbanist', sans-serif;
+        }
+        .text-justify {
+            text-align: justify;
+            text-justify: inter-word;
+        }
+        .node-pulse {
+            animation: pulse-amber 2s infinite;
+        }
+        @keyframes pulse-amber {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+            50% { box-shadow: 0 0 20px 10px rgba(245, 158, 11, 0.2); }
+        }
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .grid-pattern {
+            background-image: radial-gradient(#475569 0.5px, transparent 0.5px);
+            background-size: 40px 40px;
+        }
+        .dark .grid-pattern {
+            background-image: radial-gradient(#f59e0b 0.5px, transparent 0.5px);
+        }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        .text-justify { text-align: justify; text-justify: inter-word; }
-      `}} />
-    </div>
-  );
-};
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 transition-colors duration-700">
 
-export default App;
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 w-full h-1 bg-black/10 z-[100]">
+        <div id="progress-bar" class="h-full bg-teal-500 transition-all duration-500" style="width: 16.66%"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full p-6 flex justify-between items-center z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-white/10">
+        <div class="flex items-center gap-4">
+            <div class="bg-slate-900 p-2 rounded-xl shadow-inner border border-white/10 flex items-center justify-center min-w-[60px]">
+                <img src="https://i.imgur.com/yyI6FWO.png" alt="Logo SDO" class="h-10 w-auto object-contain">
+            </div>
+            <div class="hidden md:block">
+                <h1 class="text-sm font-black uppercase tracking-tighter leading-none dark:text-white" id="header-title">SDO Strategist Hub</h1>
+                <p class="text-[8px] font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-amber-400/80" id="header-subtitle">Propuesta 2026</p>
+            </div>
+        </div>
+
+        <button onclick="toggleIntegrationMode()" class="flex items-center gap-2 px-6 py-2 rounded-full font-black text-[9px] uppercase tracking-widest transition-all border border-slate-200 bg-white text-slate-600 shadow-sm hover:scale-105 active:scale-95" id="integration-toggle">
+            <i data-lucide="lightbulb" class="w-4 h-4"></i>
+            <span>Ver Enfoque de Integración</span>
+        </button>
+    </header>
+
+    <!-- Main Container -->
+    <main class="min-h-screen flex flex-col items-center justify-center p-4 relative grid-pattern transition-all duration-1000" id="main-bg">
+        
+        <!-- Slide Content Wrapper -->
+        <div id="slide-container" class="w-full max-w-7xl">
+            <!-- Content will be injected here -->
+        </div>
+
+    </main>
+
+    <!-- Footer Controls -->
+    <footer class="fixed bottom-0 left-0 w-full p-8 flex justify-between items-center z-50 bg-black/5 backdrop-blur-sm border-t border-black/5">
+        <div class="flex gap-2" id="dots-container">
+            <!-- Dots generated by JS -->
+        </div>
+        <div class="flex gap-4">
+            <button onclick="prevSlide()" id="prev-btn" class="p-4 rounded-full border border-slate-300 dark:border-white/20 transition-all disabled:opacity-10 text-slate-600 dark:text-white hover:bg-white/10">
+                <i data-lucide="chevron-left" class="w-6 h-6"></i>
+            </button>
+            <button onclick="nextSlide()" id="next-btn" class="flex items-center gap-4 px-10 py-4 rounded-full font-black uppercase text-[10px] tracking-widest shadow-2xl transition-all hover:scale-105 active:scale-95 bg-teal-600 text-white">
+                <span id="next-text">Siguiente Pilar</span>
+                <i data-lucide="chevron-right" class="w-5 h-5"></i>
+            </button>
+        </div>
+    </footer>
+
+    <!-- Node Detail Modal -->
+    <div id="node-modal" class="fixed inset-0 z-[200] hidden items-center justify-center p-6 bg-slate-950/90 backdrop-blur-md">
+        <div class="relative p-10 rounded-[3rem] max-w-lg w-full shadow-2xl border bg-white border-white transition-all duration-500 scale-90 opacity-0" id="modal-content">
+            <button onclick="closeModal()" class="absolute top-8 right-8 text-slate-400 hover:text-slate-900 transition-colors">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <div id="modal-tag" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest mb-6">
+                <i data-lucide="fingerprint" class="w-3.5 h-3.5"></i> Ficha Técnica SDO
+            </div>
+            <h3 id="modal-title" class="text-3xl font-black mb-4 leading-none tracking-tight text-slate-900">Área de Proceso</h3>
+            <p id="modal-desc" class="text-sm mb-8 text-justify leading-relaxed font-medium text-slate-600">Descripción del proceso estratégico.</p>
+            
+            <div class="p-6 rounded-3xl space-y-4 mb-8 bg-slate-50 border border-slate-100" id="modal-info-box">
+                <div class="flex items-center gap-3 text-left">
+                    <div class="p-2 bg-indigo-500/10 rounded-lg text-indigo-500"><i data-lucide="target" class="w-4.5 h-4.5"></i></div>
+                    <div>
+                        <span class="text-[10px] font-bold block uppercase text-slate-400">Foco Estratégico</span>
+                        <span id="modal-vision" class="text-sm font-bold text-slate-900">Visión a largo plazo.</span>
+                    </div>
+                </div>
+            </div>
+
+            <section class="p-6 rounded-[2rem] border-l-4 border-amber-500 text-left bg-amber-50" id="modal-challenge-box">
+                <div class="flex items-center gap-2 font-black text-[10px] uppercase mb-2 tracking-widest text-amber-600">
+                    <i data-lucide="alert-circle" class="w-4 h-4"></i> Reto del Proceso
+                </div>
+                <p id="modal-challenge" class="text-xs italic text-justify font-semibold leading-relaxed text-amber-900">
+                    "Descripción del desafío identificado."
+                </p>
+            </section>
+
+            <button onclick="closeModal()" class="mt-10 w-full font-black py-5 rounded-[2rem] transition-all active:scale-95 text-sm uppercase tracking-widest bg-slate-900 text-white shadow-xl" id="modal-close-btn">Cerrar Ficha</button>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA ---
+        const detailedNodes = {
+            root: { title: 'Subdirección Desarrollo Organizacional', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Dirección estratégica para asegurar que la cultura, la tecnología y el talento converjan en alta productividad interna.', vision: 'Puente crítico entre la visión ejecutiva y la ejecución operativa.', challenge: 'Superar el vacío de decisión entre los equipos que gestan ideas y la dirección que las aprueba.' },
+            cultura: { title: 'Cultura, bienestar y experiencia', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Fortalecimiento de la cultura organizacional, cultura digital y la incorporación de la cultura de la felicidad.', vision: 'EX (Employee Experience) como pilar de desempeño.', challenge: 'Integrar el bienestar no como una actividad aislada, sino como un indicador de productividad real.' },
+            equipo_psico: { title: 'Equipo psicosocial', color: 'bg-[#F5C2C2] text-[#4a1a1a]', desc: 'Apoyo integral al colaborador desde la salud mental y social para facilitar la Gestión del Cambio.', vision: 'Resiliencia humana ante la transformación.', challenge: 'Garantizar el acompañamiento psicosocial efectivo durante la adopción de nuevas herramientas y procesos.' },
+            seleccion: { title: 'Selección de personal', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Captación de talento alineado a metodologías ágiles y cultura neuronal.', vision: 'Asegurar perfiles con ADN de cambio.', challenge: 'Evolucionar los criterios de selección hacia la adaptabilidad digital y el aprendizaje continuo.' },
+            empleo_talento: { title: 'Agencia de Empleo y Gestión del Talento', color: 'bg-[#FEFE96] text-[#4a4a1a]', desc: 'Programa articulado a FOSFEC. Gestión y colocación de empleo para la Caja y empresas vinculadas.', vision: 'Socio de relacionamiento estratégico externo.', challenge: 'Convertir a la Caja en un aliado metodológico y referente digital para las empresas vinculadas, proveyendo marcos de trabajo modernos para la gestión del talento.' },
+            desarrollo: { title: 'Desarrollo y formación', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Planes de formación alineados con las brechas detectadas en las Evaluaciones 360.', vision: 'Capacitación continua y escalabilidad.', challenge: 'Asegurar que la formación técnica habilite realmente la cultura neuronal y el uso de metodologías ágiles.' },
+            innovacion: { title: 'Gestión de la Innovación', color: 'bg-[#FEFE96] text-[#4a4a1a]', desc: 'Creación de proyectos internos para el fortalecimiento de la cultura digital y agilidad.', vision: 'Motor de soluciones internas disruptivas.', challenge: 'Materializar la cultura neuronal potenciando los proyectos en metodologías ágiles.', isPulse: true },
+            transformacion: { title: 'Transformación digital', color: 'bg-[#FEFE96] text-[#4a4a1a]', desc: 'Implementación del Modelo TED (Tecnología, Estrategia, Desempeño) para automatizar procesos.', vision: 'Fusión de productividad con automatización.', challenge: 'Eliminar tareas repetitivas mediante tecnología para liberar el potencial analítico del equipo.', isPulse: true },
+            vector_cultura: { title: 'Vector Cultura', color: 'bg-[#F5C2C2] text-[#4a1a1a]', desc: 'Gestión del cambio transversal para la adopción de la transformación digital.', vision: 'Sustento cultural de la tecnología.', challenge: 'Reducir la resistencia al cambio y asegurar que la digitalización sea adoptada con propósito.' },
+            competencias: { title: 'Gestión de competencias y efectividad', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Evaluaciones 360 e impacto en el desempeño dinámico.', vision: 'Equidad y estructura dinámica.', challenge: 'Mantener manuales de funciones actualizados y alineados a las nuevas exigencias de la era digital.' },
+            historias: { title: 'Historias Laborales', color: 'bg-[#F5C2C2] text-[#4a1a1a]', desc: 'Trazabilidad digital del ciclo de vida del colaborador.', vision: 'Datos centralizados para gestión humana.', challenge: 'Lograr la digitalización total de expedientes para habilitar el People Analytics.' },
+            nomina: { title: 'Nómina y seguridad social', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Gestión eficiente de compensaciones bajo marcos de agilidad.', vision: 'Transparencia y soporte prestacional.', challenge: 'Automatizar flujos de pago para integrarlos al modelo de productividad institucional.' },
+            relaciones: { title: 'Relaciones laborales', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Gestión de acuerdos bajo enfoques de cultura neuronal.', vision: 'Seguridad jurídica y diálogo constructivo.', challenge: 'Modernizar los acuerdos laborales para soportar modalidades de trabajo flexibles e híbridas.' },
+            control: { title: 'Control Disciplinario', color: 'bg-[#F5C2C2] text-[#4a1a1a]', desc: 'Seguimiento preventivo basado en los valores de la Caja.', vision: 'Ética y conducta organizacional.', challenge: 'Migrar de un enfoque punitivo a uno preventivo y pedagógico basado en la cultura.' },
+            negociaciones: { title: 'Negociaciones Colectivas', color: 'bg-[#F5C2C2] text-[#4a1a1a]', desc: 'Articulación grupal para la evolución organizacional.', vision: 'Sinergia grupal y bienestar común.', challenge: 'Vincular los objetivos de madurez digital con las metas compartidas en los acuerdos colectivos.' },
+            productividad: { title: 'Productividad', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Apoyo metodológico transversal a proyectos PMO.', vision: 'Eficiencia operativa sistémica.', challenge: 'Convertir la productividad en una métrica objetiva basada en datos derivados de procesos automatizados.' }
+        };
+
+        const slides = [
+            { id: 'vision', title: 'Propuesta Estratégica SDO', subtitle: 'Consolidación de la Subdirección de Desarrollo Organizacional', content: 'La creación de la Subdirección de Desarrollo Organizacional (SDO) no es una simple reestructuración, sino un imperativo estratégico para garantizar que el crecimiento de la organización sea sostenible, ágil y centrado en el talento. Esta subdirección se posiciona como el puente crítico entre la visión ejecutiva y la ejecución operativa, asegurando que la cultura, la tecnología y el talento converjan en resultados de alta productividad.', icon: 'sparkles', isDark: true, points: ['Cultura Neuronal Ágil', 'Modelo TED', 'Employee Experience'] },
+            { id: 'justificacion', title: 'Justificación Estratégica', subtitle: 'Razones de la Separación Necesaria', content: 'Tradicionalmente, el desarrollo organizacional ha sido absorbido por la Subdirección Administrativa, lo que limita su alcance a tareas de cumplimiento y soporte. La separación es necesaria por las siguientes razones: Enfoque Diferenciado (potenciación humana proactiva), Agilidad de Decisión (eliminación de cuellos de botella) y Especialización Metodológica (liderazgo con ADN de cambio).', icon: 'network', isDark: false, adminTags: ['Enfoque Diferenciado', 'Agilidad de Decisión', 'Especialización Metodológica'], doTags: ['Proactivo / Futuro', 'Interlocución Directa', 'ADN Metodológico'] },
+            { id: 'blueprint', title: 'Articulación de Procesos', subtitle: 'Arquitectura de la Propuesta Integrada', content: 'Visualiza cómo se entrelazan los procesos internos para lograr la madurez digital. Haz clic en los nodos para ver sus retos específicos dentro de la nueva estructura organizacional diseñada para la Caja.', icon: 'layers', isMap: true, isDark: false },
+            { id: 'pmo', title: 'Soporte Transversal PMO', subtitle: 'El Corazón Metodológico', content: 'La SDO asegura que cada proyecto de la PMO tenga éxito cultural mediante acompañamiento en la adopción de herramientas, asegurando que la agilidad no sea solo una palabra sino una realidad operativa que conecte ideas con ejecución.', icon: 'brain-circuit', isDark: false, highlights: [{label:'Gestión del Cambio', desc:'Garantizar la adopción tecnológica.'}, {label:'Cultura Neuronal', desc:'Implementar agilidad real en equipos.'}, {label:'Cierre de Brechas', desc:'Eliminar el vacío entre ideas y ejecución.'}] },
+            { id: 'ted', title: 'Modelo TED: Productividad + Automatización', subtitle: 'Corazón de la Innovación SDO', content: 'La necesidad de fusionar las estrategias de productividad con la automatización es el corazón de la innovación de esta subdirección, permitiendo una eficiencia real basada en datos.', icon: 'cpu', labels: ['Optimización de Procesos (TED)', 'Eficiencia Medible', 'Articulación del Proceso Ágil y Toma de Decisiones'], isDark: true, isChart: true },
+            { id: 'conclusion', title: 'Resultados e Impacto', subtitle: 'Valor Organizacional 2026', content: 'Una estructura diseñada para reducir la rotación mediante una EX superior, acelerar la transformación digital eliminando la resistencia al cambio y aumentar la eficiencia operativa a través de la automatización estratégica TED.', icon: 'trending-up', points: ['Eficiencia Medible', 'Alineación Cultural', 'Madurez Digital'], isDark: true }
+        ];
+
+        // --- STATE ---
+        let currentSlideIndex = 0;
+        let integrationMode = false;
+
+        // --- DOM ELEMENTS ---
+        const slideContainer = document.getElementById('slide-container');
+        const progressBar = document.getElementById('progress-bar');
+        const dotsContainer = document.getElementById('dots-container');
+        const nextText = document.getElementById('next-text');
+        const nextBtn = document.getElementById('next-btn');
+
+        // --- INIT ---
+        window.onload = () => {
+            renderSlide();
+            renderDots();
+            lucide.createIcons();
+        };
+
+        // --- RENDER FUNCTIONS ---
+        function toggleIntegrationMode() {
+            integrationMode = !integrationMode;
+            const btn = document.getElementById('integration-toggle');
+            if(integrationMode) {
+                document.body.classList.add('dark');
+                btn.classList.replace('bg-white', 'bg-amber-500');
+                btn.classList.replace('text-slate-600', 'text-white');
+                btn.classList.add('border-amber-400', 'shadow-lg');
+                btn.querySelector('span').innerText = 'Capas Estratégicas ON';
+            } else {
+                document.body.classList.remove('dark');
+                btn.classList.replace('bg-amber-500', 'bg-white');
+                btn.classList.replace('text-white', 'text-slate-600');
+                btn.classList.remove('border-amber-400', 'shadow-lg');
+                btn.querySelector('span').innerText = 'Ver Enfoque de Integración';
+            }
+            renderSlide();
+        }
+
+        function renderDots() {
+            dotsContainer.innerHTML = '';
+            slides.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.className = `w-1.5 h-1.5 rounded-full transition-all ${i === currentSlideIndex ? 'bg-teal-500 w-8' : 'bg-slate-400/30'}`;
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        function renderSlide() {
+            const slide = slides[currentSlideIndex];
+            const isDark = integrationMode || slide.isDark;
+            
+            // Background classes
+            document.body.className = `min-h-screen flex flex-col transition-all duration-700 font-sans ${isDark ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'}`;
+            document.getElementById('main-bg').className = `flex-1 flex flex-col items-center justify-center p-4 relative grid-pattern transition-all duration-1000 ${isDark ? 'opacity-100' : ''}`;
+
+            // Update header colors
+            document.getElementById('header-title').className = `text-sm font-black uppercase tracking-tighter leading-none ${isDark ? 'text-white' : 'text-slate-900'}`;
+            document.getElementById('header-subtitle').className = `text-[8px] font-bold uppercase tracking-[0.2em] ${isDark ? 'text-amber-400/80' : 'text-slate-500'}`;
+            
+            // Progress Bar
+            progressBar.style.width = `${((currentSlideIndex + 1) / slides.length) * 100}%`;
+            
+            // Next Button text
+            nextText.innerText = currentSlideIndex === slides.length - 1 ? 'Finalizar Propuesta' : 'Siguiente Pilar';
+            nextBtn.className = `flex items-center gap-4 px-10 py-4 rounded-full font-black uppercase text-[10px] tracking-widest shadow-2xl transition-all hover:scale-105 active:scale-95 ${integrationMode ? 'bg-amber-500 text-white' : 'bg-teal-600 text-white'}`;
+
+            // Build Template
+            let visualHtml = '';
+            
+            if (slide.isMap) {
+                visualHtml = buildMapTemplate(isDark);
+            } else if (slide.comparison) {
+                visualHtml = `
+                    <div class="space-y-4 fade-in">
+                        <div class="p-6 rounded-3xl border transition-colors ${isDark ? 'bg-white/5 border-white/10' : 'bg-slate-100 border-slate-200'}">
+                            <div class="text-[10px] font-black uppercase mb-3 ${isDark ? 'text-slate-400' : 'text-slate-500'}">Gestión Tradicional</div>
+                            <div class="flex flex-wrap gap-2">
+                                ${slide.comparison.admin.map(t => `<span class="px-3 py-1.5 rounded-full text-[10px] font-bold shadow-sm ${isDark ? 'bg-slate-800 text-slate-300' : 'bg-white text-slate-900'}">${t}</span>`).join('')}
+                            </div>
+                        </div>
+                        <div class="flex justify-center -my-2 relative z-10">
+                            <div class="bg-teal-500 text-white p-2 rounded-full shadow-lg"><i data-lucide="arrow-right" class="w-5 h-5"></i></div>
+                        </div>
+                        <div class="p-8 rounded-[3rem] border-2 transition-colors ${isDark ? 'bg-amber-500/10 border-amber-500' : 'bg-teal-50 border-teal-200 ring-4 ring-teal-500/10'}">
+                            <div class="text-[10px] font-black uppercase mb-3 ${isDark ? 'text-amber-400' : 'text-teal-600'}">Nueva SDO</div>
+                            <div class="flex flex-wrap gap-2">
+                                ${slide.comparison.do.map(t => `<span class="px-4 py-1.5 rounded-full text-[11px] font-black shadow-md ${isDark ? 'bg-amber-500 text-white' : 'bg-teal-500 text-white'}">${t}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (slide.highlights) {
+                visualHtml = `
+                    <div class="space-y-3 fade-in">
+                        ${slide.highlights.map((h, i) => `
+                            <div class="p-4 rounded-2xl shadow-xl flex gap-4 items-center group hover:scale-105 transition-all ${isDark ? 'bg-white/5 border border-white/10' : 'bg-white border-slate-100'}">
+                                <div class="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-xl ${isDark ? 'bg-amber-500 text-white' : 'bg-indigo-100 text-indigo-600'}">${i + 1}</div>
+                                <div class="text-left">
+                                    <div class="font-black text-sm ${isDark ? 'text-white' : 'text-slate-900'}">${h.label}</div>
+                                    <div class="text-[10px] ${isDark ? 'text-white/60' : 'text-slate-500'}">${h.desc}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (slide.isChart) {
+                visualHtml = `
+                    <div class="p-10 rounded-[40px] border transition-all fade-in ${isDark ? 'bg-amber-900/20 border-amber-500/30' : 'bg-white border-slate-200 shadow-2xl'}">
+                        <div class="flex flex-col gap-6 mb-8">
+                           ${slide.labels.map(label => `
+                             <div class="flex items-center gap-4 p-4 rounded-2xl border transition-all ${isDark ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-100'}">
+                                <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-500 font-bold"><i data-lucide="check" class="w-4 h-4"></i></div>
+                                <span class="text-sm font-black text-justify tracking-tight ${isDark ? 'text-white' : 'text-slate-800'}">${label}</span>
+                             </div>
+                           `).join('')}
+                        </div>
+                        <div class="flex justify-between items-end gap-3 h-32 px-4">
+                          ${[35, 60, 45, 100].map((h, i) => `<div class="flex-1 flex flex-col items-center gap-2">
+                              <div class="w-full rounded-t-xl transition-all duration-1000 ${i === 3 ? (isDark ? 'bg-amber-500 shadow-lg' : 'bg-emerald-500 animate-pulse') : 'bg-slate-300/30'}" style="height: ${h}%"></div>
+                              <span class="text-[8px] font-bold uppercase ${isDark ? 'text-white/40' : 'text-slate-400'}">Fase ${i+1}</span>
+                          </div>`).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (slide.points) {
+                visualHtml = `
+                    <div class="grid grid-cols-1 gap-4 fade-in">
+                        ${slide.points.map(p => `
+                            <div class="p-5 rounded-2xl flex items-center gap-4 border transition-all ${isDark ? 'bg-white/5 border-white/10 text-white' : 'bg-white border-slate-100 text-slate-800 shadow-md'}">
+                                <div class="w-8 h-8 rounded-full bg-teal-500/20 flex items-center justify-center text-teal-500 font-bold"><i data-lucide="check" class="w-4 h-4"></i></div>
+                                <span class="font-bold text-sm text-justify">${p}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            slideContainer.innerHTML = `
+                <div class="grid grid-cols-1 ${slide.isMap ? '' : 'md:grid-cols-2'} gap-8 items-center fade-in">
+                    <div class="${slide.isMap ? 'text-center mb-6' : 'space-y-6'}">
+                        <div class="flex items-center gap-4 ${slide.isMap ? 'justify-center' : ''}">
+                            <div class="p-3 rounded-2xl backdrop-blur-md shadow-xl border ${isDark ? 'bg-white/5 border-white/20' : 'bg-white border-slate-100'}">
+                                <i data-lucide="${slide.icon}" class="w-12 h-12 text-amber-500"></i>
+                            </div>
+                            <div class="text-left">
+                                <span class="text-[10px] font-black uppercase tracking-[0.3em] ${isDark ? 'text-amber-500/80' : 'text-slate-400'}">Propuesta 2026</span>
+                                <h1 class="text-3xl md:text-5xl font-black leading-none tracking-tighter ${isDark ? 'text-white' : 'text-slate-900'}">${slide.title}</h1>
+                            </div>
+                        </div>
+                        <h2 class="text-xl font-bold ${isDark ? 'text-amber-400' : 'text-teal-700'}">${slide.subtitle}</h2>
+                        <p class="text-sm md:text-lg text-justify leading-relaxed ${slide.isMap ? 'max-w-5xl mx-auto' : 'max-w-md'} ${isDark ? 'text-slate-300' : 'text-slate-600'}">${slide.content}</p>
+                    </div>
+                    <div class="relative">
+                        ${visualHtml}
+                    </div>
+                </div>
+            `;
+            
+            lucide.createIcons();
+            renderDots();
+        }
+
+        function buildMapTemplate(isDark) {
+            return `
+                <div class="rounded-[40px] p-6 border shadow-2xl transition-all duration-700 ${isDark ? 'bg-white/5 border-white/10' : 'bg-white/80 backdrop-blur-md border-slate-200'} overflow-x-auto">
+                    <div class="min-w-[850px] flex flex-col items-center py-4">
+                        <div class="w-full flex justify-center mb-10 items-center">
+                            ${buildNode('root')}
+                        </div>
+                        <div class="relative w-full flex justify-center gap-24">
+                            <div class="absolute left-1/2 top-0 bottom-0 w-[1.5px] -translate-x-1/2 -z-0 transition-colors ${isDark ? 'bg-indigo-500/30' : 'bg-slate-300'}"></div>
+                            
+                            <!-- Left Column -->
+                            <div class="flex flex-col gap-8 items-end w-1/2 relative z-10">
+                                <div class="flex items-center gap-3">
+                                    ${buildNode('equipo_psico')} <i data-lucide="arrow-left" class="w-4 h-4 ${isDark ? 'text-indigo-400/50' : 'opacity-20'}"></i> ${buildNode('cultura')}
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    ${buildNode('empleo_talento')} <div class="w-6 border-t border-dashed ${isDark ? 'border-indigo-400/50' : 'border-slate-300'}"></div> <i data-lucide="arrow-left" class="w-4 h-4 ${isDark ? 'text-indigo-400/50' : 'opacity-20'}"></i> ${buildNode('seleccion')}
+                                </div>
+                                ${buildNode('desarrollo')}
+                                
+                                <div class="flex flex-col items-end gap-4 p-4 rounded-3xl border border-dashed transition-all ${isDark ? 'border-indigo-500/40 bg-indigo-500/5' : 'border-slate-300 bg-black/5'}">
+                                    <div class="flex items-center gap-3">
+                                        ${buildNode('innovacion')} <i data-lucide="arrow-left" class="w-4 h-4 ${isDark ? 'text-indigo-400/50' : 'opacity-20'}"></i> ${buildNode('transformacion')}
+                                    </div>
+                                    <div class="flex items-center gap-3 pr-8">
+                                        <i data-lucide="arrow-left" class="w-4 h-4 ${isDark ? 'text-indigo-400/50' : 'opacity-20'}"></i> <div class="w-6 border-t border-dashed ${isDark ? 'border-indigo-400/50' : 'border-slate-300'}"></div> ${buildNode('vector_cultura')}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right Column -->
+                            <div class="flex flex-col gap-8 items-start w-1/2 relative z-10">
+                                <div class="flex items-center gap-3">
+                                    ${buildNode('competencias')} <i data-lucide="arrow-right" class="w-4 h-4 ${isDark ? 'text-indigo-400/50' : 'opacity-20'}"></i> ${buildNode('historias')}
+                                </div>
+                                ${buildNode('nomina')}
+                                <div class="flex gap-4 items-start">
+                                    ${buildNode('relaciones')}
+                                    <div class="flex flex-col gap-2 border-l pl-4 transition-colors ${isDark ? 'border-indigo-500/30' : 'border-slate-300'}">
+                                        ${buildNode('control')}
+                                        ${buildNode('negociaciones')}
+                                    </div>
+                                </div>
+                                ${buildNode('productividad')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function buildNode(id) {
+            const node = detailedNodes[id];
+            const isLarge = id === 'root';
+            return `
+                <div onclick="openModal('${id}')" class="relative px-4 py-2 rounded-xl shadow-lg border border-black/10 text-[9px] font-black uppercase cursor-pointer transition-all duration-500 hover:scale-110 flex flex-col items-center justify-center min-h-[45px] ${isLarge ? 'w-[280px] py-4 text-xs' : 'w-[160px]'} ${integrationMode && node.isPulse ? 'node-pulse border-amber-400' : ''} ${node.color}">
+                    <span class="leading-tight text-center">${node.title}</span>
+                </div>
+            `;
+        }
+
+        // --- NAVIGATION ---
+        function nextSlide() {
+            if (currentSlideIndex < slides.length - 1) {
+                currentSlideIndex++;
+                renderSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlideIndex > 0) {
+                currentSlideIndex--;
+                renderSlide();
+            }
+        }
+
+        // --- MODAL FUNCTIONS ---
+        function openModal(id) {
+            const node = detailedNodes[id];
+            const isDark = integrationMode || slides[currentSlideIndex].isDark;
+            
+            const modal = document.getElementById('node-modal');
+            const content = document.getElementById('modal-content');
+            
+            document.getElementById('modal-title').innerText = node.title;
+            document.getElementById('modal-desc').innerText = node.desc;
+            document.getElementById('modal-vision').innerText = node.vision;
+            document.getElementById('modal-challenge').innerText = node.challenge;
+            
+            // Adjust modal colors for dark mode
+            if(isDark) {
+                content.className = `relative p-10 rounded-[3rem] max-w-lg w-full shadow-2xl border bg-slate-900 border-amber-500/30 text-white transition-all duration-500 scale-90 opacity-0`;
+                document.getElementById('modal-title').className = "text-3xl font-black mb-4 leading-none tracking-tight text-white";
+                document.getElementById('modal-desc').className = "text-sm mb-8 text-justify leading-relaxed font-medium text-slate-300";
+                document.getElementById('modal-vision').className = "text-sm font-bold text-white";
+                document.getElementById('modal-info-box').className = "p-6 rounded-3xl space-y-4 mb-8 bg-white/5 border border-white/10";
+                document.getElementById('modal-challenge-box').className = "p-6 rounded-[2rem] border-l-4 border-amber-500 text-left bg-amber-500/10";
+                document.getElementById('modal-close-btn').className = "mt-10 w-full font-black py-5 rounded-[2rem] transition-all active:scale-95 text-sm uppercase tracking-widest bg-amber-500 text-white shadow-xl shadow-amber-500/20";
+            } else {
+                content.className = `relative p-10 rounded-[3rem] max-w-lg w-full shadow-2xl border bg-white border-white transition-all duration-500 scale-90 opacity-0`;
+                document.getElementById('modal-title').className = "text-3xl font-black mb-4 leading-none tracking-tight text-slate-900";
+                document.getElementById('modal-desc').className = "text-sm mb-8 text-justify leading-relaxed font-medium text-slate-600";
+                document.getElementById('modal-vision').className = "text-sm font-bold text-slate-900";
+                document.getElementById('modal-info-box').className = "p-6 rounded-3xl space-y-4 mb-8 bg-slate-50 border border-slate-100";
+                document.getElementById('modal-challenge-box').className = "p-6 rounded-[2rem] border-l-4 border-amber-500 text-left bg-amber-50";
+                document.getElementById('modal-close-btn').className = "mt-10 w-full font-black py-5 rounded-[2rem] transition-all active:scale-95 text-sm uppercase tracking-widest bg-slate-900 text-white shadow-xl";
+            }
+
+            document.getElementById('modal-tag').className = `inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest mb-6 ${node.color}`;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                content.classList.remove('scale-90', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+            
+            lucide.createIcons();
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('node-modal');
+            const content = document.getElementById('modal-content');
+            content.classList.replace('scale-100', 'scale-90');
+            content.classList.replace('opacity-100', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }, 300);
+        }
+    </script>
+</body>
+</html>
