@@ -16,7 +16,6 @@
         body {
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
-            /* Permitimos el scroll vertical */
             overflow-x: hidden;
             overflow-y: auto;
         }
@@ -49,7 +48,6 @@
         .bg-integration {
             background-color: #020617; /* slate-950 */
         }
-        /* Estilo para los botones de navegación laterales fijos */
         .nav-btn {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(8px);
@@ -86,12 +84,10 @@
 </head>
 <body class="bg-slate-50 text-slate-900 transition-colors duration-700 min-h-screen">
 
-    <!-- Barra de Progreso Superior Fija -->
     <div class="fixed top-0 left-0 w-full h-1 bg-black/10 z-[100]">
         <div id="progress-bar" class="h-full bg-teal-500 transition-all duration-500" style="width: 16.66%"></div>
     </div>
 
-    <!-- Cabecera Fija -->
     <header class="fixed top-0 left-0 w-full p-5 flex justify-between items-center z-50 bg-white/60 dark:bg-slate-950/60 backdrop-blur-md border-b border-slate-200/50 dark:border-white/5">
         <div class="flex items-center gap-4">
             <div class="bg-slate-900 p-2 rounded-xl shadow-xl border border-white/10 flex items-center justify-center min-w-[60px]">
@@ -109,7 +105,6 @@
         </button>
     </header>
 
-    <!-- Botones de Navegación Lateral Fijos -->
     <button onclick="prevSlide()" id="prev-btn-side" class="fixed left-6 top-1/2 -translate-y-1/2 z-[60] p-4 rounded-full nav-btn border border-black/5 text-slate-400 hover:text-teal-600 dark:hover:text-amber-400 opacity-0 pointer-events-none">
         <i data-lucide="chevron-left" class="w-8 h-8"></i>
     </button>
@@ -118,49 +113,42 @@
         <i data-lucide="chevron-right" class="w-8 h-8"></i>
     </button>
 
-    <!-- Indicador de Puntos Flotante Fijo -->
-    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex gap-3 px-6 py-3 rounded-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-lg border border-black/5 dark:border-white/10" id="dots-container">
-        <!-- Puntos generados por JS -->
-    </div>
+    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex gap-3 px-6 py-3 rounded-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-lg border border-black/5 dark:border-white/10" id="dots-container"></div>
 
-    <!-- Contenedor Principal (Permite crecimiento vertical) -->
     <main class="min-h-screen flex flex-col items-center justify-center p-4 pt-32 pb-32 relative grid-pattern transition-all duration-1000" id="main-bg">
-        <div id="slide-container" class="w-full max-w-7xl">
-            <!-- Contenido dinámico -->
-        </div>
+        <div id="slide-container" class="w-full max-w-7xl"></div>
     </main>
 
-    <!-- Modal de Ficha Técnica -->
-    <div id="node-modal" class="fixed inset-0 z-[200] hidden items-center justify-center p-6 bg-slate-950/95 backdrop-blur-xl">
-        <div class="relative p-10 rounded-[3.5rem] max-w-xl w-full shadow-2xl border bg-white border-white transition-all duration-500 scale-90 opacity-0 overflow-y-auto max-h-[90vh]" id="modal-content">
-            <button onclick="closeModal()" class="absolute top-8 right-8 text-slate-400 hover:text-slate-900 transition-colors">
-                <i data-lucide="x" class="w-6 h-6"></i>
+    <div id="node-modal" class="fixed inset-0 z-[200] hidden pointer-events-none transition-all duration-300">
+        <div class="absolute p-4 rounded-xl w-64 shadow-2xl border transition-all duration-300 scale-95 opacity-0 bg-white border-slate-100 pointer-events-auto" id="modal-content" style="top: 0; left: 0;">
+            <button onclick="closeModal()" class="absolute top-3 right-3 text-slate-300 hover:text-slate-900 transition-colors">
+                <i data-lucide="x" class="w-3.5 h-3.5"></i>
             </button>
-            <div id="modal-tag" class="inline-flex items-center gap-2.5 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-8">
-                <i data-lucide="fingerprint" class="w-4 h-4"></i> Ficha de Integración SDO
+            <div id="modal-tag" class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[7px] font-black uppercase tracking-wider mb-2.5 bg-teal-500/10 text-teal-600">
+                <i data-lucide="award" class="w-2 h-2"></i> Ficha Técnica
             </div>
-            <h3 id="modal-title" class="text-3xl font-black mb-4 leading-none tracking-tight text-slate-900">Proceso</h3>
-            <p id="modal-desc" class="text-base mb-10 text-justify leading-relaxed font-medium text-slate-600">Descripción.</p>
-            <div class="p-6 rounded-[2rem] space-y-5 mb-10 bg-slate-50 border border-slate-100" id="modal-info-box">
-                <div class="flex items-start gap-4 text-left">
-                    <div class="p-2.5 bg-indigo-500/10 rounded-xl text-indigo-500 mt-1"><i data-lucide="target" class="w-5 h-5"></i></div>
+            <h3 id="modal-title" class="text-sm font-black mb-1 leading-tight text-slate-900 uppercase">Proceso</h3>
+            <p id="modal-desc" class="text-[9.5px] mb-3 text-justify leading-relaxed font-bold text-slate-400">Resumen técnico.</p>
+            
+            <div class="p-2.5 rounded-lg space-y-2 mb-3 bg-slate-50/50 border border-slate-100" id="modal-info-box">
+                <div class="flex items-start gap-1.5 text-left">
+                    <div class="p-1 bg-indigo-500/10 rounded text-indigo-500 mt-0.5"><i data-lucide="target" class="w-2.5 h-2.5"></i></div>
                     <div>
-                        <span class="text-[11px] font-black block uppercase text-slate-400 mb-1">Foco Estratégico</span>
-                        <span id="modal-vision" class="text-base font-bold text-slate-900 leading-tight">Visión.</span>
+                        <span class="text-[7px] font-black block uppercase text-slate-400 mb-0.5 tracking-wider font-urbanist">Foco</span>
+                        <span id="modal-vision" class="text-[10px] font-bold text-slate-800 leading-tight">Visión.</span>
                     </div>
                 </div>
             </div>
-            <section class="p-6 rounded-[2rem] border-l-8 border-amber-500 text-left bg-amber-50" id="modal-challenge-box">
-                <div class="flex items-center gap-2.5 font-black text-[11px] uppercase mb-3 tracking-widest text-amber-600">
-                    <i data-lucide="alert-circle" class="w-5 h-5"></i> Reto Identificado
+
+            <section class="p-2.5 rounded-lg border-l-2 border-amber-400 text-left bg-amber-50/10" id="modal-challenge-box">
+                <div class="flex items-center gap-1 font-black text-[7px] uppercase mb-0.5 tracking-wide text-amber-600 font-urbanist">
+                    <i data-lucide="zap" class="w-2 h-2"></i> Reto
                 </div>
-                <p id="modal-challenge" class="text-sm italic text-justify font-bold leading-relaxed text-amber-900">"Reto."</p>
+                <p id="modal-challenge" class="text-[10px] italic text-justify font-bold leading-relaxed text-amber-900/60 font-urbanist">"Reto operativo."</p>
             </section>
-            <button onclick="closeModal()" class="mt-10 w-full font-black py-5 rounded-[2rem] transition-all active:scale-95 text-sm uppercase tracking-widest bg-slate-900 text-white shadow-xl" id="modal-close-btn">Cerrar e Integrar</button>
         </div>
     </div>
 
-    <!-- Modal de Maximización -->
     <div id="maximize-modal" class="fixed inset-0 z-[300] hidden flex-col bg-slate-950/98 backdrop-blur-3xl overflow-y-auto">
         <header class="sticky top-0 left-0 w-full p-8 flex justify-between items-center z-[310] bg-slate-950/80 backdrop-blur-md border-b border-white/10">
             <div class="flex items-center gap-4 text-white">
@@ -176,8 +164,7 @@
                 </button>
             </div>
         </header>
-        <div id="maximize-modal-content" class="flex-1 w-full flex items-center justify-center p-12 overflow-hidden relative select-none">
-            <!-- Barra de Zoom Flotante -->
+        <div id="maximize-modal-content" class="flex-1 w-full flex flex-col items-center justify-start p-12 overflow-y-auto relative select-none">
             <div class="absolute bottom-12 right-12 z-[320] flex flex-col gap-3 p-3 rounded-[2.5rem] floating-controls shadow-2xl">
                 <button onclick="changeZoom(0.2)" class="p-4 rounded-full bg-white/5 hover:bg-white/20 text-white transition-all"><i data-lucide="zoom-in" class="w-6 h-6"></i></button>
                 <div class="w-full h-[1px] bg-white/10"></div>
@@ -185,74 +172,63 @@
                 <div class="w-full h-[1px] bg-white/10"></div>
                 <button onclick="changeZoom(-0.2)" class="p-4 rounded-full bg-white/5 hover:bg-white/20 text-white transition-all"><i data-lucide="zoom-out" class="w-6 h-6"></i></button>
             </div>
-            
-            <div id="zoom-wrapper" class="flex items-center justify-center min-w-full min-h-full">
-                <!-- El contenido se re-renderiza aquí -->
-            </div>
+            <div id="zoom-wrapper" class="flex items-center justify-center min-w-full min-h-full"></div>
         </div>
     </div>
 
     <script>
         const detailedNodes = {
-            // ORIGINAL NODES
             root: { title: 'Subdirección Desarrollo Organizacional', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Dirección estratégica para asegurar que la cultura, la tecnología y el talento converjan en alta productividad interna.', vision: 'Puente crítico entre la visión ejecutiva y la ejecución operativa.', challenge: 'Superar el vacío de decisión entre los equipos que gestan ideas y la dirección que las aprueba.' },
-            cultura: { title: 'Cultura, bienestar y experiencia', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Fortalecimiento de la cultura organizacional, cultura digital y la incorporación de la cultura de la felicidad.', vision: 'EX (Employee Experience) como pilar de desempeño.', challenge: 'Integrar el bienestar no como una actividad aislada, sino como un indicador de productividad real.' },
-            equipo_psico: { title: 'Equipo psicosocial', color: 'bg-[#F5C2C2] text-[#4a1a1a]', desc: 'Apoyo integral al colaborador desde la salud mental y social para facilitar la Gestión del Cambio.', vision: 'Resiliencia humana ante la transformación.', challenge: 'Garantizar el acompañamiento psicosocial efectivo durante la adopción de nuevas herramientas y procesos.' },
-            seleccion: { title: 'Selección de personal', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Captación de talento alineado a metodologías ágiles y cultura neuronal.', vision: 'Asegurar perfiles con ADN de cambio.', challenge: 'Evolucionar los criterios de selección hacia la adaptabilidad digital y el aprendizaje continuo.' },
-            empleo_talento: { title: 'Agencia de Empleo y Gestión del Talento', color: 'bg-[#FEFE96] text-[#4a4a1a]', desc: 'Programa articulado a FOSFEC. Gestión y colocación de empleo para la Caja y empresas vinculadas.', vision: 'Socio de relacionamiento estratégico externo.', challenge: 'Convertir a la Caja en un aliado metodológico y referente digital para las empresas vinculadas, proveyendo marcos de trabajo modernos para la gestión del talento.' },
-            desarrollo: { title: 'Desarrollo y formación', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Planes de formación alineados con las brechas detectadas en las Evaluaciones 360.', vision: 'Capacitación continua y escalabilidad.', challenge: 'Asegurar que la formación técnica habilite realmente la cultura neuronal y el uso de metodologías ágiles.' },
-            innovacion: { title: 'Gestión de la Innovación', color: 'bg-[#FEFE96] text-[#4a4a1a]', desc: 'Creación de proyectos internos para el fortalecimiento de la cultura digital y agilidad.', vision: 'Motor de soluciones internas disruptivas.', challenge: 'Materializar la cultura neuronal potenciando los proyectos en metodologías ágiles.', isPulse: true },
-            transformacion: { title: 'Transformación digital', color: 'bg-[#FEFE96] text-[#4a4a1a]', desc: 'Implementación del Modelo TED (Tecnología, Estrategia, Desempeño) para automatizar procesos.', vision: 'Fusión de productividad con automatización.', challenge: 'Eliminar tareas repetitivas mediante tecnología para liberar el potencial analítico del equipo.', isPulse: true },
-            vector_cultura: { title: 'Vectores TED', color: 'bg-[#F5C2C2] text-[#4a1a1a]', desc: 'Vectores fundamentales para transformar la organización: Cultura, Tecnología y Negocio Digital.', vision: 'Sustento integral del ecosistema.', challenge: 'Alinear y articular los vectores Cultura, Tecnología y Negocio Digital para asegurar que la transformación sea adoptada con propósito y genere valor real.' },
-            competencias: { title: 'Gestión de competencias y efectividad', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Evaluaciones 360 e impacto en el desempeño dinámico.', vision: 'Equidad y estructura dinámica.', challenge: 'Mantener manuales de funciones actualizados y alineados a las nuevas exigencias de la era digital.' },
-            historias: { title: 'Historias Laborales', color: 'bg-[#F5C2C2] text-[#4a1a1a]', desc: 'Trazabilidad digital del ciclo de vida del colaborador.', vision: 'Datos centralizados para gestión humana.', challenge: 'Lograr la digitalización total de expedientes para habilitar el People Analytics.' },
-            nomina: { title: 'Nómina y seguridad social', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Gestión eficiente de compensaciones bajo marcos de agilidad.', vision: 'Transparencia y soporte prestacional.', challenge: 'Automatizar flujos de pago para integrarlos al modelo de productividad institucional.' },
-            relaciones: { title: 'Relaciones laborales', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Gestión de acuerdos bajo enfoques de cultura neuronal.', vision: 'Seguridad jurídica y diálogo constructivo.', challenge: 'Modernizar los acuerdos laborales para soportar modalidades de trabajo flexibles e híbridas.' },
-            control: { title: 'Control Disciplinario', color: 'bg-[#F5C2C2] text-[#4a1a1a]', desc: 'Seguimiento preventivo basado en los valores de la Caja.', vision: 'Ética y conducta organizacional.', challenge: 'Migrar de un enfoque punitivo a uno preventivo y pedagógico basado en la cultura.' },
-            negociaciones: { title: 'Negociaciones Colectivas', color: 'bg-[#F5C2C2] text-[#4a1a1a]', desc: 'Articulación grupal para la evolución organizacional.', vision: 'Sinergia grupal y bienestar común.', challenge: 'Vincular los objetivos de madurez digital con las metas compartidas en los acuerdos colectivos.' },
-            productividad: { title: 'Productividad', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Apoyo metodológico transversal a proyectos PMO.', vision: 'Eficiencia operativa sistémica.', challenge: 'Convertir la productividad en una métrica objetiva basada en datos derivados de procesos automatizados.' },
-            
-            // NEW 4-NODE MAP
-            n_sdo: { title: 'Subdirección Desarrollo Organizacional', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Dirección estratégica para asegurar que la cultura, la tecnología y el talento converjan en alta productividad interna.', vision: 'Puente crítico estratégico.', challenge: 'Superar el vacío de decisión.' },
-            n_lider: { title: 'Líder Gestión Humana', color: 'bg-indigo-900 text-white shadow-[0_0_20px_theme(colors.indigo.500)]', desc: 'Centro rector que orquesta la operación estratégica y operativa de los 3 nodos.', vision: 'Alineación de talentos y objetivos.', challenge: 'Garantizar el balance entre desarrollo y cumplimiento.' },
-            n_integracion: { title: '1. Integración', color: 'bg-indigo-50 text-indigo-900 border-indigo-200', desc: 'Eje analítico y normativo que articula los procesos.', vision: 'Decisiones basadas en datos.', challenge: 'Unificar la información de talento.' },
-            n_rol_integrador: { title: 'Gestor EX', color: 'bg-indigo-100/50 text-indigo-900', desc: 'Figura puente entre los equipos ágiles y la jerarquía.', vision: 'Fluidez comunicacional.', challenge: 'Romper silos organizacionales.' },
-            n_analitica_tec: { title: 'Analítica y tecnología', color: 'bg-indigo-100/50 text-indigo-900', desc: 'Uso de datos para entender el comportamiento organizacional.', vision: 'People Analytics avanzado.', challenge: 'Migrar a una cultura Data-Driven.' },
-            n_rel_lab_norm: { title: 'Rel. labor. y cumpl. norm.', color: 'bg-indigo-100/50 text-indigo-900', desc: 'Mantenimiento del equilibrio legal y sindical.', vision: 'Paz laboral.', challenge: 'Actualizar marcos a nuevas realidades.' },
-            n_desarrollo_exp: { title: '2. Desarrollo y Experiencia', color: 'bg-blue-50 text-blue-900 border-blue-200', desc: 'Foco en el ciclo de vida del colaborador.', vision: 'EX de alto impacto.', challenge: 'Retención de talento clave.' },
-            n_seleccion: { title: 'Selección', color: 'bg-teal-600/10 text-teal-900 border border-teal-600/20', desc: 'Atracción de talento.', vision: 'Identificar ADN cultural.', challenge: 'Nuevos perfiles ágiles.' },
-            n_formacion: { title: 'Formación', color: 'bg-teal-600/10 text-teal-900 border border-teal-600/20', desc: 'Upskilling y Reskilling.', vision: 'Aprendizaje continuo.', challenge: 'Escalabilidad del conocimiento.' },
-            n_gest_comp: { title: 'Gestión competencias', color: 'bg-teal-600/10 text-teal-900 border border-teal-600/20', desc: 'Mapeo de habilidades.', vision: 'Alineación de roles.', challenge: 'Equidad en el plan de carrera.' },
-            n_bienestar: { title: 'Bienestar', color: 'bg-teal-600/10 text-teal-900 border border-teal-600/20', desc: 'Calidad de vida laboral.', vision: 'Salud integral del trabajador.', challenge: 'Personalizar el bienestar.' },
-            n_trabajo_social: { title: 'Trabajo social', color: 'bg-teal-600/10 text-teal-900 border border-teal-600/20', desc: 'Acompañamiento psicosocial y familiar.', vision: 'Entendimiento del entorno personal.', challenge: 'Apoyo preventivo y oportuno.' },
-            n_cultura: { title: 'Cultura', color: 'bg-teal-600/10 text-teal-900 border border-teal-600/20', desc: 'Valores y ADN corporativo.', vision: 'Sentido de pertenencia.', challenge: 'Transformar subculturas arraigadas.' },
-            n_operacion_admin: { title: '3. Operación y Adm.', color: 'bg-emerald-50 text-emerald-900 border-emerald-200', desc: 'Garantía del flujo transaccional y pagos.', vision: 'Cero errores de servicio interno.', challenge: 'Automatización total.' },
-            n_nomina: { title: 'Nómina', color: 'bg-emerald-600/10 text-emerald-900 border border-emerald-600/20', desc: 'Pagos y retribuciones.', vision: 'Precisión financiera.', challenge: 'Estandarización de novedades.' },
-            n_seguridad_social: { title: 'Seguridad social', color: 'bg-emerald-600/10 text-emerald-900 border border-emerald-600/20', desc: 'Aportes al sistema integral.', vision: 'Cumplimiento perfecto.', challenge: 'Evitar sobrecostos y sanciones.' },
-            n_contratacion: { title: 'Contratación', color: 'bg-emerald-600/10 text-emerald-900 border border-emerald-600/20', desc: 'Vinculación formal.', vision: 'Onboarding desde el día 0.', challenge: 'Agilidad en la firma y acceso.' },
-            n_historias_lab: { title: 'Historias laborales', color: 'bg-emerald-600/10 text-emerald-900 border border-emerald-600/20', desc: 'Gestión documental de legajos.', vision: 'Trazabilidad 100% digital.', challenge: 'Digitalización retroactiva garantizada.' },
-            n_control_ad: { title: 'Control Ad. Laboral', color: 'bg-emerald-600/10 text-emerald-900 border border-emerald-600/20', desc: 'Auditoría y tiempos.', vision: 'Transparencia productiva.', challenge: 'Control sin micromanagement.' },
-            n_compensacion: { title: 'Compensación y benef.', color: 'bg-emerald-600/10 text-emerald-900 border border-emerald-600/20', desc: 'Estructura salarial.', vision: 'Equidad interna y competitividad.', challenge: 'Beneficios flexibles atractivos.' },
-            n_sst_root: { title: '4. SST', color: 'bg-slate-800 text-white', desc: 'Salud y Seguridad en el Trabajo.', vision: 'Entornos seguros.', challenge: 'Cero accidentes laborales.' },
-            n_cumpl_norm: { title: 'Cumplimiento normativo', color: 'bg-slate-100 font-bold border-slate-300 text-slate-800', desc: 'Actualización y apego a la ley SST.', vision: 'Certificaciones al día.', challenge: 'Cultura de autoprotección.' },
-            n_agencia: { title: 'Empleo y Gestión de Talento', color: 'bg-amber-100 font-bold border-2 border-amber-500 text-amber-700 shadow-md', desc: 'Aliado externo de empleabilidad.', vision: 'Sinergia mercado-empresa.', challenge: 'Atraer talento externo validado.', isPulse: true },
-            n_productividad: { title: 'Productividad', color: 'bg-amber-100 font-bold border-2 border-amber-500 text-amber-700 shadow-md', desc: 'Aliado estratégico de métodos.', vision: 'Eficiencia extrema.', challenge: 'Eliminar desperdicios en procesos de RRHH.', isPulse: true },
-            n_ted: { title: 'TED', color: 'bg-amber-100 font-bold border-2 border-amber-500 text-amber-700 shadow-md isPulse', desc: 'Tecnología, Estrategia y Desempeño.', vision: 'Acelerar la adopción tecnológica.', challenge: 'Automatizar tareas mecánicas para elevar roles críticos.' },
-            n_innovacion: { title: 'Innovación', color: 'bg-amber-100 font-bold border-2 border-amber-500 text-amber-700 shadow-md isPulse', desc: 'Vanguardia metodológica.', vision: 'Nuevas soluciones ágiles.', challenge: 'Inyectar cultura de mejora en cada nodo.' }
+            unidad_aceleracion: { title: 'Unidad de Aceleración Empresarial', color: 'bg-[#FEFE96] text-[#4a4a1a]', desc: 'Fomento a la competitividad y escalabilidad del tejido empresarial regional mediante metodologías ágiles.', vision: 'Motor de crecimiento económico y adaptabilidad regional.', challenge: 'Articular servicios que impulsen el crecimiento exponencial de las empresas vinculadas.', isPulse: true },
+            empleo_talento: { title: 'Empleo y Gestión del Talento', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Programa articulado a FOSFEC. Gestión y colocación de talento alineado a las necesidades del mercado moderno.', vision: 'Socio de relacionamiento estratégico externo.', challenge: 'Convertir a la Caja en un aliado metodológico para la gestión del talento externo y referente de empleabilidad.' },
+            gestion_riesgo: { title: 'Gestión del Riesgo', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Identificación y mitigación proactiva de amenazas organizacionales para asegurar la continuidad del negocio.', vision: 'Blindaje estratégico e institucional.', challenge: 'Integrar la gestión del riesgo como mentalidad preventiva y proactiva en cada nivel de liderazgo.' },
+            obras_civiles: { title: 'Interventoría Obras Civiles', color: 'bg-slate-100 text-slate-800', desc: 'Supervisión técnica de infraestructura para garantizar la seguridad física institucional.', vision: 'Entornos físicos seguros y vanguardistas.', challenge: 'Obras con cero desviaciones técnicas y alineadas a estándares de calidad superior.' },
+            interventoria_contratos: { title: 'Interventoría de Contratos', color: 'bg-slate-100 text-slate-800', desc: 'Aseguramiento del cumplimiento de acuerdos contractuales y transparencia administrativa.', vision: 'Excelencia en la ejecución contractual.', challenge: 'Control riguroso de compromisos y mitigación de riesgos operativos con terceros.' },
+            transparencia_etica: { title: 'Programa de Transparencia y Ética Empresarial', color: 'bg-slate-100 text-slate-800', desc: 'Fomento a la integridad, rendición de cuentas y prevención total de la corrupción.', vision: 'Cultura de legalidad y confianza radical.', challenge: 'Permear los valores éticos en la conducta diaria para asegurar la transparencia institucional.' },
+            sarlaft: { title: 'SARLAFT', color: 'bg-slate-100 text-slate-800', desc: 'Sistema de administración de riesgo de lavado de activos y financiación del terrorismo.', vision: 'Blindaje normativo y financiero total.', challenge: 'Monitoreo preventivo y detección temprana de operaciones inusuales en tiempo real.' },
+            oficial_cumplimiento: { title: 'Oficial de Cumplimiento', color: 'bg-slate-100 text-slate-800', desc: 'Vigilancia continua de normas, procesos críticos y políticas de transparencia administrativa.', vision: 'Garante de la legalidad institucional.', challenge: 'Auditoría continua de procesos críticos para asegurar el cumplimiento perfecto.' },
+            gestion_calidad: { title: 'Gestión de la Calidad', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Normalización de procesos de excelencia y mejora continua de la operación institucional.', vision: 'Cultura de excelencia sistémica.', challenge: 'Migrar de la conformidad documental a una calidad impulsada por datos y valor real.' },
+            calidad_inst: { title: 'Calidad Institucional', color: 'bg-slate-100 text-slate-800', desc: 'Aseguramiento de estándares, certificaciones y normalización de procesos institucionales.', vision: 'Certificación y mejora continua.', challenge: 'Mantener sistemas de gestión que aporten valor real y agilidad a la operación.' },
+            atencion_usuario: { title: 'Atención al usuario', color: 'bg-slate-100 text-slate-800', desc: 'Servicio integral al usuario con foco en la satisfacción y resolución ágil de peticiones.', vision: 'Satisfacción y experiencia del usuario garantizada.', challenge: 'Reducir tiempos de respuesta mediante automatización y empatía en el servicio.' },
+            gestion_ambiental: { title: 'Gestión Ambiental', color: 'bg-slate-100 text-slate-800', desc: 'Sostenibilidad, eco-preservación y cumplimiento de normativas de responsabilidad ecológica.', vision: 'Operación con impacto ambiental mínimo.', challenge: 'Lograr la neutralidad institucional mediante prácticas operativas sostenibles.' },
+            sst_sub: { title: 'Seguridad y salud en el trabajo', color: 'bg-slate-100 text-slate-800', desc: 'Prevención de riesgos laborales, cuidado integral del trabajador y entornos seguros.', vision: 'Cero accidentalidad y bienestar físico.', challenge: 'Fomentar una cultura de autoprotección genuina y entornos de trabajo preventivos.' },
+            gestion_humana: { title: 'Gestión Humana', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Estrategia de personas para asegurar un Tayloring de capacidades y la habilitación del potencial humano.', vision: 'Socio estratégico de transformación.', challenge: 'Transformar el rol operativo en un motor de desarrollo de capacidades ágiles.' },
+            integracion: { title: 'INTEGRACIÓN', color: 'bg-indigo-900 text-white shadow-lg border-2 border-indigo-400', desc: 'Eje analítico y normativo que articula la estrategia con la operación en Gestión Humana.', vision: 'Decisiones basadas en datos de talento.', challenge: 'Unificar la información de personas para habilitar el People Analytics institucional.' },
+            gestor_ex: { title: 'Gestor Ex.', color: 'bg-slate-100 text-slate-800', desc: 'Figura puente enfocada en la Experiencia del Empleado (EX) para elevar el compromiso y la felicidad.', vision: 'Bienestar como indicador de productividad.', challenge: 'Romper silos organizacionales y personalizar el ciclo de vida del colaborador.' },
+            vector_tec: { title: 'Vector tecnología', color: 'bg-slate-100 text-slate-800', desc: 'Digitalización y automatización de procesos para eliminar la fricción operativa en RRHH.', vision: 'HR-Tech de alta eficiencia.', challenge: 'Lograr el autoservicio total del colaborador para liberar el tiempo analítico del equipo.' },
+            rel_lab_cumpl: { title: 'Relaciones Laborales y cumplimiento normativo', color: 'bg-slate-100 text-slate-800', desc: 'Gestión de acuerdos, seguridad jurídica y diálogo constructivo basado en la cultura neuronal.', vision: 'Paz laboral y equilibrio normativo.', challenge: 'Modernizar los acuerdos laborales para soportar modalidades de trabajo híbridas y flexibles.' },
+            desarrollo_exp: { title: 'Desarrollo y experiencia', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Fortalecimiento de la cultura, planes de carrera y formación continua del talento institucional.', vision: 'Desarrollo de capacidades de alto impacto.', challenge: 'Cerrar brechas de competencias críticas mediante un aprendizaje continuo y escalable.' },
+            seleccion_sub: { title: 'Selección', color: 'bg-slate-100 text-slate-800', desc: 'Captación de talento alineado a metodologías ágiles y cultura neuronal de cambio.', vision: 'Identificar el ADN cultural de adaptabilidad.', challenge: 'Evolucionar los criterios de selección hacia perfiles con mentalidad de aprendizaje digital.' },
+            formacion_sub: { title: 'Formación', color: 'bg-slate-100 text-slate-800', desc: 'Planes de formación estratégica diseñados para elevar el desempeño técnico y conductual.', vision: 'Capacitación continua y escalabilidad.', challenge: 'Asegurar que la formación técnica habilite realmente la transformación digital.' },
+            gest_comp_sub: { title: 'Gestión de competencias', color: 'bg-slate-100 text-slate-800', desc: 'Mapeo de habilidades y Evaluaciones 360 con impacto directo en el desempeño dinámico.', vision: 'Estructura dinámica basada en méritos.', challenge: 'Mantener manuales de funciones alineados a las exigencias de la competitividad moderna.' },
+            bienestar_sub: { title: 'Bienestar', color: 'bg-slate-100 text-slate-800', desc: 'Incorporación de la cultura de la felicidad y calidad de vida como motor de resultados.', vision: 'Salud mental y emocional del trabajador.', challenge: 'Integrar el bienestar no como una actividad aislada, sino como un pilar de productividad.' },
+            trabajo_social_sub: { title: 'Trabajo Social', color: 'bg-slate-100 text-slate-800', desc: 'Apoyo integral al colaborador y su familia para facilitar la Gestión del Cambio institucional.', vision: 'Resiliencia humana ante el cambio.', challenge: 'Garantizar el acompañamiento psicosocial efectivo en cada hito de transformación.' },
+            vector_cultura: { title: 'Vector Cultura', color: 'bg-slate-100 text-slate-800', desc: 'Sustento fundamental para asegurar que la transformación digital sea adoptada con propósito.', vision: 'Cultura neuronal ágil institucional.', challenge: 'Alinear los valores institucionales con los nuevos marcos de trabajo digital.' },
+            operacion_admin: { title: 'Operación y Administración', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Garantía del flujo transaccional, pagos precisos y soporte operacional en Gestión Humana.', vision: 'Excelencia operativa y eficiencia prestacional.', challenge: 'Automatización total de flujos de pago para integrarlos al modelo de productividad.' },
+            nomina_sub: { title: 'Nómina', color: 'bg-slate-100 text-slate-800', desc: 'Gestión eficiente de compensaciones y pagos bajo marcos de exactitud y agilidad.', vision: 'Transparencia y solvencia institucional.', challenge: 'Estandarizar novedades para evitar demoras y asegurar el flujo de valor prestacional.' },
+            seguridad_social_sub: { title: 'Seguridad Social', color: 'bg-slate-100 text-slate-800', desc: 'Aportes al sistema integral y cumplimiento riguroso de normativas prestacionales.', vision: 'Cumplimiento normativo y cobertura total.', challenge: 'Eliminar sobrecostos y sanciones mediante una gestión documental precisa.' },
+            contratacion_sub: { title: 'Contratacion', color: 'bg-slate-100 text-slate-800', desc: 'Vinculación formal y Onboarding estratégico desde el día 0 para nuevos talentos.', vision: 'Ingreso ágil con propósito.', challenge: 'Garantizar el acceso total a herramientas desde el primer momento de vinculación.' },
+            historias_sub: { title: 'Historias Laborales', color: 'bg-slate-100 text-slate-800', desc: 'Trazabilidad digital completa del ciclo de vida del colaborador en la organización.', vision: 'Trazabilidad 100% digital centralizada.', challenge: 'Lograr la digitalización total de expedientes para habilitar el análisis de datos de personas.' },
+            control_ad_sub: { title: 'Control Ad. Laboral', color: 'bg-slate-100 text-slate-800', desc: 'Auditoría interna y seguimiento preventivo de tiempos y conducta organizacional.', vision: 'Transparencia y conducta preventiva institucional.', challenge: 'Migrar de un control fiscalizador a uno preventivo basado en la pedagogía cultural.' },
+            compensacion_benef: { title: 'Compensación y Beneficios', color: 'bg-slate-100 text-slate-800', desc: 'Estructura de beneficios flexibles y competitividad salarial basada en el mercado.', vision: 'Equidad interna y atractivo para el talento.', challenge: 'Diseñar planes de beneficios que realmente resuenen con las necesidades del trabajador moderno.' },
+            productividad: { title: 'Productividad', color: 'bg-[#78A49B] text-[#1a2e2a]', desc: 'Apoyo metodológico transversal a proyectos PMO para asegurar eficiencia operativa sistémica.', vision: 'Eficiencia operativa medible.', challenge: 'Convertir la productividad en una métrica objetiva basada en datos y automatización.' },
+            metodologia_negocio: { title: 'Métodología de negocio', color: 'bg-slate-100 text-slate-800', desc: 'Definición de marcos de trabajo y estándares para la excelencia en la ejecución estratégica.', vision: 'Excelencia operacional institucional.', challenge: 'Estandarizar procesos críticos garantizando la agilidad en la toma de decisiones.' },
+            transformacion: { title: 'Transformación digital', color: 'bg-[#FEFE96] text-[#4a4a1a]', desc: 'Implementación del Modelo TED para automatizar tareas repetitivas y liberar el potencial del equipo.', vision: 'Fusión de productividad con tecnología avanzada.', challenge: 'Minimizar tareas mecánicas para elevar el rol del talento hacia el análisis estratégico.', isPulse: true },
+            innovacion: { title: 'Innovación', color: 'bg-[#FEFE96] text-[#4a4a1a]', desc: 'Creación de proyectos internos disruptivos para potenciar la agilidad y cultura neuronal.', vision: 'Motor de soluciones ágiles internas.', challenge: 'Materializar la cultura neuronal mediante prototipado rápido de soluciones internas.', isPulse: true }
         };
 
         const slides = [
             { id: 'vision', title: 'Propuesta Estratégica SDO', subtitle: 'Consolidación de la Subdirección de Desarrollo Organizacional', content: 'La creación de la Subdirección de Desarrollo Organizacional (SDO) no es una simple reestructuración, sino un imperativo estratégico para garantizar que el crecimiento de la organización sea sostenible, ágil y centrado en el talento. Esta subdirección se posiciona como el puente crítico entre la visión ejecutiva y la ejecución operativa, asegurando que la cultura, la tecnología y el talento converjan en resultados de alta productividad.', icon: 'sparkles', isDark: true, points: ['Cultura Neuronal Ágil', 'Modelo TED', 'Employee Experience'] },
             { id: 'justificacion', title: 'Justificación Estratégica', subtitle: 'Evolución Estructural Estratégica', content: 'Nuestra organización demanda una evolución en su estructura. Mientras la Subdirección Administrativa se enfoca en garantizar la excelencia operativa y el soporte transversal, la creación de la SDO asegura un espacio dedicado exclusivamente a la estrategia humana. Esta especialización potencia a la Caja con un Enfoque Diferenciado (potenciación humana proactiva), mayor Agilidad de Decisión (flujos directos y dinámicos) y una profunda Especialización Metodológica (liderazgo con ADN de cambio).', icon: 'network', isDark: false, adminTags: ['Excelencia Operativa', 'Soporte Transversal', 'Cumplimiento Institucional'] },
-            { id: 'blueprint', title: 'Blueprint Organizacional', subtitle: 'Arquitectura de Procesos Integrados', content: 'Haz clic en cada proceso para identificar cómo se integra en la estructura y conocer su reto específico.', icon: 'layers', isMap: true, isDark: false },
-            { id: 'nodos4', title: 'Gestión Humana Integrada', subtitle: '3 Nodos de Acción Estratégica', content: 'Propuesta de despliegue radial con el Líder de Gestión Humana en el centro, orquestando 3 Nodos: Integración, Desarrollo y Operación. TED e Innovación intervienen como aliados analíticos.', icon: 'git-merge', isRadialMap: true, isDark: false },
+            { id: 'blueprint', title: 'Arquitectura de Procesos Integrados', subtitle: 'Estructura SDO 2026', content: 'Haz clic en cada proceso para identificar cómo se integra en la estructura y conocer su reto específico.', icon: 'layout-template', isMap: true, isDark: true },
             { id: 'pmo', title: 'Soporte Transversal PMO', subtitle: 'El Corazón Metodológico', content: 'La SDO asegura que cada proyecto de la PMO tenga éxito cultural mediante acompañamiento en la adopción de herramientas, asegurando que la agilidad no sea solo una palabra sino una realidad operativa que conecte ideas con ejecución.', icon: 'brain-circuit', isDark: false, highlights: [{label:'Gestión del Cambio', desc:'Garantizar la adopción tecnológica.'}, {label:'Cultura Neuronal', desc:'Implementar agilidad real en equipos.'}, {label:'Cierre de Brechas', desc:'Eliminar el vacío entre ideas y ejecución.'}] },
             { id: 'ted', title: 'Modelo TED: Productividad + Automatización', subtitle: 'Tecnología · Estrategia · Desempeño', content: 'La convergencia de estos tres pilares permite eliminar tareas mecánicas y elevar el rol del talento hacia el análisis estratégico y la innovación real.', icon: 'cpu', isDark: true, isTEDVisual: true },
-            { id: 'conclusion', title: 'Resultados e Impacto', subtitle: 'Valor Organizacional 2026', content: 'Una estructura diseñada para reducir la rotación mediante una EX superior, acelerar la transformación digital eliminando la resistencia al cambio y aumentar la eficiencia operativa a través de la automatización estratégica TED.', icon: 'trending-up', points: ['Eficiencia Medible', 'Alineación Cultural', 'Madurez Digital'], isDark: true }
+            { id: 'conclusion', title: 'Resultados e Impacto', subtitle: 'Valor Organizacional 2026', content: 'Una estructura diseñada para reducir la rotación mediante una EX superior, acelerar la transformación digital eliminando la resistencia al cambio y aumentar la eficiencia operativa a través de la automatización estratégica TED.', icon: 'trending-up', points: ['Eficiencia Medible', 'Alineación Cultural', 'Madurez Digital'], isDark: true },
+            { id: 'final', title: '¡Gracias!', subtitle: 'SDO · Estrategia en Movimiento', content: 'Incondicionales con Risaralda', icon: 'heart', isFinal: true, isDark: true }
         ];
 
         let currentSlideIndex = 0;
-        let integrationMode = false;
+        let integrationMode = true;
 
         const slideContainer = document.getElementById('slide-container');
         const progressBar = document.getElementById('progress-bar');
@@ -274,10 +250,10 @@
             const btn = document.getElementById('integration-toggle');
             document.body.classList.toggle('dark', integrationMode);
             if(integrationMode) {
-                btn.className = "flex items-center gap-3 px-6 py-2.5 rounded-full font-black text-[10px] uppercase tracking-widest transition-all border border-amber-400 bg-amber-500 text-white shadow-lg";
+                btn.className = "flex items-center gap-3 px-6 py-2.5 rounded-full font-black text-[10px] uppercase tracking-widest bg-amber-500 text-white shadow-lg";
                 btn.querySelector('span').innerText = 'Sinergias Activas';
             } else {
-                btn.className = "flex items-center gap-3 px-6 py-2.5 rounded-full font-black text-[10px] uppercase tracking-widest transition-all border border-slate-200 bg-white/90 text-slate-600 shadow-md";
+                btn.className = "flex items-center gap-3 px-6 py-2.5 rounded-full font-black text-[10px] uppercase tracking-widest bg-white/90 text-slate-600 shadow-md";
                 btn.querySelector('span').innerText = 'Ver Capas de Valor';
             }
             renderSlide();
@@ -286,47 +262,62 @@
         function renderSlide() {
             const slide = slides[currentSlideIndex];
             const isDark = integrationMode || slide.isDark;
-            
-            document.body.className = `transition-all duration-1000 font-sans ${isDark ? 'bg-integration text-slate-100' : 'bg-slate-50 text-slate-900'} min-h-screen`;
-            document.getElementById('header-title').className = `text-base font-black uppercase tracking-tighter leading-none ${isDark ? 'text-white' : 'text-slate-900'}`;
+            document.body.className = `transition-all duration-1000 font-sans ${isDark ? 'bg-indigo-950 text-slate-100' : 'bg-slate-50 text-slate-900'} min-h-screen`;
             progressBar.style.width = `${((currentSlideIndex + 1) / slides.length) * 100}%`;
-            
             prevBtnSide.style.opacity = currentSlideIndex === 0 ? "0" : "1";
             prevBtnSide.style.pointerEvents = currentSlideIndex === 0 ? "none" : "auto";
             nextBtnSide.style.opacity = currentSlideIndex === slides.length - 1 ? "0" : "1";
             nextBtnSide.style.pointerEvents = currentSlideIndex === slides.length - 1 ? "none" : "auto";
-
+            
             let visualHtml = '';
-            if (slide.isMap) visualHtml = buildMapTemplate(isDark);
-            else if (slide.isRadialMap) visualHtml = buildRadialMapTemplate(isDark);
+            if (slide.isFinal) {
+                visualHtml = `<div class="flex flex-col items-center justify-center py-20 animate-fade-in text-center w-full col-span-2">
+                    <div class="w-80 h-80 mb-12 flex items-center justify-center relative group">
+                        <div class="absolute inset-0 bg-white/5 rounded-full animate-pulse scale-150"></div>
+                        <div class="absolute inset-0 bg-amber-500/10 rounded-full animate-ping"></div>
+                        <img src="https://i.imgur.com/yyI6FWO.png" 
+                             onerror="this.src='https://comfamiliar.com/wp-content/uploads/2021/08/cropped-favicon-comfamiliar-192x192.png'; this.classList.add('w-32', 'h-32')"
+                             class="w-full h-auto object-contain relative z-10 transition-transform duration-1000 group-hover:scale-110" 
+                             alt="Logo Comfamiliar">
+                    </div>
+                    <div class="space-y-4">
+                        <div class="text-5xl md:text-7xl font-black uppercase tracking-tighter ${isDark ? 'text-white' : 'text-slate-900'} mb-2">${slide.title}</div>
+                        <div class="text-lg md:text-3xl font-black uppercase tracking-[0.4em] text-amber-500 mb-12">${slide.content}</div>
+                        <div class="h-1 w-32 bg-amber-500 mx-auto rounded-full"></div>
+                    </div>
+                </div>`;
+            } else if (slide.isMap) visualHtml = buildMapTemplate(isDark);
             else if (slide.isTEDVisual) visualHtml = buildTEDVisual(isDark);
             else if (slide.adminTags) visualHtml = buildComparison(isDark, slide.adminTags);
             else if (slide.highlights) visualHtml = buildHighlights(isDark, slide.highlights);
-            else if (slide.isChart) visualHtml = buildChart(isDark, slide.labels);
             else if (slide.points) visualHtml = buildPoints(isDark, slide.points);
             
-            const isFullWidthMap = slide.isMap || slide.isRadialMap;
-
+            const isFullWidthContent = slide.isMap || slide.isFinal;
+            
             slideContainer.innerHTML = `
-                <div class="grid grid-cols-1 ${isFullWidthMap ? '' : 'md:grid-cols-2'} gap-12 items-start fade-in px-4 md:px-12">
-                    <div class="${isFullWidthMap ? 'text-center mb-10' : 'space-y-10 md:sticky md:top-32'}">
-                        <div class="flex items-center gap-6 ${isFullWidthMap ? 'justify-center' : ''}">
-                            <div class="p-4 rounded-3xl backdrop-blur-xl shadow-2xl border ${isDark ? 'bg-white/10 border-white/20' : 'bg-white border-slate-100'}">
+                <div class="grid grid-cols-1 ${isFullWidthContent ? '' : 'md:grid-cols-2'} gap-12 items-start fade-in px-4 md:px-12">
+                    ${slide.isFinal ? visualHtml : `
+                    <div class="${slide.isMap ? 'text-center mb-10' : 'space-y-6 md:sticky md:top-32'}">
+                        <div class="flex items-center gap-6 ${slide.isMap ? 'justify-center' : ''}">
+                            <div class="p-4 rounded-3xl backdrop-blur-xl shadow-2xl border ${isDark ? 'bg-white/10 border-white/20' : 'bg-white' }">
                                 <i data-lucide="${slide.icon}" class="w-14 h-14 ${isDark ? 'text-amber-400' : 'text-teal-600'}"></i>
                             </div>
-                            <div class="text-left">
-                                <span class="text-[11px] font-black uppercase tracking-[0.4em] ${isDark ? 'text-amber-400/80' : 'text-slate-400'}">Estrategia 2026</span>
+                            <div class="text-left flex-1">
+                                <div class="flex items-center gap-4">
+                                    <span class="text-[11px] font-black uppercase tracking-[0.4em] ${isDark ? 'text-amber-400/80' : 'text-slate-400'}">Estrategia 2026</span>
+                                    <button onclick="toggleFullscreen()" title="Maximizar presentación" class="ml-auto p-2.5 rounded-xl bg-white/10 hover:bg-white/20 transition-all border border-white/10 group">
+                                        <i data-lucide="maximize-2" class="w-4 h-4 ${isDark ? 'text-white' : 'text-slate-500'} group-hover:scale-110 transition-transform"></i>
+                                    </button>
+                                </div>
                                 <h1 class="text-4xl md:text-5xl font-black leading-none tracking-tighter ${isDark ? 'text-white' : 'text-slate-900'}">${slide.title}</h1>
                             </div>
                         </div>
                         <h2 class="text-2xl font-bold ${isDark ? 'text-amber-400' : 'text-teal-700'}">${slide.subtitle}</h2>
                         <p class="text-lg md:text-xl text-justify leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}">${slide.content}</p>
                     </div>
-                    <div class="relative w-full">
-                        ${visualHtml}
-                    </div>
-                </div>
-            `;
+                    <div class="${slide.isMap ? 'w-full' : 'relative w-full'}">${visualHtml}</div>
+                    `}
+                </div>`;
             lucide.createIcons();
             renderDots();
         }
@@ -336,314 +327,299 @@
             slides.forEach((_, i) => {
                 const dot = document.createElement('div');
                 const isActive = i === currentSlideIndex;
-                dot.className = `w-2 h-2 rounded-full transition-all duration-500 cursor-pointer ${isActive ? (integrationMode ? 'bg-amber-500 w-10' : 'bg-teal-500 w-10') : 'bg-slate-400/30 hover:bg-slate-400'}`;
+                dot.className = `w-2 h-2 rounded-full transition-all duration-500 cursor-pointer ${isActive ? 'bg-teal-500 w-10' : 'bg-slate-400/30'}`;
                 dot.onclick = () => { currentSlideIndex = i; renderSlide(); window.scrollTo({top: 0, behavior: 'smooth'}); };
                 dotsContainer.appendChild(dot);
             });
         }
 
-        function buildRadialMapTemplate(isDark, isMaximized = false) {
-            return `
-                <div class="rounded-[4rem] p-12 border shadow-[0_32px_120px_-10px_rgba(0,0,0,0.15)] transition-all duration-1000 ${isDark ? 'bg-slate-900/50 border-white/10 backdrop-blur-3xl' : 'bg-white/90 backdrop-blur-2xl border-slate-200'} overflow-visible relative">
-                    
-                    ${!isMaximized ? `
-                    <button onclick="openMaximize()" class="absolute top-8 right-8 p-3 rounded-2xl bg-white/10 hover:bg-white/20 transition-all active:scale-95 border border-white/10 z-[60] shadow-lg">
-                        <i data-lucide="maximize-2" class="w-5 h-5 ${isDark ? 'text-amber-400' : 'text-slate-500'}"></i>
-                    </button>
-                    ` : ''}
-                    
-                    <div class="relative w-full max-w-[900px] h-[750px] mx-auto flex items-center justify-center">
-                        
-                        <!-- LÍNEAS DE CONEXIÓN SVG (FONDO) -->
-                        <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-20" viewBox="0 0 900 750">
-                            <!-- Círculos concéntricos -->
-                            <circle cx="450" cy="375" r="120" fill="none" class="${isDark ? 'stroke-amber-400' : 'stroke-indigo-400'}" stroke-width="1" stroke-dasharray="10 10" />
-                            <circle cx="450" cy="375" r="280" fill="none" class="${isDark ? 'stroke-slate-700' : 'stroke-slate-200'}" stroke-width="2" />
-                            
-                            <!-- Líneas radiales (Norte, Este, Oeste) -->
-                            <line x1="450" y1="375" x2="450" y2="100" class="${isDark ? 'stroke-indigo-500' : 'stroke-indigo-300'}" stroke-width="2" stroke-dasharray="5 5" />
-                            <line x1="450" y1="375" x2="100" y2="375" class="${isDark ? 'stroke-blue-500' : 'stroke-blue-300'}" stroke-width="2" stroke-dasharray="5 5" />
-                            <line x1="450" y1="375" x2="800" y2="375" class="${isDark ? 'stroke-emerald-500' : 'stroke-emerald-300'}" stroke-width="2" stroke-dasharray="5 5" />
-                        </svg>
-
-                        <!-- NODO CENTRAL (LÍDER) -->
-                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 flex flex-col items-center gap-4">
-                            ${buildRadialNode('n_sdo')}
-                            <div class="w-1 h-8 bg-gradient-to-b from-indigo-500 to-transparent"></div>
-                            ${buildRadialNode('n_lider')}
-                        </div>
-
-                        <!-- ALIADOS EXTERNOS (ESQUINAS) -->
-                        <div class="absolute top-0 right-0 flex flex-col gap-4 items-end slide-up">
-                            ${buildRadialNode('n_ted')}
-                            <div class="text-[10px] font-black uppercase text-amber-500 tracking-widest mr-4">Aliado Tech</div>
-                        </div>
-                        <div class="absolute top-0 left-0 flex flex-col gap-4 items-start slide-up">
-                            ${buildRadialNode('n_innovacion')}
-                            <div class="text-[10px] font-black uppercase text-amber-500 tracking-widest ml-4">Aliado Metodológico</div>
-                        </div>
-                        
-                        <!-- ALIADOS INFERIORES -->
-                        <div class="absolute bottom-0 right-0 flex flex-col gap-4 items-end">
-                            ${buildRadialNode('n_productividad')}
-                            <div class="text-[10px] font-black uppercase text-amber-500 tracking-widest mr-4">Aliado en Productividad</div>
-                        </div>
-                        <div class="absolute bottom-0 left-0 flex flex-col gap-4 items-start">
-                            ${buildRadialNode('n_agencia')}
-                            <div class="text-[10px] font-black uppercase text-amber-500 tracking-widest ml-4">Aliado en Atracción y Relacionamiento</div>
-                        </div>
-
-                        <!-- 3 NODOS CARDINALES -->
-                        
-                        <!-- NORTE (1. INTEGRACIÓN) -->
-                        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[350px] p-6 rounded-[3rem] border-2 shadow-xl hover:scale-105 transition-all duration-500 cursor-pointer ${isDark ? 'bg-indigo-950/40 border-indigo-400/30' : 'bg-indigo-50/90 border-indigo-200'}" onclick="openModal('n_integracion')">
-                            <h3 class="font-black text-center mb-4 text-[13px] uppercase tracking-widest ${isDark ? 'text-indigo-400' : 'text-indigo-900'}">1. Integración</h3>
-                            <div class="flex flex-col gap-2 scale-90">
-                                ${buildRadialNode('n_rol_integrador')} ${buildRadialNode('n_analitica_tec')} ${buildRadialNode('n_rel_lab_norm')}
-                            </div>
-                        </div>
-
-                        <!-- OESTE (2. DESARROLLO Y EXP) -->
-                        <div class="absolute top-1/2 left-0 -translate-y-1/2 w-[380px] p-6 rounded-[3rem] border-2 shadow-xl hover:scale-105 transition-all duration-500 cursor-pointer ${isDark ? 'bg-blue-950/40 border-blue-400/30' : 'bg-blue-50/90 border-blue-200'}" onclick="openModal('n_desarrollo_exp')">
-                            <h3 class="font-black text-center mb-4 text-[13px] uppercase tracking-widest ${isDark ? 'text-blue-400' : 'text-blue-900'}">2. Desarrollo y Experiencia</h3>
-                            <div class="flex flex-wrap gap-2 justify-center scale-75 -my-4">
-                                ${buildRadialNode('n_seleccion')} ${buildRadialNode('n_formacion')} ${buildRadialNode('n_gest_comp')} ${buildRadialNode('n_bienestar')} ${buildRadialNode('n_trabajo_social')} ${buildRadialNode('n_cultura')}
-                            </div>
-                        </div>
-
-                        <!-- ESTE (3. OPERACION Y ADMIN) -->
-                        <div class="absolute top-1/2 right-0 -translate-y-1/2 w-[380px] p-6 rounded-[3rem] border-2 shadow-xl hover:scale-105 transition-all duration-500 cursor-pointer ${isDark ? 'bg-emerald-950/40 border-emerald-400/30' : 'bg-emerald-50/90 border-emerald-200'}" onclick="openModal('n_operacion_admin')">
-                            <h3 class="font-black text-center mb-4 text-[13px] uppercase tracking-widest ${isDark ? 'text-emerald-400' : 'text-emerald-900'}">3. Operación y Admin.</h3>
-                            <div class="flex flex-wrap gap-2 justify-center scale-90">
-                                ${buildRadialNode('n_nomina')} ${buildRadialNode('n_seguridad_social')} ${buildRadialNode('n_contratacion')} ${buildRadialNode('n_historias_lab')} ${buildRadialNode('n_control_ad')} ${buildRadialNode('n_compensacion')}
-                            </div>
-                        </div>
-
-                    </div>
-                </div>`;
-        }
-
-        function buildRadialNode(id) {
-            const node = detailedNodes[id];
-            if (!node) return '';
-            const isHeader = id === 'n_sdo' || id === 'n_lider';
-            const isGroupRoot = id === 'n_integracion' || id === 'n_desarrollo_exp' || id === 'n_operacion_admin' || id === 'n_sst_root';
-            if(isGroupRoot) return ''; // We don't render group roots as single bubbles anymore, their info is on the group box
-            
-            return `<div onclick="event.stopPropagation(); openModal('${id}')" class="relative px-5 py-2.5 rounded-2xl shadow-lg border border-black/10 text-[9px] font-black uppercase cursor-pointer transition-all duration-300 hover:scale-[1.15] flex flex-col items-center justify-center min-h-[45px] ${isHeader ? 'w-[320px] py-5 text-[11px] ring-2 ring-black/5' : 'w-[150px]'} ${integrationMode && node.isPulse ? 'node-pulse border-amber-400' : ''} ${node.color}">
-                <span class="leading-tight text-center break-words">${node.title}</span>
-            </div>`;
-        }
-
         function buildMapTemplate(isDark, isMaximized = false) {
+            const groupBg = isDark ? 'bg-indigo-950/20 border-white/5' : 'bg-slate-50/40 border-slate-100';
+            
             return `
-                <div class="rounded-[3rem] p-10 border shadow-2xl transition-all duration-1000 ${isDark ? 'bg-white/5 border-white/10' : 'bg-white/90 backdrop-blur-xl border-slate-200'} overflow-x-auto relative">
+                <div class="rounded-[3rem] p-10 border shadow-2xl transition-all duration-1000 ${isDark ? 'bg-slate-900/60 border-white/10' : 'bg-white/95 border-slate-200'} relative flex flex-col items-center min-h-[fit-content] pt-20">
                     
                     ${!isMaximized ? `
-                    <button onclick="openMaximize()" class="absolute top-8 right-8 p-3 rounded-2xl bg-white/10 hover:bg-white/20 transition-all active:scale-95 border border-white/10 z-[60] shadow-lg">
+                    <button onclick="openMaximize()" class="absolute top-8 right-8 p-3 rounded-2xl bg-white/10 hover:bg-white/20 transition-all border border-white/10 z-[60] shadow-lg">
                         <i data-lucide="maximize-2" class="w-5 h-5 ${isDark ? 'text-amber-400' : 'text-slate-500'}"></i>
                     </button>
                     ` : ''}
                     
-                    <div class="min-w-[900px] flex flex-col items-center">
+                    <div class="min-w-[1280px] flex flex-col items-center scale-[0.85] origin-top py-4">
                         
-                        <div class="flex items-center justify-center gap-8 ${isDark ? 'text-slate-300 bg-white/5 border-white/10' : 'text-slate-600 bg-white/50 border-slate-200'} text-[10px] font-black uppercase tracking-widest px-8 py-4 mb-16 rounded-full border shadow-sm">
-                            <div class="flex items-center gap-2">
-                                <div class="w-3 h-3 rounded-full bg-[#78A49B] ring-2 ring-black/5"></div> Procesos Core SDO
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <div class="w-3 h-3 rounded-full bg-[#FEFE96] ring-2 ring-black/5"></div> Innovación & Proyectos
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <div class="w-3 h-3 rounded-full bg-[#F5C2C2] ring-2 ring-black/5"></div> Cultura & Acompañamiento
-                            </div>
+                        <!-- ROOT: Subdirección Desarrollo Organizacional -->
+                        <div class="relative z-20 mb-10">
+                            ${buildNode('root', 'large')}
+                            <div class="absolute left-1/2 top-full w-0.5 h-10 bg-slate-300 -translate-x-1/2 opacity-50"></div>
                         </div>
 
-                        <div class="mb-16">${buildNode('root')}</div>
-                        <div class="relative w-full flex justify-center gap-32">
-                            <div class="absolute left-1/2 top-0 bottom-0 w-[2px] -translate-x-1/2 transition-colors ${isDark ? 'bg-indigo-500/30' : 'bg-slate-300'}"></div>
-                            <div class="flex flex-col gap-12 items-end w-1/2 relative z-10">
-                                <div class="flex items-center gap-4">${buildNode('equipo_psico')} <i data-lucide="arrow-left" class="w-5 h-5 ${isDark ? 'text-indigo-400' : 'opacity-20'}"></i> ${buildNode('cultura')}</div>
-                                <div class="flex items-center gap-4">${buildNode('empleo_talento')} <div class="w-10 border-t-2 border-dashed ${isDark ? 'border-indigo-400/30' : 'border-slate-300'}"></div> <i data-lucide="arrow-left" class="w-5 h-5 ${isDark ? 'text-indigo-400' : 'opacity-20'}"></i> ${buildNode('seleccion')}</div>
-                                ${buildNode('desarrollo')}
-                                <div class="flex flex-col items-end gap-5 p-6 rounded-[2.5rem] border-2 border-dashed transition-all ${isDark ? 'border-indigo-500/40 bg-indigo-500/5' : 'border-slate-300 bg-black/5'}">
-                                    <div class="flex flex-col items-center gap-4">
-                                        ${buildNode('innovacion')}
-                                        <div class="h-2"></div>
-                                        ${buildNode('transformacion')}
-                                        <div class="flex flex-col items-center -my-2">
-                                            <i data-lucide="arrow-up" class="w-5 h-5 ${isDark ? 'text-indigo-400' : 'opacity-20'}"></i>
-                                            <div class="h-4 border-l-2 border-dashed ${isDark ? 'border-indigo-400/30' : 'border-slate-300'}"></div>
-                                        </div>
-                                        ${buildNode('vector_cultura')}
+                        <div class="relative w-full flex justify-center">
+                            
+                            <!-- ESPINA CENTRAL -->
+                            <div class="absolute left-1/2 top-0 bottom-0 w-0.5 bg-slate-200 -translate-x-1/2 opacity-30"></div>
+
+                            <!-- LADO IZQUIERDO -->
+                            <div class="w-1/2 flex flex-col items-end pr-16 gap-10 relative">
+                                
+                                <!-- Aceleración y Talento -->
+                                <div class="flex flex-col items-end gap-2 relative pr-10 py-2">
+                                     ${buildNode('unidad_aceleracion', 'small')}
+                                     <div class="h-6 border-l w-px border-dashed border-slate-300 mr-[75px]"></div>
+                                     ${buildNode('empleo_talento', 'small')}
+                                     <div class="absolute right-0 top-1/2 w-10 h-[calc(100%-20px)] border-r border-slate-300 rounded-r-3xl -translate-y-1/2"></div>
+                                </div>
+
+                                <!-- Gestión del Riesgo -->
+                                <div class="flex items-start gap-4 relative pr-10 py-4 rounded-[3rem] border border-transparent transition-all">
+                                    <div class="flex flex-col gap-2 items-end">
+                                        ${buildNode('obras_civiles', 'mini')}
+                                        ${buildNode('interventoria_contratos', 'mini')}
+                                        ${buildNode('transparencia_etica', 'mini')}
+                                        ${buildNode('sarlaft', 'mini')}
+                                        ${buildNode('oficial_cumplimiento', 'mini')}
                                     </div>
+                                    <div class="w-px self-stretch bg-slate-200 relative opacity-40"><div class="absolute left-0 top-0 w-4 h-[1px] bg-slate-200"></div><div class="absolute left-0 top-1/4 w-4 h-[1px] bg-slate-200"></div><div class="absolute left-0 top-1/2 w-4 h-[1px] bg-slate-200"></div><div class="absolute left-0 top-3/4 w-4 h-[1px] bg-slate-200"></div><div class="absolute left-0 bottom-0 w-4 h-[1px] bg-slate-200"></div></div>
+                                    ${buildNode('gestion_riesgo', 'medium')}
+                                    <div class="absolute right-0 top-1/2 w-10 h-0.5 bg-slate-300 opacity-40"></div>
+                                </div>
+
+                                <!-- Gestión de la Calidad -->
+                                <div class="flex items-start gap-4 relative pr-10 py-4">
+                                    <div class="flex flex-col gap-2 items-end">
+                                        ${buildNode('calidad_inst', 'mini')}
+                                        ${buildNode('atencion_usuario', 'mini')}
+                                        ${buildNode('gestion_ambiental', 'mini')}
+                                        ${buildNode('sst_sub', 'mini')}
+                                    </div>
+                                    <div class="w-px self-stretch bg-slate-200 relative opacity-40"><div class="absolute left-0 top-0 w-4 h-[1px] bg-slate-200"></div><div class="absolute left-0 top-1/3 w-4 h-[1px] bg-slate-200"></div><div class="absolute left-0 top-2/3 w-4 h-[1px] bg-slate-200"></div><div class="absolute left-0 bottom-0 w-4 h-[1px] bg-slate-200"></div></div>
+                                    ${buildNode('gestion_calidad', 'medium')}
+                                    <div class="absolute right-0 top-1/2 w-10 h-0.5 bg-slate-300 opacity-40"></div>
                                 </div>
                             </div>
-                            <div class="flex flex-col gap-12 items-start w-1/2 relative z-10">
-                                <div class="flex items-center gap-4">${buildNode('competencias')} <i data-lucide="arrow-right" class="w-5 h-5 ${isDark ? 'text-indigo-400' : 'opacity-20'}"></i> ${buildNode('historias')}</div>
-                                ${buildNode('nomina')}
-                                <div class="flex gap-6 items-start">${buildNode('relaciones')}<div class="flex flex-col gap-4 border-l-2 pl-6 transition-colors ${isDark ? 'border-indigo-500/30' : 'border-slate-300'}">${buildNode('control')}${buildNode('negociaciones')}</div></div>
-                                ${buildNode('productividad')}
+
+                            <!-- LADO DERECHO -->
+                            <div class="w-1/2 flex flex-col items-start pl-16 gap-8 relative">
+                                
+                                <!-- Gestión Humana -> INTEGRACIÓN -->
+                                <div class="flex flex-col items-start gap-4 relative py-4 lg:pr-10">
+                                    <div class="absolute -left-16 top-10 w-16 h-0.5 bg-slate-300 opacity-40"></div>
+                                    <div class="flex items-center gap-6">
+                                        ${buildNode('gestion_humana', 'medium')}
+                                        <div class="w-10 h-px border-t-2 border-dashed border-indigo-200"></div>
+                                        ${buildNode('integracion', 'small')}
+                                    </div>
+                                    
+                                    <div class="flex gap-4 items-start pl-8 border-l-2 border-indigo-100/30 ml-20 mt-4 relative">
+                                        <div class="flex flex-col gap-2">
+                                            ${buildNode('gestor_ex', 'mini')}
+                                            ${buildNode('vector_tec', 'mini')}
+                                            ${buildNode('rel_lab_cumpl', 'mini')}
+                                        </div>
+                                        <div class="flex flex-col gap-2">
+                                            <div class="text-[7px] font-black uppercase text-indigo-400 mb-1 pl-1">Desarrollo y experiencia</div>
+                                            ${buildNode('seleccion_sub', 'mini')}
+                                            ${buildNode('formacion_sub', 'mini')}
+                                            ${buildNode('gest_comp_sub', 'mini')}
+                                            ${buildNode('bienestar_sub', 'mini')}
+                                            ${buildNode('trabajo_social_sub', 'mini')}
+                                            ${buildNode('vector_cultura', 'mini')}
+                                        </div>
+                                        <div class="flex flex-col gap-2">
+                                            <div class="text-[7px] font-black uppercase text-emerald-500 mb-1 pl-1">Operación y Administración</div>
+                                            ${buildNode('nomina_sub', 'mini')}
+                                            ${buildNode('seguridad_social_sub', 'mini')}
+                                            ${buildNode('contratacion_sub', 'mini')}
+                                            ${buildNode('historias_sub', 'mini')}
+                                            ${buildNode('control_ad_sub', 'mini')}
+                                            ${buildNode('compensacion_benef', 'mini')}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Rama Productividad -->
+                                <div class="flex items-center gap-6 relative py-4">
+                                    <div class="absolute -left-16 top-1/2 w-16 h-0.5 bg-slate-300 opacity-40"></div>
+                                    ${buildNode('productividad', 'small')}
+                                    <div class="w-8 border-t border-dashed border-slate-300"></div>
+                                    ${buildNode('metodologia_negocio', 'mini')}
+                                </div>
+
+                                <!-- Rama Transformación Digital e Innovación -->
+                                <div class="flex flex-col gap-4 py-2 border-l border-slate-200 border-dashed pl-8 ml-[-64px] relative">
+                                    <div class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-full w-8 h-px bg-slate-300 opacity-40"></div>
+                                    ${buildNode('transformacion', 'small')}
+                                    ${buildNode('innovacion', 'small')}
+                                </div>
                             </div>
+
                         </div>
                     </div>
+
                 </div>`;
         }
 
-        function buildNode(id) {
+        function buildNode(id, size = 'medium') {
             const node = detailedNodes[id];
             if (!node) return '';
             const isRoot = id === 'root';
-            return `<div onclick="openModal('${id}')" class="relative px-6 py-3 rounded-2xl shadow-xl border border-black/10 text-[10px] font-black uppercase cursor-pointer transition-all duration-500 hover:scale-110 flex flex-col items-center justify-center min-h-[55px] ${isRoot ? 'w-[320px] py-6 text-xs ring-4 ring-white/10' : 'w-[180px]'} ${integrationMode && node.isPulse ? 'node-pulse border-amber-400' : ''} ${node.color}">
-                <span class="leading-tight text-center">${node.title}</span>
+            
+            let classes = "flex items-center justify-center text-center font-black uppercase transition-all duration-500 cursor-pointer shadow-lg hover:scale-105 active:scale-95 ";
+            
+            if (size === 'mini') {
+                classes += "w-[130px] h-[34px] text-[7.5px] rounded-lg px-2 leading-[0.85] ";
+            } else if (size === 'small') {
+                classes += "w-[160px] h-[45px] text-[9px] rounded-xl px-4 leading-[0.9] ";
+            } else if (size === 'medium') {
+                classes += "w-[190px] h-[55px] text-[10.5px] rounded-[1.25rem] px-6 leading-[1] ";
+            } else if (size === 'large') {
+                classes += "w-[340px] h-[80px] text-[12px] rounded-[1.5rem] px-8 py-4 ring-4 ring-black/5 ";
+            }
+
+            return `<div onclick="openModal(event, '${id}')" class="${classes} border border-black/5 border-b-2 border-black/10 ${integrationMode && node.isPulse ? 'node-pulse border-amber-400' : ''} ${node.color}">
+                <span class="break-words max-w-full">${node.title}</span>
             </div>`;
         }
 
         function buildComparison(isDark, tags) {
-            return `<div class="space-y-6 fade-in px-4">
-                <div class="p-8 rounded-[2.5rem] border border-slate-200 bg-slate-100/50 opacity-60">
-                    <div class="text-[11px] font-black uppercase mb-4 text-slate-500">Gestión Administrativa</div>
-                    <div class="flex flex-wrap gap-3">${tags.map(t => `<span class="px-4 py-2 rounded-full text-xs font-bold bg-white text-slate-800 shadow-sm">${t}</span>`).join('')}</div>
+            const commonCard = `p-10 rounded-[3.5rem] border transition-all duration-700 relative overflow-hidden group min-h-[280px] flex flex-col justify-center ${isDark ? 'bg-slate-800/40 border-slate-700' : 'bg-white/40 border-slate-200'} backdrop-blur-sm shadow-sm`;
+            const titleStyle = "text-xl font-black uppercase tracking-[0.1em] m-0 text-center";
+            
+            return `<div class="space-y-6 fade-in px-4 font-urbanist max-w-4xl mx-auto">
+                <!-- Parte Administrativa (Base) -->
+                <div class="${commonCard}">
+                    <div class="absolute top-0 right-0 p-8 opacity-5 -mr-6 -mt-6 group-hover:scale-110 transition-transform ${isDark ? 'text-white' : 'text-slate-900'}">
+                        <i data-lucide="building-2" class="w-32 h-32"></i>
+                    </div>
+                    <div class="flex flex-col items-center gap-4 mb-8 relative z-10">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2.5 rounded-xl ${isDark ? 'bg-slate-700 text-slate-200' : 'bg-slate-200 text-slate-500'} shadow-inner border ${isDark ? 'border-slate-600' : 'border-slate-300'}"><i data-lucide="shield-check" class="w-5 h-5"></i></div>
+                            <h3 class="${titleStyle} ${isDark ? 'text-white' : 'text-slate-500'}">Gestión Administrativa</h3>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap justify-center gap-3 relative z-10">
+                        ${tags.map(t => `<span class="px-6 py-3 rounded-2xl text-[11px] font-black ${isDark ? 'bg-slate-700 text-slate-200 border-white/5' : 'bg-white text-slate-700 border-slate-100/50'} shadow-sm border flex items-center gap-2 transition-all hover:scale-105 uppercase tracking-tight"><i data-lucide="layers" class="w-4 h-4 text-indigo-400 opacity-60"></i>${t}</span>`).join('')}
+                    </div>
                 </div>
-                <div class="flex justify-center -my-3 relative z-10"><div class="bg-teal-600 text-white p-3 rounded-full shadow-2xl"><i data-lucide="arrow-down" class="w-8 h-8"></i></div></div>
-                <div class="p-10 rounded-[3.5rem] border-2 border-amber-500 bg-amber-500/5 shadow-2xl shadow-amber-500/10">
-                    <div class="text-[11px] font-black uppercase text-amber-500 mb-4 tracking-widest text-center">Desarrollo Organizacional</div>
-                    <div class="flex flex-wrap gap-3 justify-center">
-                        <span class="px-5 py-2.5 rounded-full text-sm font-black bg-amber-500 text-white shadow-xl">Enfoque Diferenciado</span>
-                        <span class="px-5 py-2.5 rounded-full text-sm font-black bg-amber-500 text-white shadow-xl">Agilidad de Decisión</span>
-                        <span class="px-5 py-2.5 rounded-full text-sm font-black bg-amber-500 text-white shadow-xl">Especialización Metodológica</span>
+
+                <!-- Transición -->
+                <div class="flex justify-center -my-3 relative z-20">
+                    <div class="bg-amber-500 p-2 rounded-full shadow-2xl hover:scale-110 transition-transform cursor-pointer border-[3px] border-white">
+                        <i data-lucide="arrow-down" class="w-5 h-5 text-white"></i>
+                    </div>
+                </div>
+
+                <!-- Parte SDO (Evolución Balanceada en 2 Líneas) -->
+                <div class="${commonCard} border-amber-500/50 dark:border-amber-500 ${isDark ? 'bg-slate-900/60' : 'bg-gradient-to-br from-amber-50 to-white'} shadow-2xl shadow-amber-500/10 border-2">
+                    <div class="absolute -bottom-10 -right-10 p-6 opacity-5 group-hover:scale-125 transition-transform group-hover:rotate-12 duration-1000 ${isDark ? 'text-amber-500' : 'text-amber-600'}">
+                        <i data-lucide="trending-up" class="w-48 h-48"></i>
+                    </div>
+                    <div class="flex flex-col items-center mb-10 relative z-10 text-center">
+                        <h3 class="${titleStyle} ${isDark ? 'text-amber-400' : 'text-amber-500'}">Desarrollo Organizacional</h3>
+                    </div>
+                    
+                    <div class="flex flex-col items-center gap-4 relative z-10 w-full">
+                        <!-- Línea 1: 2 Pastillas -->
+                        <div class="flex flex-wrap justify-center gap-4 w-full">
+                            <span class="px-8 py-4 rounded-full text-[13px] font-black bg-amber-500 text-white shadow-xl flex items-center justify-center transition-all hover:scale-105 hover:bg-amber-600 uppercase tracking-tight border-2 border-white/20 min-w-[210px]">Enfoque Diferenciado</span>
+                            <span class="px-8 py-4 rounded-full text-[13px] font-black bg-amber-500 text-white shadow-xl flex items-center justify-center transition-all hover:scale-105 hover:bg-amber-600 uppercase tracking-tight border-2 border-white/20 min-w-[210px]">Agilidad de Decisión</span>
+                        </div>
+                        <!-- Línea 2: 1 Pastilla Centrada -->
+                        <div class="flex justify-center w-full">
+                            <span class="px-12 py-4 rounded-full text-[13px] font-black bg-amber-500 text-white shadow-xl flex items-center justify-center transition-all hover:scale-105 hover:bg-amber-600 uppercase tracking-tight border-2 border-white/20 min-w-[300px]">Especialización Metodológica</span>
+                        </div>
                     </div>
                 </div>
             </div>`;
         }
 
         function buildHighlights(isDark, items) {
-            return `<div class="space-y-5 fade-in px-4">${items.map((h, i) => `
-                <div class="p-6 rounded-[2rem] shadow-2xl flex gap-6 items-center transition-all hover:scale-105 ${isDark ? 'bg-white/5 border border-white/10' : 'bg-white border-slate-100'}">
-                    <div class="w-16 h-16 rounded-2xl flex items-center justify-center font-black text-2xl ${isDark ? 'bg-amber-500 text-white' : 'bg-indigo-100 text-indigo-600'}">${i + 1}</div>
-                    <div class="text-left"><div class="font-black text-lg ${isDark ? 'text-white' : 'text-slate-900'}">${h.label}</div><div class="text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'} font-medium">${h.desc}</div></div>
-                </div>
-            `).join('')}</div>`;
+            return `<div class="space-y-5 fade-in px-4">${items.map((h, i) => `<div class="p-6 rounded-[2rem] shadow-2xl flex gap-6 items-center transition-all hover:scale-105 ${isDark ? 'bg-white/5 border border-white/10' : 'bg-white border-slate-100'}"><div class="w-16 h-16 rounded-2xl flex items-center justify-center font-black text-2xl ${isDark ? 'bg-amber-500 text-white' : 'bg-indigo-100 text-indigo-600'}">${i + 1}</div><div class="text-left"><div class="font-black text-lg ${isDark ? 'text-white' : 'text-slate-900'}">${h.label}</div><div class="text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'} font-medium">${h.desc}</div></div></div>`).join('')}</div>`;
         }
 
         function buildTEDVisual(isDark, isMaximized = false) {
-            return `<div class="p-12 rounded-[4rem] border shadow-2xl transition-all duration-1000 ${isDark ? 'bg-slate-900/50 border-amber-500/20' : 'bg-white border-slate-200'} mx-4 relative overflow-hidden">
-                
-                ${!isMaximized ? `
-                <button onclick="openMaximize()" class="absolute top-8 right-8 p-3 rounded-2xl bg-white/10 hover:bg-white/20 transition-all active:scale-95 border border-white/10 z-[60] shadow-lg">
-                    <i data-lucide="maximize-2" class="w-5 h-5 ${isDark ? 'text-amber-400' : 'text-slate-500'}"></i>
-                </button>
-                ` : ''}
-                <div class="flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
-                    <!-- Triada TED -->
-                    <div class="flex-1 grid grid-cols-1 gap-6">
-                        <div class="p-8 rounded-[3rem] border-2 border-indigo-500/30 bg-indigo-500/5 hover:bg-indigo-500/10 transition-all group">
-                            <div class="flex items-center gap-5 mb-4">
-                                <div class="p-4 rounded-2xl bg-indigo-500 text-white shadow-lg"><i data-lucide="monitor" class="w-8 h-8"></i></div>
-                                <h3 class="text-2xl font-black uppercase tracking-tighter ${isDark ? 'text-indigo-400' : 'text-indigo-900'}">Tecnología</h3>
-                            </div>
-                            <p class="text-sm font-medium leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}">Automatización de tareas repetitivas y digitalización total del ciclo de vida del colaborador.</p>
-                        </div>
-                        <div class="p-8 rounded-[3rem] border-2 border-amber-500/30 bg-amber-500/5 hover:bg-amber-500/10 transition-all group">
-                            <div class="flex items-center gap-5 mb-4">
-                                <div class="p-4 rounded-2xl bg-amber-500 text-white shadow-lg"><i data-lucide="compass" class="w-8 h-8"></i></div>
-                                <h3 class="text-2xl font-black uppercase tracking-tighter ${isDark ? 'text-amber-400' : 'text-amber-900'}">Estrategia</h3>
-                            </div>
-                            <p class="text-sm font-medium leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}">Alineación de objetivos institucionales con el desempeño dinámico y metodologías ágiles.</p>
-                        </div>
-                        <div class="p-8 rounded-[3rem] border-2 border-emerald-500/30 bg-emerald-500/5 hover:bg-emerald-500/10 transition-all group">
-                            <div class="flex items-center gap-5 mb-4">
-                                <div class="p-4 rounded-2xl bg-emerald-500 text-white shadow-lg"><i data-lucide="bar-chart-3" class="w-8 h-8"></i></div>
-                                <h3 class="text-2xl font-black uppercase tracking-tighter ${isDark ? 'text-emerald-400' : 'text-emerald-900'}">Desempeño</h3>
-                            </div>
-                            <p class="text-sm font-medium leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}">Resultados de alta productividad medibles con People Analytics y cultura neuronal.</p>
-                        </div>
-                    </div>
-                    <!-- Diagrama Central -->
-                    <div class="w-full md:w-1/3 flex flex-col items-center justify-center relative">
-                        <div class="relative w-64 h-64">
-                            <div class="absolute inset-0 rounded-full border-4 border-dashed border-slate-300 animate-[spin_20s_linear_infinite]"></div>
-                            <div class="absolute inset-4 rounded-full border-4 border-indigo-500/20"></div>
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <div class="text-center">
-                                    <div class="text-6xl font-black text-amber-500">TED</div>
-                                    <div class="text-[10px] font-black uppercase tracking-[0.3em] ${isDark ? 'text-slate-500' : 'text-slate-400'}">Ecosistema 2026</div>
-                                </div>
-                            </div>
-                            <!-- Satélites -->
-                            <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 bg-indigo-500 rounded-xl text-white shadow-xl animate-pulse"><i data-lucide="zap" class="w-4 h-4"></i></div>
-                            <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 p-3 bg-emerald-500 rounded-xl text-white shadow-xl animate-pulse"><i data-lucide="cpu" class="w-4 h-4"></i></div>
-                        </div>
-                    </div>
-                </div>
-            </div>`;
+            return `<div class="p-12 rounded-[4rem] border shadow-2xl transition-all duration-1000 ${isDark ? 'bg-slate-900/50 border-amber-500/20' : 'bg-white border-slate-200'} mx-4 relative overflow-hidden">${!isMaximized ? `<button onclick="openMaximize()" class="absolute top-8 right-8 p-3 rounded-2xl bg-white/10 hover:bg-white/20 transition-all border border-white/10 z-[60] shadow-lg"><i data-lucide="maximize-2" class="w-5 h-5 ${isDark ? 'text-amber-400' : 'text-slate-500'}"></i></button>` : ''}<div class="flex flex-col md:flex-row items-center justify-between gap-12 relative z-10"><div class="flex-1 grid grid-cols-1 gap-6"><div class="p-8 rounded-[3rem] border-2 border-indigo-500/30 bg-indigo-500/5 group"><div class="flex items-center gap-5 mb-4"><div class="p-4 rounded-2xl bg-indigo-500 text-white shadow-lg"><i data-lucide="monitor" class="w-8 h-8"></i></div><h3 class="text-2xl font-black uppercase ${isDark ? 'text-indigo-400' : 'text-indigo-900'}">Tecnología</h3></div><p class="text-sm font-medium ${isDark ? 'text-slate-400' : 'text-slate-600'}">Automatización de tareas repetitivas.</p></div><div class="p-8 rounded-[3rem] border-2 border-amber-500/30 bg-amber-500/5 group"><div class="flex items-center gap-5 mb-4"><div class="p-4 rounded-2xl bg-amber-500 text-white shadow-lg"><i data-lucide="compass" class="w-8 h-8"></i></div><h3 class="text-2xl font-black uppercase ${isDark ? 'text-amber-400' : 'text-amber-900'}">Estrategia</h3></div><p class="text-sm font-medium ${isDark ? 'text-slate-400' : 'text-slate-600'}">Alineación de objetivos institucionales.</p></div><div class="p-8 rounded-[3rem] border-2 border-emerald-500/30 bg-emerald-500/5 group"><div class="flex items-center gap-5 mb-4"><div class="p-4 rounded-2xl bg-emerald-500 text-white shadow-lg"><i data-lucide="bar-chart-3" class="w-8 h-8"></i></div><h3 class="text-2xl font-black uppercase ${isDark ? 'text-emerald-400' : 'text-emerald-900'}">Desempeño</h3></div><p class="text-sm font-medium ${isDark ? 'text-slate-400' : 'text-slate-600'}">Resultados de alta productividad.</p></div></div><div class="w-full md:w-1/3 flex flex-col items-center justify-center relative"><div class="relative w-64 h-64"><div class="absolute inset-0 rounded-full border-4 border-dashed border-slate-300 animate-[spin_20s_linear_infinite]"></div><div class="absolute inset-4 rounded-full border-4 border-indigo-500/20"></div><div class="absolute inset-0 flex items-center justify-center"><div class="text-center"><div class="text-6xl font-black text-amber-500">TED</div><div class="text-[10px] uppercase font-black tracking-[0.3em] ${isDark ? 'text-slate-500' : 'text-slate-400'}">Ecosistema 2026</div></div></div></div></div></div></div>`;
         }
 
         function buildPoints(isDark, points) {
-            return `<div class="grid grid-cols-1 gap-6 fade-in px-4">${points.map(p => `
-                <div class="p-7 rounded-[2.5rem] flex items-center gap-6 border shadow-xl transition-all ${isDark ? 'bg-white/5 border-white/10 text-white' : 'bg-white border-slate-100 text-slate-800'}">
-                    <div class="w-10 h-10 rounded-full bg-teal-500/20 flex items-center justify-center text-teal-600 font-black"><i data-lucide="zap" class="w-6 h-6"></i></div>
-                    <span class="font-black text-lg text-justify leading-tight">${p}</span>
-                </div>`).join('')}</div>`;
+            return `<div class="grid grid-cols-1 gap-6 fade-in px-4">${points.map(p => `<div class="p-7 rounded-[2.5rem] flex items-center gap-6 border shadow-xl transition-all ${isDark ? 'bg-white/5 border-white/10 text-white' : 'bg-white border-slate-100 text-slate-800'}"><div class="w-10 h-10 rounded-full bg-teal-500/20 flex items-center justify-center text-teal-600"><i data-lucide="zap" class="w-6 h-6"></i></div><span class="font-black text-lg leading-tight uppercase">${p}</span></div>`).join('')}</div>`;
         }
 
         function nextSlide() { if (currentSlideIndex < slides.length - 1) { currentSlideIndex++; renderSlide(); window.scrollTo({top: 0, behavior: 'smooth'}); } }
         function prevSlide() { if (currentSlideIndex > 0) { currentSlideIndex--; renderSlide(); window.scrollTo({top: 0, behavior: 'smooth'}); } }
 
-        function openModal(id) {
+        function openModal(e, id) {
             const node = detailedNodes[id];
-            const isDark = integrationMode || slides[currentSlideIndex].isDark;
+            if(!node) return;
             const modal = document.getElementById('node-modal');
             const content = document.getElementById('modal-content');
             
             document.getElementById('modal-title').innerText = node.title;
-            document.getElementById('modal-desc').innerText = node.desc;
-            document.getElementById('modal-vision').innerText = node.vision;
-            document.getElementById('modal-challenge').innerText = node.challenge;
-            document.getElementById('modal-tag').className = `inline-flex items-center gap-2.5 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-8 ${node.color}`;
+            document.getElementById('modal-desc').innerText = node.desc || 'Información estratégica.';
+            document.getElementById('modal-vision').innerText = node.vision || 'N/A';
+            document.getElementById('modal-challenge').innerText = `"${node.challenge || 'Definiendo reto'}"`;
+            
+            // Posicionamiento inteligente
+            modal.style.display = 'block'; // Mostrar temporalmente para medir
+            const rect = e.currentTarget.getBoundingClientRect();
+            const winWidth = window.innerWidth;
+            const winHeight = window.innerHeight;
+            const cardWidth = content.offsetWidth;
+            const cardHeight = content.offsetHeight;
+            
+            let posX = rect.right + 20;
+            let posY = rect.top - 10;
 
-            if(isDark) {
-                content.className = "relative p-10 rounded-[3.5rem] max-w-xl w-full shadow-2xl border bg-slate-900 border-amber-500/30 text-white transition-all duration-500 scale-100 opacity-100 overflow-y-auto max-h-[90vh]";
-                document.getElementById('modal-challenge-box').className = "p-6 rounded-[2rem] border-l-8 border-amber-500 text-left bg-amber-500/10";
-            } else {
-                content.className = "relative p-10 rounded-[3.5rem] max-w-xl w-full shadow-2xl border bg-white border-white transition-all duration-500 scale-100 opacity-100 overflow-y-auto max-h-[90vh]";
-                document.getElementById('modal-challenge-box').className = "p-6 rounded-[2rem] border-l-8 border-amber-500 text-left bg-amber-50";
+            // Ajuste horizontal (Evitar desborde derecho)
+            if (posX + cardWidth > winWidth - 20) {
+                posX = rect.left - cardWidth - 20;
             }
-            modal.classList.replace('hidden', 'flex');
+
+            // Ajuste vertical (Evitar desborde inferior)
+            if (posY + cardHeight > winHeight - 20) {
+                posY = winHeight - cardHeight - 20;
+            }
+
+            // Ajuste vertical (Evitar desborde superior)
+            if (posY < 80) posY = 80; // Margen para el header
+
+            content.style.left = posX + 'px';
+            content.style.top = posY + 'px';
+
+            modal.classList.remove('hidden');
+            modal.classList.add('block');
+            
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
             lucide.createIcons();
         }
 
         function closeModal() {
             const modal = document.getElementById('node-modal');
-            document.getElementById('modal-content').classList.replace('scale-100', 'scale-90');
-            document.getElementById('modal-content').classList.replace('opacity-100', 'opacity-0');
-            setTimeout(() => { modal.classList.replace('flex', 'hidden'); }, 300);
+            const content = document.getElementById('modal-content');
+            content.classList.add('scale-95', 'opacity-0');
+            content.classList.remove('scale-100', 'opacity-100');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('block');
+            }, 300);
         }
 
-        // Variables para Pan & Zoom
-        let currentScale = 1;
-        let offsetX = 0;
-        let offsetY = 0;
-        let isDragging = false;
-        let startX, startY;
+        let currentScale = 1; let offsetX = 0; let offsetY = 0; let isDragging = false; let startX, startY;
 
         function openMaximize() {
             const slide = slides[currentSlideIndex];
             const isDark = integrationMode || slide.isDark;
             const modal = document.getElementById('maximize-modal');
             const wrapper = document.getElementById('zoom-wrapper');
-            
-            resetZoom(); // Reiniciar al abrir
-            
+            resetZoom();
             let visualHtml = '';
             if (slide.isMap) visualHtml = buildMapTemplate(isDark, true);
-            else if (slide.isRadialMap) visualHtml = buildRadialMapTemplate(isDark, true);
             else if (slide.isTEDVisual) visualHtml = buildTEDVisual(isDark, true);
-            
             wrapper.innerHTML = visualHtml;
             modal.classList.replace('hidden', 'flex');
             document.body.style.overflow = 'hidden';
-            
             lucide.createIcons();
             initPanZoom();
         }
@@ -657,61 +633,17 @@
 
         function initPanZoom() {
             const container = document.getElementById('maximize-modal-content');
-            const wrapper = document.getElementById('zoom-wrapper');
-
-            container.onwheel = (e) => {
-                e.preventDefault();
-                const delta = e.deltaY > 0 ? -0.1 : 0.1;
-                changeZoom(delta);
-            };
-
-            container.onmousedown = (e) => {
-                isDragging = true;
-                startX = e.clientX - offsetX;
-                startY = e.clientY - offsetY;
-                container.style.cursor = 'grabbing';
-            };
-
-            window.onmousemove = (e) => {
-                if (!isDragging) return;
-                offsetX = e.clientX - startX;
-                offsetY = e.clientY - startY;
-                applyTransform();
-            };
-
-            window.onmouseup = () => {
-                isDragging = false;
-                container.style.cursor = 'grab';
-            };
+            container.onwheel = (e) => { e.preventDefault(); const delta = e.deltaY > 0 ? -0.1 : 0.1; changeZoom(delta); };
+            container.onmousedown = (e) => { isDragging = true; startX = e.clientX - offsetX; startY = e.clientY - offsetY; container.style.cursor = 'grabbing'; };
+            window.onmousemove = (e) => { if (!isDragging) return; offsetX = e.clientX - startX; offsetY = e.clientY - startY; applyTransform(); };
+            window.onmouseup = () => { isDragging = false; container.style.cursor = 'grab'; };
         }
 
-        function changeZoom(delta) {
-            currentScale = Math.min(Math.max(currentScale + delta, 0.5), 3);
-            applyTransform();
-        }
-
-        function resetZoom() {
-            currentScale = 1;
-            offsetX = 0;
-            offsetY = 0;
-            applyTransform();
-        }
-
-        function applyTransform() {
-            const wrapper = document.getElementById('zoom-wrapper');
-            if (wrapper) {
-                wrapper.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${currentScale})`;
-            }
-        }
-
-        function toggleFullscreen() {
-            const modal = document.getElementById('maximize-modal');
-            if (!document.fullscreenElement) {
-                modal.requestFullscreen().catch(err => console.log(err));
-            } else {
-                document.exitFullscreen();
-            }
-        }
+        function changeZoom(delta) { currentScale = Math.min(Math.max(currentScale + delta, 0.5), 3); applyTransform(); }
+        function resetZoom() { currentScale = 1; offsetX = 0; offsetY = 0; applyTransform(); }
+        function applyTransform() { const wrapper = document.getElementById('zoom-wrapper'); if (wrapper) wrapper.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${currentScale})`; }
+        function toggleFullscreen() { if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(err => console.log(err)); else document.exitFullscreen(); }
+        function toggleAppFullscreen() { const modal = document.getElementById('maximize-modal'); if (!document.fullscreenElement) modal.requestFullscreen().catch(err => console.log(err)); else document.exitFullscreen(); }
     </script>
 </body>
 </html>
