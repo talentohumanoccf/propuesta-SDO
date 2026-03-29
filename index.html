@@ -80,9 +80,69 @@
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
+
+        /* Preloader Styles */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: #020617; /* slate-950 */
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
+            perspective: 1200px;
+        }
+        #preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .loader-logo {
+            width: 180px;
+            height: auto;
+            transform-style: preserve-3d;
+            animation: loader-orbit 5s ease-in-out infinite;
+            filter: drop-shadow(0 0 40px rgba(245, 158, 11, 0.4));
+        }
+        @keyframes loader-orbit {
+            0% { transform: rotateY(-25deg) rotateX(10deg) scale(0.95); opacity: 0.8; }
+            50% { transform: rotateY(25deg) rotateX(-10deg) scale(1.05); opacity: 1; }
+            100% { transform: rotateY(-25deg) rotateX(10deg) scale(0.95); opacity: 0.8; }
+        }
+        .loader-bar {
+            width: 200px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-top: 40px;
+            overflow: hidden;
+            position: relative;
+        }
+        .loader-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 50%;
+            background: linear-gradient(90deg, transparent, #f59e0b, transparent);
+            animation: loader-slide 1.5s infinite linear;
+        }
+        @keyframes loader-slide {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(200%); }
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 transition-colors duration-700 min-h-screen">
+
+    <div id="preloader">
+        <img src="https://i.imgur.com/mCMotqk.png" alt="Logo SDO" class="loader-logo">
+        <div class="loader-bar">
+            <div class="loader-progress"></div>
+        </div>
+        <div class="mt-6 text-[10px] font-black uppercase tracking-[0.5em] text-amber-500/60 animate-pulse">Cargando Estrategia</div>
+    </div>
 
     <div class="fixed top-0 left-0 w-full h-1 bg-black/10 z-[100]">
         <div id="progress-bar" class="h-full bg-teal-500 transition-all duration-500" style="width: 16.66%"></div>
@@ -218,8 +278,8 @@
         };
 
         const slides = [
-            { id: 'vision', title: 'Propuesta Estratégica SDO', subtitle: 'Consolidación de la Subdirección de Desarrollo Organizacional', content: 'La creación de la Subdirección de Desarrollo Organizacional (SDO) no es una simple reestructuración, sino un imperativo estratégico para garantizar que el crecimiento de la organización sea sostenible, ágil y centrado en el talento. Esta subdirección se posiciona como el puente crítico entre la visión ejecutiva y la ejecución operativa, asegurando que la cultura, la tecnología y el talento converjan en resultados de alta productividad.', icon: 'sparkles', isDark: true, points: ['Cultura Neuronal Ágil', 'Modelo TED', 'Employee Experience'] },
-            { id: 'justificacion', title: 'Justificación Estratégica', subtitle: 'Evolución Estructural Estratégica', content: 'Nuestra organización demanda una evolución en su estructura. Mientras la Subdirección Administrativa se enfoca en garantizar la excelencia operativa y el soporte transversal, la creación de la SDO asegura un espacio dedicado exclusivamente a la estrategia humana. Esta especialización potencia a la Caja con un Enfoque Diferenciado (potenciación humana proactiva), mayor Agilidad de Decisión (flujos directos y dinámicos) y una profunda Especialización Metodológica (liderazgo con ADN de cambio).', icon: 'network', isDark: false, adminTags: ['Excelencia Operativa', 'Soporte Transversal', 'Cumplimiento Institucional'] },
+            { id: 'vision', title: 'Propuesta Estratégica SDO', subtitle: 'Consolidación de la Subdirección de Desarrollo Organizacional', content: 'El marco estratégico para la creación de la Subdirección de Desarrollo Organizacional en <b class="text-amber-400">Comfamiliar Risaralda</b> propone elevar la gestión humana a un nivel directivo autónomo para respaldar el <b class="text-amber-400">Plan de Gestión 2026-2030</b> y sus grandes proyectos de expansión territorial. Ante un índice de rotación laboral del 41% en el país y los altos costos que implica reemplazar colaboradores, la iniciativa busca dejar de tratar al talento como un simple trámite operativo integrado en otras áreas administrativas. Para ello, la nueva subdirección se estructura en tres componentes clave: <b class="text-amber-400">Gestión de Talento</b>, <b class="text-amber-400">Desarrollo y Cultura</b>, y <b class="text-amber-400">Transformación Organizacional</b>. Mediante un modelo de seguimiento basado en <b class="text-amber-400">metas OKR</b>, este marco tiene como objetivo central alinear el capital humano con los retos de la institución, mitigar los riesgos laborales, impulsar la adopción tecnológica y consolidar una cultura organizacional medible que actúe como una verdadera <b class="text-amber-400">ventaja competitiva</b>.', icon: 'sparkles', isDark: true, points: ['Cultura Neuronal Ágil', 'Modelo TED', 'Employee Experience'] },
+            { id: 'justificacion', title: 'Justificación Estratégica', subtitle: 'Evolución Estructural Estratégica', content: 'Nuestra organización demanda una evolución en su estructura. Mientras la <b class="text-slate-900">Subdirección Administrativa</b> se enfoca en garantizar la <b class="text-teal-600">excelencia operativa</b> y el <b class="text-teal-600">soporte transversal</b>, la creación de la <b class="text-amber-600 font-black">SDO</b> asegura un espacio dedicado exclusivamente a la <b class="text-amber-600 font-black">estrategia humana</b>. Esta especialización potencia a la Caja con un <b class="text-amber-600">Enfoque Diferenciado</b> (potenciación humana proactiva), mayor <b class="text-amber-600">Agilidad de Decisión</b> (flujos directos y dinámicos) y una profunda <b class="text-amber-600">Especialización Metodológica</b> (liderazgo con ADN de cambio).', icon: 'network', isDark: false, adminTags: ['Excelencia Operativa', 'Soporte Transversal', 'Cumplimiento Institucional'] },
             { id: 'blueprint', title: 'Arquitectura de Procesos Integrados', subtitle: 'Estructura SDO 2026', content: 'Haz clic en cada proceso para identificar cómo se integra en la estructura y conocer su reto específico.', icon: 'layout-template', isMap: true, isDark: true },
             { id: 'pmo', title: 'Soporte Transversal PMO', subtitle: 'El Corazón Metodológico', content: 'La SDO asegura que cada proyecto de la PMO tenga éxito cultural mediante acompañamiento en la adopción de herramientas, asegurando que la agilidad no sea solo una palabra sino una realidad operativa que conecte ideas con ejecución.', icon: 'brain-circuit', isDark: false, highlights: [{label:'Gestión del Cambio', desc:'Garantizar la adopción tecnológica.'}, {label:'Cultura Neuronal', desc:'Implementar agilidad real en equipos.'}, {label:'Cierre de Brechas', desc:'Eliminar el vacío entre ideas y ejecución.'}] },
             { id: 'ted', title: 'Modelo TED: Productividad + Automatización', subtitle: 'Tecnología · Estrategia · Desempeño', content: 'La convergencia de estos tres pilares permite eliminar tareas mecánicas y elevar el rol del talento hacia el análisis estratégico y la innovación real.', icon: 'cpu', isDark: true, isTEDVisual: true },
@@ -239,9 +299,22 @@
         window.onload = () => {
             renderSlide();
             lucide.createIcons();
+            
+            // Hide preloader with a slight delay for emotional impact
+            setTimeout(() => {
+                const preloader = document.getElementById('preloader');
+                preloader.classList.add('hidden');
+            }, 1800);
+
             document.addEventListener('keydown', (e) => {
-                if(e.key === "ArrowRight") nextSlide();
-                if(e.key === "ArrowLeft") prevSlide();
+                if(e.key === "ArrowRight" || e.key === "PageDown" || e.key === " ") {
+                    if(e.key === " " || e.key === "PageDown") e.preventDefault();
+                    nextSlide();
+                }
+                if(e.key === "ArrowLeft" || e.key === "PageUp") {
+                    if(e.key === "PageUp") e.preventDefault();
+                    prevSlide();
+                }
             });
         };
 
@@ -275,10 +348,9 @@
                     <div class="w-80 h-80 mb-12 flex items-center justify-center relative group">
                         <div class="absolute inset-0 bg-white/5 rounded-full animate-pulse scale-150"></div>
                         <div class="absolute inset-0 bg-amber-500/10 rounded-full animate-ping"></div>
-                        <img src="https://i.imgur.com/yyI6FWO.png" 
-                             onerror="this.src='https://comfamiliar.com/wp-content/uploads/2021/08/cropped-favicon-comfamiliar-192x192.png'; this.classList.add('w-32', 'h-32')"
-                             class="w-full h-auto object-contain relative z-10 transition-transform duration-1000 group-hover:scale-110" 
-                             alt="Logo Comfamiliar">
+                        <div class="loader-logo relative z-10 transition-transform duration-1000 group-hover:scale-110">
+                            <img src="https://i.imgur.com/mCMotqk.png" alt="Logo Final SDO" class="w-full h-auto object-contain">
+                        </div>
                     </div>
                     <div class="space-y-4">
                         <div class="text-5xl md:text-7xl font-black uppercase tracking-tighter ${isDark ? 'text-white' : 'text-slate-900'} mb-2">${slide.title}</div>
